@@ -1,38 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getProductById } from '../services/productService';
 
 function ProductDetailPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [mainImage, setMainImage] = useState('');
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    setLoading(true);
-    getProductById(id)
+  const fetchProduct = (productId) => {
+    getProductById(productId)
       .then((res) => {
         setProduct(res.data);
         setMainImage(res.data.productimage);
-        setTimeout(() => setLoading(false), 100); // Show placeholder for 0.3s
+        window.history.replaceState(null, '', `/product/${productId}`);
       })
       .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    fetchProduct(id);
   }, [id]);
 
-  if (loading || !product) {
-    return (
-      <div className="p-6 grid grid-cols-12 gap-6 animate-pulse">
-        <div className="col-span-12 md:col-span-5 md:col-start-2 space-y-4">
-          <div className="h-96 bg-gray-200 rounded-xl"></div>
-        </div>
-        <div className="col-span-12 md:col-span-5 space-y-4">
-          <div className="h-8 bg-gray-200 rounded w-2/3"></div>
-          <div className="h-4 bg-gray-200 rounded w-full"></div>
-          <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-          <div className="h-4 bg-gray-200 rounded w-4/6"></div>
-        </div>
-      </div>
-    );
+  if (!product) {
+    return <div className="p-6">Loading product...</div>;
   }
 
   return (
@@ -60,7 +51,7 @@ function ProductDetailPage() {
           <img
             src={mainImage}
             alt="Main"
-            className="w-full h-full max-h-[500px] md:max-h-none  object-contain rounded-xl shadow"
+            className="w-full h-full max-h-[500px] md:max-h-none object-contain rounded-xl shadow"
           />
         </div>
       </div>
@@ -68,8 +59,7 @@ function ProductDetailPage() {
       {/* Right 5 cols: Product Info */}
       <div className="col-span-12 md:col-span-5 space-y-4">
         <h1 className="text-3xl font-bold">{product.productname}</h1>
-        
-       
+
         <div className="flex gap-2 items-center">
           <span className="text-2xl font-semibold text-gray-900">${product.price}</span>
           {product.discount && (
@@ -88,6 +78,33 @@ function ProductDetailPage() {
           <p><strong>Stock:</strong> {product.stock}</p>
         </div>
 
+        
+
+        {/* Parent + Similar Products Thumbnails */}
+        <div className="mt-6">
+          <h2 className="font-semibold mb-2">Related Products:</h2>
+          <div className="flex flex-wrap gap-3">
+            {/* Main product itself */}
+            <img
+              src={product.productimage}
+              alt="Current Product"
+              onClick={() => fetchProduct(product.productid)}
+              className="w-16 h-16  rounded-md border cursor-pointer hover:ring-2 ring-black"
+            />
+
+            {/* Similar products */}
+            {product.similar_products?.map((similar) => (
+              <img
+                key={similar.productid}
+                src={similar.productimage}
+                alt={`Similar ${similar.productid}`}
+                onClick={() => fetchProduct(similar.productid)}
+                className="w-16 h-16  rounded-md border cursor-pointer hover:ring-2 ring-black"
+              />
+            ))}
+          </div>
+        </div>
+
         <div>
           <h2 className="font-semibold mb-1">Available Sizes:</h2>
           <div className="flex flex-wrap gap-2">
@@ -102,9 +119,10 @@ function ProductDetailPage() {
           </div>
         </div>
 
-         <p className="text-gray-700 text-sm whitespace-pre-line break-words">
+        <p className="text-gray-700 text-sm whitespace-pre-line break-words">
           {product.description}
         </p>
+
       </div>
 
       {/* Right Blank */}
