@@ -23,7 +23,17 @@ function ProductDetailPage() {
   }, [id]);
 
   if (!product) {
-    return <div className="p-6">Loading product...</div>;
+    return <div className="p-6 grid grid-cols-12 gap-6 animate-pulse">
+        <div className="col-span-12 md:col-span-5 md:col-start-2 space-y-4">
+          <div className="h-96 bg-gray-200 rounded-xl"></div>
+        </div>
+        <div className="col-span-12 md:col-span-5 space-y-4">
+          <div className="h-8 bg-gray-200 rounded w-2/3"></div>
+          <div className="h-4 bg-gray-200 rounded w-full"></div>
+          <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+          <div className="h-4 bg-gray-200 rounded w-4/6"></div>
+        </div>
+      </div>
   }
 
   return (
@@ -63,7 +73,7 @@ function ProductDetailPage() {
         <div className="flex gap-2 items-center">
           <span className="text-2xl font-semibold text-gray-900">${product.price}</span>
           {product.discount && (
-            <span className="text-red-500 line-through">
+            <span className="text-gray-500 line-through">
               ${(parseFloat(product.price) + parseFloat(product.discount)).toFixed(2)}
             </span>
           )}

@@ -9,3 +9,8 @@ export const getProductsByCategory = (categoryId) =>
 
 export const getProductsBySubcategory = (subcategoryId) =>
   api.get(`/products/subcategory/${subcategoryId}`);
+
+
+export const getFilteredProducts = (sortOption) => {
+  return api.get(`/products/filter?sort=${sortOption}`);
+};
