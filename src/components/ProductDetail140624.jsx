@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProductById } from '../services/productService';
-import { addToCart } from '../services/cartService';
 
 function ProductDetailPage() {
   const { id } = useParams();
@@ -22,15 +21,6 @@ function ProductDetailPage() {
   useEffect(() => {
     fetchProduct(id);
   }, [id]);
-
-  const handleAddToCart = async () => {
-  try {
-    await addToCart(product.productid);
-    navigate('/cart'); // Redirect to CartPage
-  } catch (error) {
-    console.error('Failed to add to cart:', error);
-  }
-};
 
   if (!product) {
     return <div className="p-6 grid grid-cols-12 gap-6 animate-pulse">
@@ -138,13 +128,6 @@ function ProductDetailPage() {
             ))}
           </div>
         </div>
-
-        <button
-          onClick={handleAddToCart}
-          className="px-4 py-2 bg-black text-white rounded-full hover:bg-gray-800"
-        >
-          Add to Cart
-        </button>
 
         <p className="text-gray-700 text-sm whitespace-pre-line break-words">
           {product.description}
