@@ -2,12 +2,12 @@ import axios from 'axios';
 
 const API = 'http://localhost:8080/api/cart';
 
-export const addToCart = async (product_id, quantity = 1) => {
+export const addToCart = async (product_id, size, quantity = 1) => {
   const sessionId = getSessionId();
   console.log(sessionId); // Always a valid session ID
   const headers = sessionId ? { 'Session-Id': sessionId } : {};
 
-  const response = await axios.post(API, { product_id, quantity }, { headers });
+  const response = await axios.post(API, { product_id, size, quantity, session_id: sessionId, }, { headers });
   return response.data;
 };
 

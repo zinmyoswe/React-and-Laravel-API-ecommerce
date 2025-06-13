@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 function CartPage() {
   const [cartItems, setCartItems] = useState([]);
@@ -54,19 +56,33 @@ function CartPage() {
               />
               <div className="flex-1">
                 <h2 className="font-semibold">{item.product.productname}</h2>
+                {/* <!-- 🆕 This line shows the size --> */}
+                <p className="text-sm text-gray-500">Size: <strong>{item.size}</strong></p>
                 <p className="text-gray-600">${item.product.price} × {item.quantity} = ${(item.quantity * parseFloat(item.product.price)).toFixed(2)}</p>
               </div>
+
+              {/* Update quantity */}
               <div className="flex items-center gap-2">
-                <button
-                  className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
-                  onClick={() => updateQuantity(item.product_id, item.quantity - 1)}
-                >-</button>
-                <span>{item.quantity}</span>
-                <button
-                  className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
-                  onClick={() => updateQuantity(item.product_id, item.quantity + 1)}
-                >+</button>
-              </div>
+              <button
+                className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                onClick={() => updateQuantity(item.product_id, item.quantity - 1)}
+              >
+                {item.quantity === 1 ? (
+                  <FontAwesomeIcon icon={faTrash} />
+                ) : (
+                  <FontAwesomeIcon icon={faMinus} />
+                )}
+              </button>
+              <span>{item.quantity}</span>
+              <button
+                className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                onClick={() => updateQuantity(item.product_id, item.quantity + 1)}
+              >
+                <FontAwesomeIcon icon={faPlus} />
+              </button>
+            </div>
+
+
             </div>
           ))}
           <div className="text-right text-xl font-bold mt-4">

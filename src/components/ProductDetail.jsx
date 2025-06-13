@@ -8,6 +8,7 @@ function ProductDetailPage() {
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [mainImage, setMainImage] = useState('');
+  const [selectedSize, setSelectedSize] = useState('');
 
   const fetchProduct = (productId) => {
     getProductById(productId)
@@ -23,9 +24,23 @@ function ProductDetailPage() {
     fetchProduct(id);
   }, [id]);
 
-  const handleAddToCart = async () => {
+//   const handleAddToCart = async () => {
+//   try {
+//     await addToCart(product.productid);
+//     navigate('/cart'); // Redirect to CartPage
+//   } catch (error) {
+//     console.error('Failed to add to cart:', error);
+//   }
+// };
+
+const handleAddToCart = async () => {
+  if (!selectedSize) {
+    alert('Please select a size before adding to cart.');
+    return;
+  }
+
   try {
-    await addToCart(product.productid);
+    await addToCart(product.productid, selectedSize);
     navigate('/cart'); // Redirect to CartPage
   } catch (error) {
     console.error('Failed to add to cart:', error);
@@ -128,13 +143,25 @@ function ProductDetailPage() {
         <div>
           <h2 className="font-semibold mb-1">Available Sizes:</h2>
           <div className="flex flex-wrap gap-2">
-            {product.sizes.map((size) => (
+            {/* {product.sizes.map((size) => (
               <span
                 key={size.id}
                 className="border px-3 py-1 rounded-full text-sm bg-gray-100"
               >
                 {size.sizevalue}
               </span>
+            ))} */}
+
+            {product.sizes.map((size) => (
+              <button
+                key={size.id}
+                onClick={() => setSelectedSize(size.sizevalue)}
+                className={`border px-3 py-1 rounded-full text-sm transition 
+                  ${selectedSize === size.sizevalue ? 'bg-black text-white' : 'bg-gray-100 text-gray-800'}
+                `}
+              >
+                {size.sizevalue}
+              </button>
             ))}
           </div>
         </div>
