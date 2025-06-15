@@ -4,6 +4,8 @@ import ProductDetail from './components/ProductDetail';
 import CartPage from './pages/CartPage';
 import GuestShippingPage from './pages/GuestShippingPage';
 import StripePaymentPage from './pages/StripePaymentPage';
+import OrderSuccess from './pages/OrderSuccess';
+
 
 function App() {
   return (
@@ -14,6 +16,7 @@ function App() {
         <Route path="/cart" element={<CartPage />} />
          <Route path="/guest-shipping" element={<GuestShippingPage />} />
           <Route path="/payment" element={<StripePaymentPage />} />
+          <Route path="/order-success" element={<OrderSuccess />} />
       </Routes>
     </Router>
   );

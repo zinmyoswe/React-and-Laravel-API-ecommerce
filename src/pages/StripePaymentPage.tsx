@@ -34,6 +34,7 @@ function CheckoutForm() {
     }
 
     try {
+        
       const res = await axios.post('http://localhost:8080/api/payment/charge', {
         amount: amount,
         token: token.id,
