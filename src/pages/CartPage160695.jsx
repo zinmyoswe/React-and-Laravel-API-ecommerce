@@ -2,12 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
 
 function CartPage() {
   const [cartItems, setCartItems] = useState([]);
   const sessionId = localStorage.getItem('session_id');
-  const navigate = useNavigate();
 
   const fetchCart = async () => {
     try {
@@ -24,11 +22,11 @@ function CartPage() {
         headers: { 'Session-Id': sessionId },
       });
     } else {
-      await axios.put(
-        `http://localhost:8080/api/cart/${productId}`,
-        { quantity: newQuantity },
-        { headers: { 'Session-Id': sessionId } }
-      );
+      await axios.put(`http://localhost:8080/api/cart/${productId}`, {
+        quantity: newQuantity,
+      }, {
+        headers: { 'Session-Id': sessionId },
+      });
     }
     fetchCart();
   };
@@ -49,13 +47,14 @@ function CartPage() {
         <p>Your cart is empty.</p>
       ) : (
         <div className="grid grid-cols-12 gap-6">
+          {/* Blank left (desktop/tablet only) */}
           <div className="hidden" />
 
-          {/* Cart List */}
+          {/* Cart info */}
           <div className="col-span-12 md:col-span-7 order-1">
             <div className="space-y-6">
               {cartItems.map((item) => (
-                <div key={item.product_id + item.size} className="flex gap-4 border-b pb-4">
+                <div key={item.product_id + item.size} className="flex  gap-4 border-b pb-4">
                   <img
                     src={item.product.productimage}
                     alt={item.product.productname}
@@ -92,30 +91,22 @@ function CartPage() {
             </div>
           </div>
 
-          {/* Summary */}
+          {/* Summary box */}
           <div className="col-span-12 md:col-span-3 order-2">
-            <div className="p-4 space-y-4">
+            <div className=" p-4  space-y-4">
               <h2 className="text-xl font-semibold">Order Summary</h2>
               <div className="flex justify-between">
                 <span>Subtotal</span>
                 <span>${grandTotal.toFixed(2)}</span>
               </div>
               <hr />
-              <button
-                className="w-full bg-zinc-900 text-white py-4 rounded-full hover:bg-zinc-800"
-                onClick={() => navigate('/guest-shipping')}
-              >
-                Guest Checkout
-              </button>
-              <button className="w-full bg-zinc-900 text-white py-4 rounded-full hover:bg-zinc-800">
-                Member Checkout
-              </button>
-              <button className="w-full bg-blue-300 text-white py-4 rounded-full hover:bg-blue-200">
-                Paypal Checkout
-              </button>
+              <button className="w-full bg-zinc-900 text-white py-4 rounded rounded-full hover:bg-zinc-800">Guest Checkout</button>
+              <button className="w-full bg-zinc-900 text-white py-4 rounded rounded-full hover:bg-zinc-800">Member Checkout</button>
+              
             </div>
           </div>
 
+          {/* Blank right (desktop/tablet only) */}
           <div className="hidden md:block md:col-span-1" />
         </div>
       )}
