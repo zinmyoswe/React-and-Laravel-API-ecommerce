@@ -7,56 +7,30 @@ import { useNavigate } from 'react-router-dom';
 function CartPage() {
   const [cartItems, setCartItems] = useState([]);
   const sessionId = localStorage.getItem('session_id');
-  const token = localStorage.getItem('token');
   const navigate = useNavigate();
-
-
-  // 👇 create session id if not found
-
-  // if (!sessionId) {
-  //   sessionId = crypto.randomUUID();
-  //   localStorage.setItem('session_id', sessionId);
-  // }
 
   const fetchCart = async () => {
     try {
-      console.log(sessionId);
-      if (token) {
-        const res = await axios.get(`http://localhost:8080/api/cart`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setCartItems(res.data);
-      } else {
-        const res = await axios.get(`http://localhost:8080/api/cart/session/${sessionId}`);
-        setCartItems(res.data);
-      }
+      const res = await axios.get(`http://localhost:8080/api/cart/session/${sessionId}`);
+      setCartItems(res.data);
     } catch (err) {
       console.error('Error loading cart:', err);
     }
   };
 
   const updateQuantity = async (productId, newQuantity) => {
-    try {
-      const headers = token
-        ? { Authorization: `Bearer ${token}` }
-        : { 'Session-Id': sessionId };
-
-      if (newQuantity < 1) {
-        await axios.delete(`http://localhost:8080/api/cart/${productId}`, { headers });
-      } else {
-        await axios.put(
-          `http://localhost:8080/api/cart/${productId}`,
-          { quantity: newQuantity },
-          { headers }
-        );
-      }
-
-      fetchCart();
-    } catch (err) {
-      console.error('Error updating cart:', err);
+    if (newQuantity < 1) {
+      await axios.delete(`http://localhost:8080/api/cart/${productId}`, {
+        headers: { 'Session-Id': sessionId },
+      });
+    } else {
+      await axios.put(
+        `http://localhost:8080/api/cart/${productId}`,
+        { quantity: newQuantity },
+        { headers: { 'Session-Id': sessionId } }
+      );
     }
+    fetchCart();
   };
 
   useEffect(() => {
@@ -89,12 +63,9 @@ function CartPage() {
                   />
                   <div className="flex-1">
                     <h2 className="font-semibold">{item.product.productname}</h2>
-                    <p className="text-sm text-gray-500">
-                      Size: <strong>{item.size}</strong>
-                    </p>
+                    <p className="text-sm text-gray-500">Size: <strong>{item.size}</strong></p>
                     <p className="text-gray-600">
-                      ${item.product.price} × {item.quantity} = $
-                      {(item.quantity * parseFloat(item.product.price)).toFixed(2)}
+                      ${item.product.price} × {item.quantity} = ${(item.quantity * parseFloat(item.product.price)).toFixed(2)}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -136,10 +107,7 @@ function CartPage() {
               >
                 Guest Checkout
               </button>
-              <button
-                className="w-full bg-zinc-900 text-white py-4 rounded-full hover:bg-zinc-800"
-                onClick={() => navigate('/member-shipping')}
-              >
+              <button className="w-full bg-zinc-900 text-white py-4 rounded-full hover:bg-zinc-800">
                 Member Checkout
               </button>
               <button className="w-full bg-blue-300 text-white py-4 rounded-full hover:bg-blue-200">

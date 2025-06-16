@@ -47,7 +47,7 @@ function ProductsPage() {
       </div>
 
       {/* Product Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         {loading
           ? Array.from({ length: 8 }).map((_, i) => (
               <div
@@ -62,7 +62,7 @@ function ProductsPage() {
           : products.map((product) => (
               <div
                 key={product.productid}
-                className="bg-white rounded-xl shadow hover:shadow-lg transition duration-300 p-4"
+                className="bg-white "
               >
                 <Link to={`/product/${product.productid}`}>
                   <img
@@ -71,12 +71,15 @@ function ProductsPage() {
                     className="w-full h-[375px] rounded-md mb-4"
                   />
                 </Link>
+                <div className='h-[60px] md:h-[80px]'>
                 <Link to={`/product/${product.productid}`}>
                   <h2 className="text-lg font-semibold hover:text-gray-900 transition">
                     {product.productname}
                   </h2>
                 </Link>
+                
                 <p className="text-gray-600 mt-1">$ {product.price}</p>
+                </div>
               </div>
             ))}
       </div>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../services/authService';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -11,21 +10,9 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
-      // ✅ Get guest session ID from localStorage (used in Laravel cart migration)
-      const session_id = localStorage.getItem('session_id');
-
-      const res = await axios.post(
-        'http://localhost:8080/api/login',
-        { email, password, session_id }, // 👈 include session_id in request
-        { withCredentials: true }
-      );
-
-      // ✅ Save the user token to localStorage
+      const res = await axios.post('http://localhost:8080/api/login', { email, password }, { withCredentials: true });
       localStorage.setItem('token', res.data.token);
-
-      // ✅ Redirect to homepage (or wherever)
       navigate('/');
     } catch (err) {
       setError('Invalid credentials');

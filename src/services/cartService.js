@@ -1,21 +1,32 @@
 import axios from 'axios';
 
-const API = 'http://localhost:8080/api/cart';
+export const addToCart = async (productId, size) => {
+  const token = localStorage.getItem('token'); // Set during login
+  const session_id = getOrCreateSessionId(); // Custom helper
 
-export const addToCart = async (product_id, size, quantity = 1) => {
-  const sessionId = getSessionId();
-  console.log(sessionId); // Always a valid session ID
-  const headers = sessionId ? { 'Session-Id': sessionId } : {};
+  const data = {
+    product_id: productId,
+    size: size,
+    quantity: 1
+  };
 
-  const response = await axios.post(API, { product_id, size, quantity, session_id: sessionId, }, { headers });
-  return response.data;
+  if (token) {
+    // Logged-in user
+    return axios.post('http://localhost:8080/api/cart', data, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  } else {
+    // Guest
+    return axios.post('http://localhost:8080/api/cart/session-store', { ...data, session_id });
+  }
 };
 
-function getSessionId() {
-  let sessionId = localStorage.getItem('session_id');
-  if (!sessionId) {
-    sessionId = 'guest-' + Math.random().toString(36).substr(2, 9);
-    localStorage.setItem('session_id', sessionId);
+// Helper to get or create session_id
+function getOrCreateSessionId() {
+  let id = localStorage.getItem('session_id');
+  if (!id) {
+    id = 'guest-' + Math.random().toString(36).substring(2, 10);
+    localStorage.setItem('session_id', id);
   }
-  return sessionId;
+  return id;
 }
