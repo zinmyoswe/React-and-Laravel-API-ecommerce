@@ -76,7 +76,7 @@ const handleAddToCart = async () => {
               src={img}
               alt={`Thumb ${i}`}
               onMouseEnter={() => setMainImage(img)}
-              className="w-16 h-16 object-cover rounded-md border cursor-pointer hover:ring-1 ring-zinc-900"
+              className="w-16 h-16  rounded-md border cursor-pointer hover:ring-1 ring-zinc-900"
             />
           ))}
         </div>
@@ -118,13 +118,13 @@ const handleAddToCart = async () => {
         {/* Parent + Similar Products Thumbnails */}
         <div className="mt-6">
           <h2 className="font-semibold mb-2">Related Products:</h2>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-1">
             {/* Main product itself */}
             <img
               src={product.productimage}
               alt="Current Product"
               onClick={() => fetchProduct(product.productid)}
-              className="w-16 h-16  rounded-md border cursor-pointer hover:ring-2 ring-black"
+              className="w-16 h-16  rounded-md border cursor-pointer hover:ring-1 ring-black"
             />
 
             {/* Similar products */}
@@ -134,7 +134,7 @@ const handleAddToCart = async () => {
                 src={similar.productimage}
                 alt={`Similar ${similar.productid}`}
                 onClick={() => fetchProduct(similar.productid)}
-                className="w-16 h-16  rounded-md border cursor-pointer hover:ring-2 ring-black"
+                className="w-16 h-16  rounded-md border cursor-pointer hover:ring-1 ring-black"
               />
             ))}
           </div>

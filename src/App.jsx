@@ -1,22 +1,37 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import ProductsPage from './pages/ProductsPage';
 import ProductDetail from './components/ProductDetail';
 import CartPage from './pages/CartPage';
 import GuestShippingPage from './pages/GuestShippingPage';
 import StripePaymentPage from './pages/StripePaymentPage';
 import OrderSuccess from './pages/OrderSuccess';
+import Navbar from './components/Navbar';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import MyOrders from './pages/MyOrders';
 
 
 function App() {
+  const token = localStorage.getItem('token');
+
   return (
     <Router>
+      <Navbar />
       <Routes>
         <Route path="/" element={<ProductsPage />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<CartPage />} />
-         <Route path="/guest-shipping" element={<GuestShippingPage />} />
-          <Route path="/payment" element={<StripePaymentPage />} />
-          <Route path="/order-success" element={<OrderSuccess />} />
+        <Route path="/guest-shipping" element={<GuestShippingPage />} />
+        <Route path="/payment" element={<StripePaymentPage />} />
+        <Route path="/order-success" element={<OrderSuccess />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/orders" element={<Navigate to="/my-orders" replace />} />
+        <Route
+          path="/my-orders"
+          element={token ? <MyOrders /> : <Navigate to="/login" replace />}
+        />
+        <Route path="*" element={<div className="p-6 text-center text-red-500">Page Not Found</div>} />
       </Routes>
     </Router>
   );
