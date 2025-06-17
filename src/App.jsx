@@ -9,6 +9,8 @@ import Navbar from './components/Navbar';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import MyOrders from './pages/MyOrders';
+import MemberShippingPage from './pages/MemberShippingPage';
+import StripePaymentForUser from './pages/StripePaymentForUser';
 
 
 function App() {
@@ -22,7 +24,9 @@ function App() {
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/guest-shipping" element={<GuestShippingPage />} />
+        <Route path="/member-shipping" element={<MemberShippingPage />} />        
         <Route path="/payment" element={<StripePaymentPage />} />
+        <Route path="/user-payment" element={<StripePaymentForUser />} />
         <Route path="/order-success" element={<OrderSuccess />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />

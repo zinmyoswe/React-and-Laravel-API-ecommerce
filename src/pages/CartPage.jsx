@@ -141,17 +141,31 @@ function CartPage() {
               </div>
               <hr />
               <button
-                className="w-full bg-zinc-900 text-white py-4 rounded-full hover:bg-zinc-800"
-                onClick={() => navigate('/guest-shipping')}
+                className={`w-full py-4 rounded-full ${
+                  token
+                    ? 'bg-zinc-800 text-white cursor-not-allowed'
+                    : 'bg-zinc-900 text-white hover:bg-zinc-800'
+                }`}
+                onClick={() => {
+                  if (!token) navigate('/guest-shipping');
+                }}
+                disabled={!!token} // ✅ disable if user is logged in
               >
                 Guest Checkout
               </button>
               <button
-                className="w-full bg-zinc-900 text-white py-4 rounded-full hover:bg-zinc-800"
-                onClick={() => navigate('/member-shipping')}
-              >
-                Member Checkout
-              </button>
+                  className="w-full bg-zinc-900 text-white py-4 rounded-full hover:bg-zinc-800"
+                  onClick={() => {
+                    if (token) {
+                      navigate('/member-shipping');
+                    } else {
+                      navigate('/login'); // or '/login?redirect=/member-shipping' if you want auto-redirect after login
+                    }
+                  }}
+                >
+                  Member Checkout
+                </button>
+
               <button className="w-full border-2 border-gray-400 hover:bg-gray-100 rounded-full flex items-center justify-center transition">
                 <img
                   src="/images/paypal%20(1).png"
