@@ -35,7 +35,7 @@ const Navbar = () => {
 
   return (
     <nav className="flex justify-between items-center p-4 bg-white text-dark">
-      <Link to="/" className="text-xl font-bold">MyShop</Link>
+      <Link to="/" className="text-xl font-bold">ReactSHOP</Link>
       <div className="space-x-4">
         {/* ✅ Cart visible for both guests and logged-in users */}
         <Link to="/cart" className="hover:underline">Cart</Link>

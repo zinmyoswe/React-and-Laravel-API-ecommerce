@@ -6,56 +6,66 @@ import { useNavigate } from 'react-router-dom';
 
 function CartPage() {
   const [cartItems, setCartItems] = useState([]);
-  const sessionId = localStorage.getItem('session_id');
-  const token = localStorage.getItem('token');
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
 
+  // ✅ create session id if not found
+  let sessionId = localStorage.getItem('session_id');
+  if (!sessionId) {
+    sessionId = crypto.randomUUID();
+    localStorage.setItem('session_id', sessionId);
+  }
 
-  // 👇 create session id if not found
-
-  // if (!sessionId) {
-  //   sessionId = crypto.randomUUID();
-  //   localStorage.setItem('session_id', sessionId);
-  // }
-
+  // ✅ Load cart (guest or user)
   const fetchCart = async () => {
     try {
-      console.log(sessionId);
       if (token) {
         const res = await axios.get(`http://localhost:8080/api/cart`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setCartItems(res.data);
       } else {
-        const res = await axios.get(`http://localhost:8080/api/cart/session/${sessionId}`);
+        const res = await axios.get(`http://localhost:8080/api/cart/session/${sessionId}`, {
+          headers: { 'Session-Id': sessionId },
+        });
         setCartItems(res.data);
       }
     } catch (err) {
-      console.error('Error loading cart:', err);
+      console.error('Error loading cart:', err.response?.data || err.message);
     }
   };
 
-  const updateQuantity = async (productId, newQuantity) => {
+  // ✅ Update quantity (PUT or DELETE)
+  const updateQuantity = async (productId, newQuantity, size) => {
     try {
       const headers = token
         ? { Authorization: `Bearer ${token}` }
         : { 'Session-Id': sessionId };
 
+      const url = token
+        ? `http://localhost:8080/api/cart/${productId}`
+        : `http://localhost:8080/api/cart/guest/${productId}`;
+
       if (newQuantity < 1) {
-        await axios.delete(`http://localhost:8080/api/cart/${productId}`, { headers });
+        await axios.delete(url, {
+          headers,
+          data: { size },
+          withCredentials: true,
+        });
       } else {
         await axios.put(
-          `http://localhost:8080/api/cart/${productId}`,
-          { quantity: newQuantity },
-          { headers }
+          url,
+          { quantity: newQuantity, size },
+          {
+            headers,
+            withCredentials: true,
+          }
         );
       }
 
       fetchCart();
     } catch (err) {
-      console.error('Error updating cart:', err);
+      console.error('Error updating cart:', err.response?.data || err.message);
     }
   };
 
@@ -100,7 +110,7 @@ function CartPage() {
                   <div className="flex items-center gap-2">
                     <button
                       className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
-                      onClick={() => updateQuantity(item.product_id, item.quantity - 1)}
+                      onClick={() => updateQuantity(item.product_id, item.quantity - 1, item.size)}
                     >
                       {item.quantity === 1 ? (
                         <FontAwesomeIcon icon={faTrash} />
@@ -111,7 +121,7 @@ function CartPage() {
                     <span>{item.quantity}</span>
                     <button
                       className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
-                      onClick={() => updateQuantity(item.product_id, item.quantity + 1)}
+                      onClick={() => updateQuantity(item.product_id, item.quantity + 1, item.size)}
                     >
                       <FontAwesomeIcon icon={faPlus} />
                     </button>
@@ -142,8 +152,12 @@ function CartPage() {
               >
                 Member Checkout
               </button>
-              <button className="w-full bg-blue-300 text-white py-4 rounded-full hover:bg-blue-200">
-                Paypal Checkout
+              <button className="w-full border-2 border-gray-400 hover:bg-gray-100 rounded-full flex items-center justify-center transition">
+                <img
+                  src="/images/paypal%20(1).png"
+                  alt="PayPal"
+                  className="h-[57px]"
+                />
               </button>
             </div>
           </div>
