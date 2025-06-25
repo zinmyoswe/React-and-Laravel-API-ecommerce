@@ -34,7 +34,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex justify-between items-center p-4 bg-white text-dark">
+    <nav className="flex justify-between items-center p-4 bg-white text-dark md:mx-7">
       <Link to="/" className="text-xl font-bold">ReactSHOP</Link>
       <div className="space-x-4">
         {/* ✅ Cart visible for both guests and logged-in users */}

@@ -1,87 +1,210 @@
 import React, { useEffect, useState } from 'react';
-import { getAllProducts, getFilteredProducts } from '../services/productService';
+import { getFilteredProducts, getAllSubcategories } from '../services/productService';
 import { Link } from 'react-router-dom';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortOption, setSortOption] = useState('');
+  const [showFilter, setShowFilter] = useState(window.innerWidth >= 768);
+  const [accordion, setAccordion] = useState({
+    gender: true,
+    price: true,
+    clothingSize: false,
+    shoeSize: false,
+    color: true,
+  });
+  const [subcategories, setSubcategories] = useState([]);
+  const [filters, setFilters] = useState({
+    subcategoryId: '',   // changed key to match frontend mapping
+    gender: [],
+    price: [],          // expects price keys like 'under_50', etc.
+    clothingSize: [],
+    shoeSize: [],
+    color: [],
+  });
+
+  useEffect(() => { fetchSubcategories(); }, []);
 
   useEffect(() => {
-    fetchProducts();
-  }, [sortOption]);
+    const handleResize = () => {
+      if (window.innerWidth < 768) setShowFilter(false);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => { fetchProducts(); }, [filters, sortOption]);
+
+  const fetchSubcategories = () => {
+    getAllSubcategories()
+      .then(res => setSubcategories(res.data))
+      .catch(err => console.error(err));
+  };
 
   const fetchProducts = () => {
     setLoading(true);
 
-    const fetchData = sortOption
-      ? getFilteredProducts(sortOption)
-      : getAllProducts();
+    const combinedFilters = {
+      ...filters,
+      sizevalue: [...filters.clothingSize, ...filters.shoeSize],
+      sort: sortOption
+    };
 
-    fetchData
-      .then((res) => {
+    // Remove empty subcategoryId filter to avoid sending empty string
+    if (!combinedFilters.subcategoryId) {
+      delete combinedFilters.subcategoryId;
+    }
+
+    delete combinedFilters.clothingSize;
+    delete combinedFilters.shoeSize;
+
+    getFilteredProducts(combinedFilters)
+      .then(res => {
         setProducts(res.data);
         setTimeout(() => setLoading(false), 100);
       })
-      .catch((err) => console.error(err));
+      .catch(console.error);
+  };
+
+  const handleCheckboxChange = (key, value) => {
+    setFilters(prev => {
+      const isChecked = prev[key].includes(value);
+      return {
+        ...prev,
+        [key]: isChecked
+          ? prev[key].filter(v => v !== value)
+          : [...prev[key], value]
+      };
+    });
+  };
+
+  // Subcategory filter toggle (single select)
+  const handleSubcategoryClick = (id) => {
+    setFilters(prev => ({
+      ...prev,
+      subcategoryId: prev.subcategoryId === id ? '' : id
+    }));
+  };
+
+  const toggleAccordion = section => {
+    setAccordion(prev => ({ ...prev, [section]: !prev[section] }));
   };
 
   return (
-    <div className="p-4">
-      {/* Filter Dropdown */}
-      <div className="mb-4 flex justify-end items-center">
-        <label htmlFor="sort" className="text-sm font-medium mr-2">
-          Sort by:
-        </label>
-        <select
-          id="sort"
-          value={sortOption}
-          onChange={(e) => setSortOption(e.target.value)}
-          className="border border-gray-300 rounded-md px-3 py-2"
-        >
-          <option value="">Featured</option>
-          <option value="price_asc">Price: Low to High</option>
-          <option value="price_desc">Price: High to Low</option>
-          <option value="newest">Newest</option>
-        </select>
+    <div className="p-4 md:mx-10">
+      {/* Controls */}
+      <div className="flex items-center justify-end mb-4 gap-4 flex-wrap">
+        <button onClick={() => setShowFilter(!showFilter)} className="border px-4 py-2">
+          {showFilter ? 'Hide Filters' : 'Show Filters'}
+        </button>
+        <div className="flex items-center">
+          <label htmlFor="sort" className="text-sm font-medium mr-2">Sort by:</label>
+          <select
+            id="sort"
+            value={sortOption}
+            onChange={e => setSortOption(e.target.value)}
+            className="border border-gray-300 rounded-md px-3 py-2"
+          >
+            <option value="">Featured</option>
+            <option value="price_asc">Price: Low to High</option>
+            <option value="price_desc">Price: High to Low</option>
+            <option value="newest">Newest</option>
+          </select>
+        </div>
       </div>
 
-      {/* Product Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-        {loading
-          ? Array.from({ length: 8 }).map((_, i) => (
-              <div
-                key={i}
-                className="animate-pulse bg-gray-100 rounded-xl p-4 shadow"
-              >
-                <div className="h-[350px] bg-gray-300 rounded-md mb-4" />
-                <div className="h-4 bg-gray-300 rounded w-3/4 mb-2" />
-                <div className="h-4 bg-gray-300 rounded w-1/2" />
-              </div>
-            ))
-          : products.map((product) => (
-              <div
-                key={product.productid}
-                className="bg-white "
-              >
-                <Link to={`/product/${product.productid}`}>
-                  <img
-                    src={product.productimage}
-                    alt={product.productname}
-                    className="w-full h-[375px] rounded-md mb-4"
-                  />
-                </Link>
-                <div className='h-[60px] md:h-[80px]'>
-                <Link to={`/product/${product.productid}`}>
-                  <h2 className="text-lg font-semibold hover:text-gray-900 transition">
-                    {product.productname}
-                  </h2>
-                </Link>
-                
-                <p className="text-gray-600 mt-1">$ {product.price}</p>
+      <div className={`grid gap-4 ${showFilter ? 'grid-cols-1 md:grid-cols-5' : 'grid-cols-1 md:grid-cols-4'}`}>
+        {/* Sidebar */}
+        {showFilter && (
+          <div className="col-span-1 bg-white p-4">
+            {/* Subcategory Filter */}
+            <div className="mb-4">
+              {subcategories.map(subcat => (
+                <div key={subcat.subcategoryid}>
+                  <button
+                    className={`text-left w-full py-1 font-medium ${filters.subcategoryId === subcat.subcategoryid ? 'font-bold underline' : ''}`}
+                    onClick={() => handleSubcategoryClick(subcat.subcategoryid)}
+                  >
+                    {subcat.subcategoryname}
+                  </button>
                 </div>
+              ))}
+            </div>
+
+            {/* Accordion Sections */}
+            {['gender','price','clothingSize','shoeSize','color'].map(section => (
+              <div key={section} className="mb-4">
+                <div className="flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion(section)}>
+                  <h3 className="font-semibold">
+                    {section === 'price' ? 'Shop by Price' :
+                     section === 'clothingSize' ? 'Clothing Sizes' :
+                     section === 'shoeSize' ? 'Shoe Sizes' :
+                     section.charAt(0).toUpperCase() + section.slice(1)}
+                  </h3>
+                  <FontAwesomeIcon icon={accordion[section] ? faChevronUp : faChevronDown} />
+                </div>
+                {accordion[section] && (
+                  <div className="mt-2 space-y-1">
+                    { {
+                      gender: ['Men','Women','Kid'],
+                      price: ['under_50','50_100','101_199','over_200'],
+                      clothingSize: ['XS','S','M','L','XL','2XL','3XL','One Size'],
+                      shoeSize: [
+                        'US M 6 / W 7.5','US M 6.5 / W 8','US M 7 / W 8.5','US M 7.5 / W 9',
+                        'US M 8 / W 9.5','US M 8.5 / W 10','US M 9 / W 10.5','US M 9.5 / W 11',
+                        'US M 10 / W 11.5','US M 10.5 / W 12','US M 11 / W 12.5','US M 11.5 / W 13',
+                        'US M 12 / W 13.5','US M 13 / W 14.5'
+                      ],
+                      color: ['Black','White','Violet','DarkGrey','Navy','Yellow']
+                    }[section].map(value => {
+                      const label = section === 'price' 
+                        ? {under_50:'Under $50','50_100':'$50-$100','101_199':'$101-$199',over_200:'Over $200'}[value]
+                        : value;
+                      return (
+                        <label key={value} className="flex items-center">
+                          <input
+                            type="checkbox"
+                            checked={filters[section].includes(value)}
+                            onChange={() => handleCheckboxChange(section, value)}
+                            className="mr-2 accent-black"
+                          />
+                          {label}
+                        </label>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Products */}
+        <div className={`col-span-4 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3`}>
+          {loading
+            ? Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="animate-pulse bg-gray-100 p-4 rounded shadow">
+                  <div className="h-[350px] bg-gray-300 rounded mb-4" />
+                  <div className="h-4 bg-gray-300 rounded w-3/4 mb-2" />
+                  <div className="h-4 bg-gray-300 rounded w-1/2" />
+                </div>
+              ))
+            : products.map(p => (
+                <div key={p.productid} className="bg-white p-4 rounded shadow">
+                  <Link to={`/product/${p.productid}`}>
+                    <img src={p.productimage} alt={p.productname} className="w-full h-[395px] object-cover rounded mb-4" />
+                  </Link>
+                  <Link to={`/product/${p.productid}`}>
+                    <h2 className="text-lg font-semibold hover:text-gray-900">{p.productname}</h2>
+                  </Link>
+                  <p className="text-gray-600 mt-1">$ {p.price}</p>
+                </div>
+              ))}
+        </div>
       </div>
     </div>
   );
