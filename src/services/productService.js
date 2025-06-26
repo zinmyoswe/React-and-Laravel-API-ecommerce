@@ -18,22 +18,19 @@ export const getFilteredProducts = (filters) => {
   Object.keys(filters).forEach(key => {
     const val = filters[key];
 
-    if ((Array.isArray(val) && val.length > 0) || (typeof val === 'string' && val !== '')) {
-      if (key === 'clothingSize') {
-        params['clothing_size_ids'] = val;
-      } else if (key === 'shoeSize') {
-        params['shoe_size_ids'] = val;
-      } else if (key === 'minPrice') {
-        params['min_price'] = val;
-      } else if (key === 'maxPrice') {
-        params['max_price'] = val;
-      } else if (key === 'gender') {
-        params['gender'] = val;
-      } else if (key === 'color') {
-        params['color'] = val;
-      } else if (key === 'sort') {
-        params['sort'] = val;
-      } else if (key === 'subcategoryId') {
+    // if ((Array.isArray(val) && val.length > 0) || (typeof val === 'string' && val !== '')) {
+        if (
+      (Array.isArray(val) && val.length > 0) ||
+      (typeof val === 'string' && val !== '') ||
+      (typeof val === 'number') // ✅ include numbers like subcategory_id
+    ) {  
+    if (key === 'clothingSize' || key === 'shoeSize') {
+        // Combine both into one array for `sizevalue`
+        if (!params['sizevalue']) params['sizevalue'] = [];
+        params['sizevalue'] = [...(params['sizevalue'] || []), ...val];
+      } else if (key === 'price') {
+        params['price'] = val;
+      } else if (key === 'subcategory_id') {
         params['subcategory_id'] = val;
       } else {
         params[key] = val;
@@ -43,7 +40,7 @@ export const getFilteredProducts = (filters) => {
 
   return api.get('/products', {
     params,
-    paramsSerializer: params => qs.stringify(params, { arrayFormat: 'repeat' }) // ✅ handles arrays properly
+    paramsSerializer: params => qs.stringify(params, { arrayFormat: 'brackets' }) // ✅ handles arrays properly
   });
 };
 
