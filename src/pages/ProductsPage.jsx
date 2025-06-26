@@ -139,7 +139,7 @@ function ProductsPage() {
       <div className={`grid gap-4 ${showFilter ? 'grid-cols-1 md:grid-cols-5' : 'grid-cols-1 md:grid-cols-4'}`}>
         {/* Sidebar */}
         {showFilter && (
-          <div className="col-span-1 bg-white p-4 rounded shadow">
+          <div className="col-span-1">
             {/* Subcategory Filter */}
             <div className="mb-4">
               <button
@@ -203,8 +203,8 @@ function ProductsPage() {
                       const label = section === 'price'
                         ? {
                           under_50: 'Under $50',
-                          50_100: '$50-$100',
-                          101_199: '$101-$199',
+                          '50_100': '$50-$100',
+                          '101_199': '$101-$199',
                           over_200: 'Over $200'
                         }[value]
                         : value;
@@ -238,15 +238,18 @@ function ProductsPage() {
               </div>
             ))
             : products.length === 0 ? (
-              <p>No products found.</p>
+              <div className="col-span-full flex flex-col items-center text-dark text-lg md:text-xl font-semibold p-2">
+                <p className="mb-2 mt-36">We can't find the product you are looking for.</p>
+                <p className="text-lg md:text-xl text-dark">Sorry for the inconvenience.</p>
+              </div>
             ) : (
               products.map(p => (
-                <div key={p.productid} className="bg-white p-4 rounded shadow">
+                <div key={p.productid} className="bg-white">
                   <Link to={`/product/${p.productid}`}>
                     <img
                       src={p.productimage}
                       alt={p.productname}
-                      className="w-full h-[395px] object-cover rounded mb-4"
+                      className="w-full h-[395px] object-fill rounded mb-4"
                     />
                   </Link>
                   <Link to={`/product/${p.productid}`}>
