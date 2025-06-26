@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { getFilteredProducts, getAllSubcategories } from '../services/productService';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import qs from 'qs';
 
-function ProductsPage() {
+function ProductsPage({ genderFilter }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortOption, setSortOption] = useState('');
@@ -17,14 +18,27 @@ function ProductsPage() {
     color: true,
   });
   const [subcategories, setSubcategories] = useState([]);
+  const location = useLocation();
+  const query = qs.parse(location.search, { ignoreQueryPrefix: true });
   const [filters, setFilters] = useState({
     subcategory_id: '', // frontend state key
-    gender: [],
+    // gender: [],
+    gender: query.gender ? [query.gender] : [], // ✅ Initial gender from query
     price: [],
     clothingSize: [],
     shoeSize: [],
     color: [],
   });
+
+  useEffect(() => {
+    if (location.pathname === '/men') {
+      setFilters(prev => ({ ...prev, gender: ['Men'] }));
+    } else if (location.pathname === '/women') {
+      setFilters(prev => ({ ...prev, gender: ['Women'] }));
+    } else if (location.pathname === '/kids') {
+      setFilters(prev => ({ ...prev, gender: ['Kid'] }));
+    }
+  }, [location.pathname]);
 
   // Load subcategories once
   useEffect(() => {
@@ -253,9 +267,14 @@ function ProductsPage() {
                     />
                   </Link>
                   <Link to={`/product/${p.productid}`}>
+
+                  <div className='h-[60px] md:h-[80px]'>
                     <h2 className="text-lg font-semibold hover:text-gray-900">{p.productname}</h2>
-                  </Link>
+                 
                   <p className="text-gray-600 mt-1">${p.price}</p>
+
+                  </div>
+                   </Link>
                 </div>
               ))
             )}

@@ -5,7 +5,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        adihaus: ['"AdihausDIN"', 'sans-serif'],
+        adineue: ['"AdineuePRO"', 'sans-serif'],
+        adidasfg: ['"adidasFG"', 'sans-serif'],
+        denton: ['"Denton"', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }

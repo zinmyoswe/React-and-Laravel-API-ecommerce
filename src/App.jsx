@@ -11,6 +11,7 @@ import RegisterPage from './pages/RegisterPage';
 import MyOrders from './pages/MyOrders';
 import MemberShippingPage from './pages/MemberShippingPage';
 import StripePaymentForUser from './pages/StripePaymentForUser';
+import HomePage from './pages/HomePage';
 
 
 function App() {
@@ -20,7 +21,9 @@ function App() {
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={<ProductsPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/products" element={<ProductsPage />} />
+        {/* <Route path="/" element={<ProductsPage />} /> */}
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/guest-shipping" element={<GuestShippingPage />} />
@@ -31,6 +34,10 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/orders" element={<Navigate to="/my-orders" replace />} />
+
+        <Route path="/men" element={<ProductsPage genderFilter="Men" />} />
+        <Route path="/women" element={<ProductsPage genderFilter="Women" />} />
+        <Route path="/kids" element={<ProductsPage genderFilter="Kid" />} />
         <Route
           path="/my-orders"
           element={token ? <MyOrders /> : <Navigate to="/login" replace />}
