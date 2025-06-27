@@ -49,16 +49,22 @@ const Navbar = () => {
 
         {/* Desktop Right Auth Menu */}
         <div className="hidden md:flex items-center space-x-4">
-          <Link to="/cart" className="hover:underline">Cart</Link>
+          <Link to="">
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none"><path stroke="currentColor" stroke-width="1.5" d="M16.794 3.75c1.324 0 2.568.516 3.504 1.451a4.96 4.96 0 010 7.008L12 20.508l-8.299-8.299a4.96 4.96 0 010-7.007A4.923 4.923 0 017.205 3.75c1.324 0 2.568.516 3.504 1.451l.76.76.531.531.53-.531.76-.76a4.926 4.926 0 013.504-1.451"></path></svg>
+          </Link>
+          <Link to="/cart" className="hover:underline">
+          <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none"><path stroke="currentColor" stroke-width="1.5" d="M8.25 8.25V6a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 110 4.5H3.75v8.25a3.75 3.75 0 003.75 3.75h9a3.75 3.75 0 003.75-3.75V8.25H17.5"></path></svg>
+          </Link>
           {token ? (
             <>
               <Link to="/orders" className="hover:underline">My Orders</Link>
-              <button onClick={handleLogout} className="text-zinc-900 px-3 py-1">Logout</button>
+              <button onClick={handleLogout} className="text-zinc-900 px-3 py-1">Sign Out</button>
             </>
           ) : (
             <>
-              <Link to="/login" className="hover:underline">Login</Link>
-              <Link to="/register" className="hover:underline">Register</Link>
+              <Link to="/login" className="hover:underline">Sign In</Link> 
+              
+              <Link to="/register" className="hover:underline">Join Us</Link>
             </>
           )}
         </div>
@@ -79,7 +85,9 @@ const Navbar = () => {
           <Link to="/products?gender=Women" className="block" onClick={() => setMenuOpen(false)}>Women</Link>
           <Link to="/products?gender=Kid" className="block" onClick={() => setMenuOpen(false)}>Kid</Link>
           <hr />
-          <Link to="/cart" className="block" onClick={() => setMenuOpen(false)}>Cart</Link>
+          <Link to="/cart" className="block" onClick={() => setMenuOpen(false)}>
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none"><path stroke="currentColor" stroke-width="1.5" d="M8.25 8.25V6a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 110 4.5H3.75v8.25a3.75 3.75 0 003.75 3.75h9a3.75 3.75 0 003.75-3.75V8.25H17.5"></path></svg>
+          </Link>
           {token ? (
             <>
               <Link to="/orders" className="block" onClick={() => setMenuOpen(false)}>My Orders</Link>
@@ -90,13 +98,13 @@ const Navbar = () => {
                 }}
                 className="w-full text-left"
               >
-                Logout
+                Sign Out
               </button>
             </>
           ) : (
             <>
-              <Link to="/login" className="block" onClick={() => setMenuOpen(false)}>Login</Link>
-              <Link to="/register" className="block" onClick={() => setMenuOpen(false)}>Register</Link>
+              <Link to="/login" className="block" onClick={() => setMenuOpen(false)}>Sign In</Link>
+              <Link to="/register" className="block" onClick={() => setMenuOpen(false)}>Join Us</Link>
             </>
           )}
         </div>
