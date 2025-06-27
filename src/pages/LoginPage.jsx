@@ -34,7 +34,8 @@ const LoginPage = () => {
       // navigate('/');
 
       // ✅ Redirect to intended page
-      navigate(redirectTo);
+      // navigate(redirectTo);
+      window.location.href = redirectTo; // ✅ Full reload
     } catch (err) {
       setError('Invalid credentials');
     }

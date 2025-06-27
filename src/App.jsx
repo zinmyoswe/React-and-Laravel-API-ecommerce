@@ -17,6 +17,8 @@ import HomePage from './pages/HomePage';
 function App() {
   const token = localStorage.getItem('token');
 
+  
+
   return (
     <Router>
       <Navbar />
@@ -34,14 +36,14 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/orders" element={<Navigate to="/my-orders" replace />} />
-
-        <Route path="/men" element={<ProductsPage genderFilter="Men" />} />
-        <Route path="/women" element={<ProductsPage genderFilter="Women" />} />
-        <Route path="/kids" element={<ProductsPage genderFilter="Kid" />} />
         <Route
           path="/my-orders"
           element={token ? <MyOrders /> : <Navigate to="/login" replace />}
         />
+        <Route path="/men" element={<ProductsPage genderFilter="Men" />} />
+        <Route path="/women" element={<ProductsPage genderFilter="Women" />} />
+        <Route path="/kids" element={<ProductsPage genderFilter="Kid" />} />
+
         <Route path="*" element={<div className="p-6 text-center text-red-500">Page Not Found</div>} />
       </Routes>
     </Router>

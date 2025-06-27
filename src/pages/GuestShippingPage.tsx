@@ -38,7 +38,7 @@ function GuestShippingPage() {
 
   const handleCheckout = async () => {
     try {
-      const res = await axios.post(`${API_BASE_URL}http://localhost:8080/api/checkout`, {
+      const res = await axios.post(`${API_BASE_URL}/api/checkout`, {
         session_id: sessionId,
         payment_method: 'card', // 👈 not 'cod' if you use Stripe
         shipping,
