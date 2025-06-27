@@ -65,3 +65,24 @@
 html, body, p {
   font-family: "AdihausDIN", sans-serif;
 }
+
+/* Super thin scrollbar - only thumb visible */
+.super-thin-scrollbar {
+  
+  scrollbar-width: thin;             /* Firefox */
+  scrollbar-color: #000 transparent; /* Firefox */
+}
+
+/* WebKit (Chrome, Edge, Safari) */
+.super-thin-scrollbar::-webkit-scrollbar {
+  height: 2px;
+}
+
+.super-thin-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.super-thin-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #000;
+  border-radius: 10px;
+}

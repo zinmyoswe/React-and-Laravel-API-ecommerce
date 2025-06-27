@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,9 +7,11 @@ import API_BASE_URL from '../config';
 
 const ProductThumbnailSlider = () => {
   const [products, setProducts] = useState([]);
-  const [index, setIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
-  const [loading, setLoading] = useState(true); // 🟡 loading state
+  const [loading, setLoading] = useState(true);
+  const scrollContainerRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 640);
@@ -22,10 +24,7 @@ const ProductThumbnailSlider = () => {
         });
         setProducts(res.data);
 
-        // ✅ simulate 0.5s delay
-        setTimeout(() => {
-          setLoading(false);
-        }, 100);
+        setTimeout(() => setLoading(false), 100);
       } catch (error) {
         console.error('Failed to load products', error);
         setLoading(false);
@@ -33,25 +32,46 @@ const ProductThumbnailSlider = () => {
     };
 
     fetchProducts();
+
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const itemsPerPage = isMobile ? 1 : 4;
-  const maxIndex = Math.max(0, products.length - itemsPerPage);
+  // Update scroll buttons state
+  const checkScrollPosition = () => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
 
-  const next = () => {
-    if (index < maxIndex) setIndex((prev) => prev + 1);
+    setCanScrollLeft(container.scrollLeft > 0);
+    setCanScrollRight(container.scrollLeft + container.clientWidth < container.scrollWidth - 1);
   };
 
-  const prev = () => {
-    if (index > 0) setIndex((prev) => prev - 1);
+  // Scroll by fixed amount
+  const scrollLeft = () => {
+    if (!scrollContainerRef.current) return;
+    scrollContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
   };
 
-  // ✅ Loading Skeletons
+  const scrollRight = () => {
+    if (!scrollContainerRef.current) return;
+    scrollContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    container.addEventListener('scroll', checkScrollPosition);
+    checkScrollPosition();
+
+    return () => {
+      container.removeEventListener('scroll', checkScrollPosition);
+    };
+  }, [products]);
+
+  // Loading skeletons
   if (loading) {
     return (
       <div className="my-6 px-4 animate-pulse">
-        {/* <h2 className="text-2xl font-bold mb-4 uppercase ml-4 sm:ml-9 bg-gray-300 w-1/2 h-6 rounded"></h2> */}
         <div className="flex gap-4 overflow-hidden">
           {[...Array(isMobile ? 1 : 4)].map((_, i) => (
             <div key={i} className="p-2 w-full">
@@ -65,65 +85,62 @@ const ProductThumbnailSlider = () => {
     );
   }
 
-  // ✅ Main Slider
   return (
     <div className="relative my-6 px-4">
-      <h2 className="text-2xl font-bold mb-4 uppercase ml-4 sm:ml-9">
+      <h2 className="px-4 text-2xl font-bold mb-4 uppercase ml-4 sm:ml-9">
         Up to 40% off | Buy 2 Get Extra 40% off
       </h2>
 
-      {/* Desktop Slider */}
+      {/* Desktop & Tablet slider with arrows */}
       {!isMobile && (
-        <div className="flex items-center overflow-hidden relative">
+        <div className="flex items-center">
           <button
-            onClick={prev}
-            disabled={index === 0}
-            className={`p-2 mr-2 rounded-full border bg-white z-10 ${
-              index === 0 ? 'text-gray-400 cursor-not-allowed' : 'text-black'
+            onClick={scrollLeft}
+            disabled={!canScrollLeft}
+            className={`p-2 mr-2 rounded-full border bg-white z-10 transition-colors ${
+              canScrollLeft ? 'text-black hover:bg-gray-200 cursor-pointer' : 'text-gray-400 cursor-not-allowed'
             }`}
+            aria-label="Scroll Left"
           >
             <FontAwesomeIcon icon={faChevronLeft} />
           </button>
 
-          <div className="overflow-hidden w-full">
-            <div
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{
-                width: `${(products.length * 30) / itemsPerPage}%`,
-                transform: `translateX(-${(95 / itemsPerPage) * index}%)`,
-              }}
-            >
-              {products.map((p) => (
-                <div
-                  key={p.productid}
-                  className="p-2"
-                  style={{ width: `${100 / products.length}%`, minWidth: `${100 / itemsPerPage}%` }}
+          <div
+            ref={scrollContainerRef}
+            className="overflow-x-auto flex gap-1 px-2 super-thin-scrollbar scrollbar-thumb-rounded scrollbar-thumb-zinc-200 
+            scrollbar-track-transparent"
+            style={{ scrollBehavior: 'smooth' }}
+          >
+            {products.map((p) => (
+              <div
+                key={p.productid}
+                className="p-2 min-w-[250px] max-w-[400px] shrink-0 mb-16"
+              >
+                <Link to={`/product/${p.productid}`}>
+                  <img
+                    src={p.productimage}
+                    alt={p.productname}
+                    className="w-full h-[379px]  object-fill rounded mb-2"
+                  />
+                </Link>
+                <Link
+                  to={`/product/${p.productid}`}
+                  className="block font-medium text-sm hover:underline"
                 >
-                  <Link to={`/product/${p.productid}`}>
-                    <img
-                      src={p.productimage}
-                      alt={p.productname}
-                      className="w-full h-[336px] object-cover object-fill rounded mb-2"
-                    />
-                  </Link>
-                  <Link
-                    to={`/product/${p.productid}`}
-                    className="block font-medium text-sm hover:underline"
-                  >
-                    {p.productname}
-                  </Link>
-                  <div className="text-sm text-gray-600">${p.price}</div>
-                </div>
-              ))}
-            </div>
+                  {p.productname}
+                </Link>
+                <div className="text-sm text-gray-600">${p.price}</div>
+              </div>
+            ))}
           </div>
 
           <button
-            onClick={next}
-            disabled={index >= maxIndex}
-            className={`p-2 ml-2 rounded-full border bg-white z-10 ${
-              index >= maxIndex ? 'text-gray-400 cursor-not-allowed' : 'text-black'
+            onClick={scrollRight}
+            disabled={!canScrollRight}
+            className={`p-2 ml-2 rounded-full border bg-white z-10 transition-colors ${
+              canScrollRight ? 'text-black hover:bg-gray-200 cursor-pointer' : 'text-gray-400 cursor-not-allowed'
             }`}
+            aria-label="Scroll Right"
           >
             <FontAwesomeIcon icon={faChevronRight} />
           </button>
@@ -132,15 +149,15 @@ const ProductThumbnailSlider = () => {
 
       {/* Mobile Horizontal Scroll */}
       {isMobile && (
-        <div className="overflow-x-auto mt-2 sm:hidden scrollbar-thin">
-          <div className="flex gap-4 px-2">
+        <div className="overflow-x-auto mt-2 px-2 super-thin-scrollbar">
+          <div className="flex gap-4">
             {products.map((p) => (
-              <div key={p.productid} className="min-w-[90%] max-w-[90%] shrink-0">
+              <div key={p.productid} className="min-w-[90%] max-w-[90%] shrink-0 mb-12">
                 <Link to={`/product/${p.productid}`}>
                   <img
                     src={p.productimage}
                     alt={p.productname}
-                    className="w-full h-[300px] object-fill rounded mb-2"
+                    className="w-full h-[300px] object-cover rounded mb-2"
                   />
                 </Link>
                 <Link

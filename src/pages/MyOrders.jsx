@@ -5,12 +5,11 @@ import API_BASE_URL from '../config';
 const MyOrders = () => {
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState('');
-
+  const [loading, setLoading] = useState(true); // ✅ loading state
   const token = localStorage.getItem('token');
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Step 1: Get logged-in user details
     const fetchUser = async () => {
       try {
         const res = await axios.get(`${API_BASE_URL}/api/user`, {
@@ -24,6 +23,7 @@ const MyOrders = () => {
       } catch (err) {
         console.error('Error fetching user', err);
         setError('Please log in to view your orders.');
+        setLoading(false);
       }
     };
 
@@ -31,7 +31,6 @@ const MyOrders = () => {
   }, [token]);
 
   useEffect(() => {
-    // Step 2: Once user is fetched, get their orders
     const fetchOrders = async () => {
       if (!user) return;
 
@@ -43,10 +42,16 @@ const MyOrders = () => {
           },
           withCredentials: true,
         });
-        setOrders(res.data);
+
+        // ✅ Add a 0.5s delay before showing the result
+        setTimeout(() => {
+          setOrders(res.data);
+          setLoading(false);
+        }, 500);
       } catch (err) {
         console.error('Error fetching orders:', err);
         setError('Failed to load orders');
+        setLoading(false);
       }
     };
 
@@ -54,6 +59,20 @@ const MyOrders = () => {
   }, [user]);
 
   if (error) return <div className="p-4 text-red-600">{error}</div>;
+
+  if (loading) {
+  return (
+    <div className="flex items-center justify-center h-64">
+      <div className="flex flex-col items-center space-y-4">
+        {/* Spinner */}
+        <div className="w-12 h-12 border-4 border-zinc-900 border-t-transparent rounded-full animate-spin"></div>
+
+        {/* Text */}
+        <p className="text-gray-500 text-sm">Fetching your orders... Please Wait</p>
+      </div>
+    </div>
+  );
+}
 
   return (
     <div className="max-w-3xl mx-auto mt-8 p-6 bg-white rounded shadow">
