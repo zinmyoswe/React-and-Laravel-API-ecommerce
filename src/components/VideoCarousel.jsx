@@ -37,13 +37,13 @@ const VideoCarousel = () => {
         </p>
         <div className="flex gap-3">
           <Link
-            to="/men"
+            to="/products?gender=Men"
             className="bg-white text-black px-4 py-2 text-sm font-semibold flex items-center gap-2 hover:bg-zinc-200 transition"
           >
             SHOP MEN <FontAwesomeIcon icon={faArrowRight} />
           </Link>
           <Link
-            to="/women"
+            to="/products?gender=Women"
             className="bg-white text-black px-4 py-2 text-sm font-semibold flex items-center gap-2 hover:bg-zinc-200 transition"
           >
             SHOP WOMEN <FontAwesomeIcon icon={faArrowRight} />
@@ -61,13 +61,13 @@ const VideoCarousel = () => {
         </p>
         <div className="flex flex-wrap justify-center gap-2">
           <Link
-            to="/men"
+            to="/products?gender=Men"
             className="bg-white text-black px-3 py-1 text-xs font-semibold flex items-center gap-1 hover:bg-zinc-200 transition"
           >
             SHOP MEN <FontAwesomeIcon icon={faArrowRight} size="sm" />
           </Link>
           <Link
-            to="/women"
+            to="/products?gender=Women"
             className="bg-white text-black px-3 py-1 text-xs font-semibold flex items-center gap-1 hover:bg-zinc-200 transition"
           >
             SHOP WOMEN <FontAwesomeIcon icon={faArrowRight} size="sm" />

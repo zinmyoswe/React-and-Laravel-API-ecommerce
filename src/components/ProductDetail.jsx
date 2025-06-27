@@ -95,9 +95,11 @@ const handleAddToCart = async () => {
       <div className="col-span-12 md:col-span-5 space-y-4">
         <h1 className="text-3xl font-bold">{product.productname}</h1>
 
+       
+
         <div className="flex gap-2 items-center">
           <span className="text-2xl font-semibold text-gray-900">${product.price}</span>
-          {product.discount && (
+          {product.discount > 0 && (
             <span className="text-gray-500 line-through">
               ${(parseFloat(product.price) + parseFloat(product.discount)).toFixed(2)}
             </span>

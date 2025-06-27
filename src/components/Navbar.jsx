@@ -41,9 +41,9 @@ const Navbar = () => {
 
         {/* Desktop Center Menu */}
         <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 space-x-6 text-lg font-medium">
-          <Link to="/men" className="hover:text-black">Men</Link>
-          <Link to="/women" className="hover:text-black">Women</Link>
-          <Link to="/kids" className="hover:text-black">Kid</Link>
+          <Link to="/products?gender=Men" className="hover:text-black hover:underline">Men</Link>
+          <Link to="/products?gender=Women" className="hover:text-black hover:underline">Women</Link>
+          <Link to="/products?gender=Kid" className="hover:text-black hover:underline">Kid</Link>
         </div>
 
         {/* Desktop Right Auth Menu */}

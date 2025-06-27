@@ -4,11 +4,11 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
-const ProductThumbnailSlider = () => {
+const ProductThumbnailSlider2 = () => {
   const [products, setProducts] = useState([]);
   const [index, setIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
-  const [loading, setLoading] = useState(true); // 🟡 loading state
+  const [loading, setLoading] = useState(true); // added loading state
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 640);
@@ -17,13 +17,15 @@ const ProductThumbnailSlider = () => {
     const fetchProducts = async () => {
       try {
         const res = await axios.get('http://localhost:8080/api/products', {
-          params: { gender: 'Men', sort: 'asc', limit: 12 },
+          params: {
+            gender: 'Women',
+            sort: 'newest',
+            limit: 12,
+          },
         });
         setProducts(res.data);
-
-        // ✅ simulate 0.5s delay
         setTimeout(() => {
-          setLoading(false);
+          setLoading(false);  // simulate 0.5s loading delay
         }, 100);
       } catch (error) {
         console.error('Failed to load products', error);
@@ -32,6 +34,7 @@ const ProductThumbnailSlider = () => {
     };
 
     fetchProducts();
+
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -46,11 +49,11 @@ const ProductThumbnailSlider = () => {
     if (index > 0) setIndex((prev) => prev - 1);
   };
 
-  // ✅ Loading Skeletons
+  // Loading skeleton placeholder
   if (loading) {
     return (
       <div className="my-6 px-4 animate-pulse">
-        {/* <h2 className="text-2xl font-bold mb-4 uppercase ml-4 sm:ml-9 bg-gray-300 w-1/2 h-6 rounded"></h2> */}
+        {/* <h2 className="text-2xl font-bold mb-4 uppercase ml-4 sm:ml-9 bg-gray-300 w-32 h-6 rounded"></h2> */}
         <div className="flex gap-4 overflow-hidden">
           {[...Array(isMobile ? 1 : 4)].map((_, i) => (
             <div key={i} className="p-2 w-full">
@@ -64,11 +67,11 @@ const ProductThumbnailSlider = () => {
     );
   }
 
-  // ✅ Main Slider
+  // Main slider UI
   return (
     <div className="relative my-6 px-4">
       <h2 className="text-2xl font-bold mb-4 uppercase ml-4 sm:ml-9">
-        Up to 40% off | Buy 2 Get Extra 40% off
+        Trend Now
       </h2>
 
       {/* Desktop Slider */}
@@ -129,7 +132,7 @@ const ProductThumbnailSlider = () => {
         </div>
       )}
 
-      {/* Mobile Horizontal Scroll */}
+      {/* Mobile Horizontal Scroll Slider */}
       {isMobile && (
         <div className="overflow-x-auto mt-2 sm:hidden scrollbar-thin">
           <div className="flex gap-4 px-2">
@@ -158,4 +161,4 @@ const ProductThumbnailSlider = () => {
   );
 };
 
-export default ProductThumbnailSlider;
+export default ProductThumbnailSlider2;

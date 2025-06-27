@@ -5,29 +5,7 @@ import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import qs from 'qs';
 
-function ProductsPage() {
-  const location = useLocation();
-  const query = qs.parse(location.search, { ignoreQueryPrefix: true });
-
-  // Helper to get gender from pathname or query
-  const getGenderFromPath = () => {
-    if (location.pathname === '/men') return ['Men'];
-    if (location.pathname === '/women') return ['Women'];
-    if (location.pathname === '/kids') return ['Kid'];
-    if (query.gender) return [query.gender];
-    return [];
-  };
-
-  // Filters state
-  const [filters, setFilters] = useState({
-    subcategory_id: query.subcategory_id || '',
-    gender: getGenderFromPath(),
-    price: [],
-    clothingSize: [],
-    shoeSize: [],
-    color: [],
-  });
-
+function ProductsPage({ genderFilter }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortOption, setSortOption] = useState('');
@@ -40,16 +18,27 @@ function ProductsPage() {
     color: true,
   });
   const [subcategories, setSubcategories] = useState([]);
+  const location = useLocation();
+  const query = qs.parse(location.search, { ignoreQueryPrefix: true });
+  const [filters, setFilters] = useState({
+    subcategory_id: '', // frontend state key
+    // gender: [],
+    gender: query.gender ? [query.gender] : [], // ✅ Initial gender from query
+    price: [],
+    clothingSize: [],
+    shoeSize: [],
+    color: [],
+  });
 
-  // Sync filters whenever pathname or query changes
   useEffect(() => {
-    setFilters(prev => ({
-      ...prev,
-      gender: getGenderFromPath(),
-      subcategory_id: query.subcategory_id || '',
-      // Optionally sync other filters from query here if you want
-    }));
-  }, [location.pathname, location.search]);
+    if (location.pathname === '/men') {
+      setFilters(prev => ({ ...prev, gender: ['Men'] }));
+    } else if (location.pathname === '/women') {
+      setFilters(prev => ({ ...prev, gender: ['Women'] }));
+    } else if (location.pathname === '/kids') {
+      setFilters(prev => ({ ...prev, gender: ['Kid'] }));
+    }
+  }, [location.pathname]);
 
   // Load subcategories once
   useEffect(() => {
@@ -61,31 +50,36 @@ function ProductsPage() {
   // Handle window resize for showFilter toggle
   useEffect(() => {
     const handleResize = () => {
-      setShowFilter(window.innerWidth >= 768);
+      if (window.innerWidth < 768) setShowFilter(false);
+      else setShowFilter(true);
     };
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Fetch products when filters or sorting change
+  // Fetch products whenever filters or sorting changes
   useEffect(() => {
     fetchProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, sortOption]);
 
+  // Compose filter payload for backend
   const fetchProducts = () => {
     setLoading(true);
+
+    // Combine clothingSize and shoeSize into single sizevalue array for backend
     const sizevalue = [...filters.clothingSize, ...filters.shoeSize];
 
-    // Compose API filters (remove empty arrays or undefined)
+    // Prepare backend filters with keys backend expects (subcategory_id, sizevalue)
     const apiFilters = {
-      subcategory_id: filters.subcategory_id || undefined,
-      gender: filters.gender.length > 0 ? filters.gender : undefined,
-      price: filters.price.length > 0 ? filters.price : undefined,
-      sizevalue: sizevalue.length > 0 ? sizevalue : undefined,
-      color: filters.color.length > 0 ? filters.color : undefined,
-      sort: sortOption || undefined,
+      // Only send subcategory_id if non-empty
+      subcategory_id: filters.subcategory_id || undefined, // Already correct
+      gender: filters.gender,
+      price: filters.price,
+      sizevalue,
+      color: filters.color,
+      sort: sortOption,
     };
 
     console.log('Fetching products with filters:', apiFilters);
@@ -108,20 +102,23 @@ function ProductsPage() {
       const isChecked = current.includes(value);
       return {
         ...prev,
-        [key]: isChecked ? current.filter(v => v !== value) : [...current, value],
+        [key]: isChecked ? current.filter(v => v !== value) : [...current, value]
       };
     });
   };
 
-  const handleSubcategoryClick = (id) => {
-    setFilters(prev => {
-      const newId = prev.subcategory_id === id ? '' : id;
-      console.log('Subcategory clicked:', id, 'New subcategoryId:', newId);
-      return { ...prev, subcategory_id: newId };
-    });
-  };
 
-  const toggleAccordion = (section) => {
+
+  const handleSubcategoryClick = (id) => {
+  setFilters(prev => {
+    const newId = prev.subcategory_id  === id ? '' : id;
+    console.log('Subcategory clicked:', id, 'New subcategoryId:', newId);
+    return { ...prev, subcategory_id : newId };
+  });
+};
+
+  // Accordion toggle
+  const toggleAccordion = section => {
     setAccordion(prev => ({ ...prev, [section]: !prev[section] }));
   };
 
@@ -172,7 +169,7 @@ function ProductsPage() {
               >
                 Home
               </button>
-              
+              {/* <h3 className="font-semibold mb-2">Subcategories</h3> */}
               {subcategories.map(sub => (
                 <div
   key={sub.subcategoryid}
@@ -206,7 +203,7 @@ function ProductsPage() {
                 {accordion[section] && (
                   <div className="mt-2 space-y-1">
                     {{
-                      gender: ['Men', 'Women', 'Kid'],
+                      gender: ['Men', 'Women', 'Kids'],
                       price: ['under_50', '50_100', '101_199', 'over_200'],
                       clothingSize: ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', 'One Size'],
                       shoeSize: [

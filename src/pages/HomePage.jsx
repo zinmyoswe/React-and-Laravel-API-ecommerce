@@ -7,6 +7,7 @@ import ProductThumbnailSlider from '../components/ProductThumbnailSlider';
 import Carousle2 from '../components/Carousle2';
 import SlideThumbnailSlider from '../components/SlideThumbnailSlider ';
 import VideoCarousel from '../components/VideoCarousel';
+import ProductThumbnailSlider2 from './../components/ProductThumbnailSlider2';
 
 const HomePage = () => {
   return (
@@ -36,7 +37,7 @@ const HomePage = () => {
           On selected sale items from 25 Jun - 7 Jul 2025. Discount applied at check out. T&Cs apply.
         </p>
         <div className="flex flex-wrap gap-3">
-          {['/products', '/men', '/women', '/kids'].map((path, idx) => {
+          {['/products', '/products?gender=Men', '/products?gender=Women', '/products?gender=Kid'].map((path, idx) => {
             const labels = ['VIEW ALL', 'MEN', 'WOMEN', 'KIDS'];
             return (
               <Link
@@ -60,7 +61,7 @@ const HomePage = () => {
           25 Jun - 7 Jul 2025. Discount applied at checkout. T&Cs apply.
         </p>
         <div className="flex flex-wrap justify-center gap-2">
-          {['/products', '/men', '/women', '/kids'].map((path, idx) => {
+          {['/products', '/products?gender=Men', '/products?gender=Women', '/products?gender=Kid'].map((path, idx) => {
             const labels = ['VIEW ALL', 'MEN', 'WOMEN', 'KIDS'];
             return (
               <Link
@@ -81,7 +82,7 @@ const HomePage = () => {
  
 
     {/* Product Slider */}
-      <div className="my-10"> {/* ensure it's below the hero image */}
+      <div className="my-10 md:my-20"> {/* ensure it's below the hero image */}
         
         <ProductThumbnailSlider />
       </div>
@@ -92,6 +93,14 @@ const HomePage = () => {
            <div className="my-10">
             <Carousle2 />
         </div>
+
+        {/* ------------------------------- 2nd ProductThumbnail end --------------------------------- */}
+          {/* Product Slider2 */}
+      <div className="my-10 md:my-20"> {/* ensure it's below the hero image */}
+        
+        <ProductThumbnailSlider2 />
+      </div>
+        
          {/* ------------------------------- 3nd Carousel end --------------------------------- */}
 
           <div className="my-10">
