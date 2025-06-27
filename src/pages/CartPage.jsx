@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import API_BASE_URL from '../config';
 
 function CartPage() {
   const [cartItems, setCartItems] = useState([]);
@@ -20,12 +21,12 @@ function CartPage() {
   const fetchCart = async () => {
     try {
       if (token) {
-        const res = await axios.get(`http://localhost:8080/api/cart`, {
+        const res = await axios.get(`${API_BASE_URL}/api/cart`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setCartItems(res.data);
       } else {
-        const res = await axios.get(`http://localhost:8080/api/cart/session/${sessionId}`, {
+        const res = await axios.get(`${API_BASE_URL}/api/cart/session/${sessionId}`, {
           headers: { 'Session-Id': sessionId },
         });
         setCartItems(res.data);
@@ -43,8 +44,8 @@ function CartPage() {
         : { 'Session-Id': sessionId };
 
       const url = token
-        ? `http://localhost:8080/api/cart/${productId}`
-        : `http://localhost:8080/api/cart/guest/${productId}`;
+        ? `${API_BASE_URL}/api/cart/${productId}`
+        : `${API_BASE_URL}/api/cart/guest/${productId}`;
 
       if (newQuantity < 1) {
         await axios.delete(url, {

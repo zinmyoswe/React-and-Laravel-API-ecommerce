@@ -24,14 +24,7 @@ function ProductDetailPage() {
     fetchProduct(id);
   }, [id]);
 
-//   const handleAddToCart = async () => {
-//   try {
-//     await addToCart(product.productid);
-//     navigate('/cart'); // Redirect to CartPage
-//   } catch (error) {
-//     console.error('Failed to add to cart:', error);
-//   }
-// };
+
 
 const handleAddToCart = async () => {
   if (!selectedSize) {

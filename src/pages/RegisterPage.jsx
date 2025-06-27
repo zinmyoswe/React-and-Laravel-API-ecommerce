@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import API_BASE_URL from '../config';
 
 const RegisterPage = () => {
   const [form, setForm] = useState({
@@ -23,7 +24,7 @@ const RegisterPage = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:8080/api/register', form, { withCredentials: true });
+      const res = await axios.post(`${API_BASE_URL}/api/register`, form, { withCredentials: true });
       localStorage.setItem('token', res.data.token);
       navigate('/');
     } catch (err) {

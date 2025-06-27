@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import API_BASE_URL from '../config';
 
 const ProductThumbnailSlider2 = () => {
   const [products, setProducts] = useState([]);
@@ -16,7 +17,7 @@ const ProductThumbnailSlider2 = () => {
 
     const fetchProducts = async () => {
       try {
-        const res = await axios.get('http://localhost:8080/api/products', {
+        const res = await axios.get(`${API_BASE_URL}/api/products`, {
           params: {
             gender: 'Women',
             sort: 'newest',

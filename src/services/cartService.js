@@ -1,4 +1,5 @@
 import axios from 'axios';
+import API_BASE_URL from '../config';
 
 export const addToCart = async (productId, size) => {
   const token = localStorage.getItem('token'); // Set during login
@@ -12,12 +13,12 @@ export const addToCart = async (productId, size) => {
 
   if (token) {
     // Logged-in user
-    return axios.post('http://localhost:8080/api/cart', data, {
+    return axios.post(`${API_BASE_URL}/api/cart`, data, {
       headers: { Authorization: `Bearer ${token}` }
     });
   } else {
     // Guest
-    return axios.post('http://localhost:8080/api/cart/session-store', { ...data, session_id });
+    return axios.post(`${API_BASE_URL}/api/cart/session-store`, { ...data, session_id });
   }
 };
 

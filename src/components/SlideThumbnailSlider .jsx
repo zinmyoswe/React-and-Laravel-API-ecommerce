@@ -16,7 +16,7 @@ const SlideThumbnailSlider = () => {
 
     const fetchSlides = async () => {
       try {
-        const res = await axios.get('http://localhost:8080/api/posterslides?part=1');
+        const res = await axios.get(`${API_BASE_URL}/api/posterslides?part=1`);
         // Assuming backend supports filter by part, else filter here:
         // const filtered = res.data.filter(slide => slide.part === 1);
         setSlides(res.data);

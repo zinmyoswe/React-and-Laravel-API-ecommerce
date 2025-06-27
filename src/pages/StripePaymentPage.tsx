@@ -9,6 +9,7 @@ import {
 } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
+import API_BASE_URL from '../config';
 
 const stripePromise = loadStripe('pk_test_51Q7olW06MBYCQvZZjq94nokIXhTsKpp8QK3gBxKkuFGfLxfFpHnn6ucM7BwaqET1uXGWwILDAXZXZWxQaPWhW7EL00XwNhWOA3'); // Replace with your Stripe publishable key
 
@@ -41,7 +42,7 @@ function CheckoutForm() {
         order_id: orderId,
         name,
         });
-      const res = await axios.post('http://localhost:8080/api/payment/charge', {
+      const res = await axios.post(`${API_BASE_URL}/api/payment/charge`, {
         amount: amount,
         token: token.id,
         order_id: orderId,

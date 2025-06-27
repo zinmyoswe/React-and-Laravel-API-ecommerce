@@ -1,7 +1,8 @@
 import axios from 'axios';
+import API_BASE_URL from '../config';
 
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:8080/api', // Your Laravel API base URL
+  baseURL: `${API_BASE_URL}/api`, // Your Laravel API base URL
   headers: {
     Accept: 'application/json',
   },

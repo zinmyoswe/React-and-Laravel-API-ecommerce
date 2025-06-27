@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import API_BASE_URL from '../config';
 
 function MemberShippingPage() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ function MemberShippingPage() {
   // ✅ Fetch cart total
   const fetchCart = async () => {
     try {
-      const res = await axios.get('http://localhost:8080/api/cart', {
+      const res = await axios.get(`${API_BASE_URL}/api/cart`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -37,7 +38,7 @@ function MemberShippingPage() {
   const fetchUser = async () => {
     try {
   
-      const res = await axios.get('http://localhost:8080/api/user', {
+      const res = await axios.get(`${API_BASE_URL}/api/user`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -59,33 +60,7 @@ function MemberShippingPage() {
     fetchUser();
   }, []);
 
-//   const handleCheckout = async () => {
-//     try {
-//       await axios.post(
-//         'http://localhost:8080/api/member/checkout',
-//         {
-//           payment_method: 'card',
-//           shipping,
-//         },
-//         {
-//           headers: {
-//             Authorization: `Bearer ${localStorage.getItem('token')}`,
-//           },
-//           withCredentials: true,
-//         }
-//       );
 
-//       navigate('/payment', {
-//         state: {
-//           orderId: res.data.order_id,  // 👈 MUST include this
-//           amount: parseFloat(grandTotal),
-//         },
-//       });
-//     } catch (err) {
-//       console.error('Checkout error:', err);
-//       alert('Failed to place order.');
-//     }
-//   };
 
 const handleCheckout = async () => {
   try {
@@ -95,7 +70,7 @@ const handleCheckout = async () => {
     shipping,
     });
     const res = await axios.post(
-      'http://localhost:8080/api/member/checkout',
+      `${API_BASE_URL}/api/member/checkout`,
       {
         payment_method: 'card',
         shipping,

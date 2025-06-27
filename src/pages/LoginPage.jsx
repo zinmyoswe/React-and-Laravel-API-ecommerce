@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { login } from '../services/authService';
+import API_BASE_URL from './../config';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -21,7 +22,7 @@ const LoginPage = () => {
       const session_id = localStorage.getItem('session_id');
 
       const res = await axios.post(
-        'http://localhost:8080/api/login',
+        `${API_BASE_URL}/api/login`,
         { email, password, session_id }, // 👈 include session_id in request
         { withCredentials: true }
       );

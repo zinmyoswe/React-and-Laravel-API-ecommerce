@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import API_BASE_URL from '../config';
 
 const Navbar = () => {
   const token = localStorage.getItem('token');
@@ -12,7 +13,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       if (token) {
-        await axios.post('http://localhost:8080/api/logout', null, {
+        await axios.post(`${API_BASE_URL}/api/logout`, null, {
           headers: {
             Authorization: `Bearer ${token}`
           }

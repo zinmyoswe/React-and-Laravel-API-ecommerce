@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import API_BASE_URL from '../config';
 
 const MyOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -12,7 +13,7 @@ const MyOrders = () => {
     // Step 1: Get logged-in user details
     const fetchUser = async () => {
       try {
-        const res = await axios.get('http://localhost:8080/api/user', {
+        const res = await axios.get(`${API_BASE_URL}/api/user`, {
           headers: {
             Authorization: `Bearer ${token}`,
             Accept: 'application/json',
@@ -35,7 +36,7 @@ const MyOrders = () => {
       if (!user) return;
 
       try {
-        const res = await axios.get(`http://localhost:8080/api/orders/user/${user.id}`, {
+        const res = await axios.get(`${API_BASE_URL}/api/orders/user/${user.id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             Accept: 'application/json',

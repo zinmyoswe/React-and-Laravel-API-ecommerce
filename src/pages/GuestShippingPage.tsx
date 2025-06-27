@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import API_BASE_URL from '../config';
 
 function GuestShippingPage() {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ function GuestShippingPage() {
   // 🛒 Fetch cart to calculate total
   const fetchCart = async () => {
     try {
-      const res = await axios.get(`http://localhost:8080/api/cart/session/${sessionId}`);
+      const res = await axios.get(`${API_BASE_URL}/api/cart/session/${sessionId}`);
       const total = res.data.reduce((sum, item) => {
         return sum + parseFloat(item.product.price) * item.quantity;
       }, 0);
@@ -37,7 +38,7 @@ function GuestShippingPage() {
 
   const handleCheckout = async () => {
     try {
-      const res = await axios.post('http://localhost:8080/api/checkout', {
+      const res = await axios.post(`${API_BASE_URL}http://localhost:8080/api/checkout`, {
         session_id: sessionId,
         payment_method: 'card', // 👈 not 'cod' if you use Stripe
         shipping,
