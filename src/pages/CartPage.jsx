@@ -8,7 +8,8 @@ import API_BASE_URL from '../config';
 function CartPage() {
   const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true); // ⬅️ add loading state
+  // const [loading, setLoading] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
   const token = localStorage.getItem('token');
   const totalItems = cartItems.reduce((count, item) => count + item.quantity, 0);
 
@@ -19,9 +20,9 @@ function CartPage() {
     localStorage.setItem('session_id', sessionId);
   }
 
-  // ✅ Load cart (guest or user)
- const fetchCart = async () => {
-  setLoading(true); // Start loading
+
+
+  const fetchCart = async () => {
   try {
     let res;
     if (token) {
@@ -33,14 +34,11 @@ function CartPage() {
         headers: { 'Session-Id': sessionId },
       });
     }
-    // Simulate a 0.5 second delay
-    setTimeout(() => {
-      setCartItems(res.data);
-      setLoading(false);
-    }, 500);
+    setCartItems(res.data);
   } catch (err) {
     console.error('Error loading cart:', err.response?.data || err.message);
-    setLoading(false); // Ensure loading ends even on error
+  } finally {
+    setInitialLoading(false); // ✅ only done after first load
   }
 };
 
@@ -90,7 +88,7 @@ function CartPage() {
     <div className="p-4 md:p-8">
       
 
-      {loading ? (
+      {initialLoading ? (
           <div className="grid grid-cols-12 gap-6">
     <div className="col-span-12 md:col-span-7 order-1 space-y-6">
       {[...Array(3)].map((_, idx) => (
@@ -190,7 +188,7 @@ function CartPage() {
               </div>
               <hr />
               <div className="flex justify-between">
-                <span>Subtotal</span>
+                <span>Total</span>
                 <span>${grandTotal.toFixed(2)}</span>
               </div>
               <hr />

@@ -47,7 +47,7 @@ const MyOrders = () => {
         setTimeout(() => {
           setOrders(res.data);
           setLoading(false);
-        }, 500);
+        }, 100);
       } catch (err) {
         console.error('Error fetching orders:', err);
         setError('Failed to load orders');
