@@ -263,7 +263,7 @@ function MemberShippingPage() {
             <p className="font-semibold">Choose Delivery Option:</p>
 
             <div
-              className={`p-4 border rounded cursor-pointer ${
+              className={`p-6 border rounded cursor-pointer ${
                 selectedDelivery === 'express' ? 'border-black' : ''
               }`}
               onClick={() => {
@@ -275,12 +275,12 @@ function MemberShippingPage() {
                 <span>
                   Arrives {formatDate(expressStart)} - {formatDate(expressEnd)}
                 </span>
-                <span>$20</span>
+                <span className='text-gray-500 text-lg'>$20</span>
               </div>
             </div>
 
             <div
-              className={`p-4 border rounded cursor-pointer ${
+              className={`p-6 border rounded cursor-pointer ${
                 selectedDelivery === 'standard' ? 'border-black' : ''
               }`}
               onClick={() => {
@@ -293,7 +293,7 @@ function MemberShippingPage() {
                   Arrives {formatDate(standardStart)} -{' '}
                   {formatDate(standardEnd)}
                 </span>
-                <span className="uppercase">FREE</span>
+                <span className='text-gray-500 text-lg'>Free</span>
               </div>
             </div>
           </div>
