@@ -16,11 +16,15 @@
     "@stripe/react-stripe-js": "^3.7.0",
     "@stripe/stripe-js": "^7.3.1",
     "axios": "^1.9.0",
+    "country-flag-icons": "^1.5.19",
+    "country-list": "^2.3.0",
     "lucide-react": "^0.515.0",
     "qs": "^6.14.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-phone-input-2": "^2.15.1",
     "react-router-dom": "^7.6.2",
+    "react-select": "^5.10.1",
     "tailwindcss-scrollbar": "^0.1.0"
   },
   "devDependencies": {

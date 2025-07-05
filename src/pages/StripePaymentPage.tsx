@@ -59,7 +59,7 @@ function CheckoutForm() {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-10 space-y-4">
-      <h2 className="text-xl font-bold">Complete Payment</h2>
+      <h2 className="text-xl font-bold">Complete Payment for guest</h2>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">

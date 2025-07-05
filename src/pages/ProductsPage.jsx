@@ -129,12 +129,29 @@ function ProductsPage() {
     <div className="p-4 md:mx-10">
       {/* Controls */}
       <div className="flex items-center justify-end mb-4 gap-4 flex-wrap">
-        <button
-          onClick={() => setShowFilter(!showFilter)}
-          className="border px-4 py-2"
-        >
-          {showFilter ? 'Hide Filters' : 'Show Filters'}
-        </button>
+        
+       <button
+  onClick={() => setShowFilter(!showFilter)}
+  className="px-4 py-2 flex items-center gap-2"
+>
+  <svg
+    aria-hidden="true"
+    className="icon-filter-ds"
+    focusable="false"
+    viewBox="0 0 24 24"
+    role="img"
+    width="24px"
+    height="24px"
+    fill="none"
+  >
+    <path stroke="currentColor" strokeWidth="1.5" d="M21 8.25H10m-5.25 0H3"></path>
+    <path stroke="currentColor" strokeWidth="1.5" d="M7.5 6v0a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z" clipRule="evenodd"></path>
+    <path stroke="currentColor" strokeWidth="1.5" d="M3 15.75h10.75m5 0H21"></path>
+    <path stroke="currentColor" strokeWidth="1.5" d="M16.5 13.5v0a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z" clipRule="evenodd"></path>
+  </svg>
+  {showFilter ? 'Hide Filters' : 'Show Filters'}
+</button>
+
         <div className="flex items-center">
           <label htmlFor="sort" className="text-sm font-medium mr-2">
             Sort by:
@@ -143,7 +160,7 @@ function ProductsPage() {
             id="sort"
             value={sortOption}
             onChange={e => setSortOption(e.target.value)}
-            className="border border-gray-300 rounded-md px-3 py-2"
+            className="border border-gray-50 rounded-md px-3 py-2"
           >
             <option value="">Featured</option>
             <option value="price_asc">Price: Low to High</option>

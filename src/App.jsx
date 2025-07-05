@@ -12,6 +12,10 @@ import MyOrders from './pages/MyOrders';
 import MemberShippingPage from './pages/MemberShippingPage';
 import StripePaymentForUser from './pages/StripePaymentForUser';
 import HomePage from './pages/HomePage';
+// import 'country-flag-icons/react/3x2';
+// import 'country-flag-icons/css/flag-icons.min.css';
+import './assets/css/flag-icons.min.css';
+
 
 
 function App() {
