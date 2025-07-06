@@ -9,6 +9,7 @@ function ProductDetailPage() {
   const [product, setProduct] = useState(null);
   const [mainImage, setMainImage] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
+  const [sizeError, setSizeError] = useState('');
 
   const fetchProduct = (productId) => {
     getProductById(productId)
@@ -28,7 +29,7 @@ function ProductDetailPage() {
 
 const handleAddToCart = async () => {
   if (!selectedSize) {
-    alert('Please select a size before adding to cart.');
+    setSizeError('Please select your size');
     return;
   }
 
@@ -57,10 +58,10 @@ const handleAddToCart = async () => {
   return (
     <div className="p-6 grid grid-cols-12 gap-6">
       {/* Left Blank */}
-      <div className="hidden md:block md:col-span-1" />
+      <div className="hidden md:block md:col-span-2" />
 
       {/* Left 5 cols: Image Gallery */}
-      <div className="col-span-12 md:col-span-5 flex flex-col md:flex-row gap-4">
+      <div className="col-span-12 md:col-span-5 flex flex-col md:flex-row gap-4 items-start">
         {/* Thumbnails */}
         <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto order-2 md:order-none">
           {[product.productimage, ...(product.productimages || [])].map((img, i) => (
@@ -79,13 +80,13 @@ const handleAddToCart = async () => {
           <img
             src={mainImage}
             alt="Main"
-            className="w-full h-full max-h-[500px] md:max-h-none object-contain rounded-xl shadow"
+            className="w-full h-full max-h-[500px] md:max-h-none object-contain"
           />
         </div>
       </div>
 
       {/* Right 5 cols: Product Info */}
-      <div className="col-span-12 md:col-span-5 space-y-4">
+      <div className="col-span-12 md:col-span-3 space-y-4">
         <h1 className="text-3xl font-bold">{product.productname}</h1>
 
        
@@ -100,18 +101,18 @@ const handleAddToCart = async () => {
         </div>
 
         <div className="text-sm space-y-1 text-gray-600">
-          <p><strong>Product ID:</strong> {product.productid}</p>
+          {/* <p><strong>Product ID:</strong> {product.productid}</p>
           <p><strong>Category:</strong> {product.category?.categoryname}</p>
-          <p><strong>Subcategory:</strong> {product.subcategory?.subcategoryname}</p>
+          <p><strong>Subcategory:</strong> {product.subcategory?.subcategoryname}</p> */}
           <p><strong>Color:</strong> {product.color}</p>
-          <p><strong>Gender:</strong> {product.gender}</p>
-          <p><strong>Stock:</strong> {product.stock}</p>
+          {/* <p><strong>Gender:</strong> {product.gender}</p>
+          <p><strong>Stock:</strong> {product.stock}</p> */}
         </div>
 
         
 
         {/* Parent + Similar Products Thumbnails */}
-        <div className="mt-6">
+        <div className="!mt-6">
           <h2 className="font-semibold mb-2">Related Products:</h2>
           <div className="flex flex-wrap gap-1">
             {/* Main product itself */}
@@ -119,7 +120,7 @@ const handleAddToCart = async () => {
               src={product.productimage}
               alt="Current Product"
               onClick={() => fetchProduct(product.productid)}
-              className="w-16 h-16  rounded-md border cursor-pointer hover:ring-1 ring-black"
+              className="w-20 h-20  rounded-md border cursor-pointer hover:ring-1 ring-black"
             />
 
             {/* Similar products */}
@@ -129,43 +130,42 @@ const handleAddToCart = async () => {
                 src={similar.productimage}
                 alt={`Similar ${similar.productid}`}
                 onClick={() => fetchProduct(similar.productid)}
-                className="w-16 h-16  rounded-md border cursor-pointer hover:ring-1 ring-black"
+                className="w-20 h-20  rounded-md border cursor-pointer hover:ring-1 ring-black"
               />
             ))}
           </div>
         </div>
 
-        <div>
+        <div className='!my-6'>
           <h2 className="font-semibold mb-1">Available Sizes:</h2>
           <div className="flex flex-wrap gap-2">
-            {/* {product.sizes.map((size) => (
-              <span
-                key={size.id}
-                className="border px-3 py-1 rounded-full text-sm bg-gray-100"
-              >
-                {size.sizevalue}
-              </span>
-            ))} */}
-
             {product.sizes.map((size) => (
               <button
                 key={size.id}
-                onClick={() => setSelectedSize(size.sizevalue)}
-                className={`border px-3 py-1 rounded-full text-sm transition 
-                  ${selectedSize === size.sizevalue ? 'bg-black text-white' : 'bg-gray-100 text-gray-800'}
-                `}
+                onClick={() => {
+                  setSelectedSize(size.sizevalue);
+                  setSizeError(''); // Clear error when a size is selected
+                }}
+                className={`h-11 min-w-16 px-4 py-2 rounded-md text-sm border transition
+                ${selectedSize === size.sizevalue
+                  ? 'bg-black text-white border-zinc-900'
+                  : 'bg-white text-zinc-900 border border-gray-400 hover:border-zinc-900'}
+              `}
               >
                 {size.sizevalue}
               </button>
             ))}
           </div>
+          {sizeError && (
+            <p className="text-red-600 text-sm mt-3">{sizeError}</p>
+          )}
         </div>
 
         <button
           onClick={handleAddToCart}
-          className="px-4 py-2 bg-black text-white rounded-full hover:bg-gray-800"
+          className="bg-zinc-900 text-white px-6 py-4 rounded-full w-full hover:bg-gray-800"
         >
-          Add to Cart
+          Add to Bag
         </button>
 
         <p className="text-gray-700 text-sm whitespace-pre-line break-words">
@@ -175,7 +175,8 @@ const handleAddToCart = async () => {
       </div>
 
       {/* Right Blank */}
-      <div className="hidden md:block md:col-span-1" />
+      <div className="hidden md:block md:col-span-2" />
+
     </div>
   );
 }
