@@ -11,33 +11,20 @@ function ProductDetailPage() {
   const [selectedSize, setSelectedSize] = useState('');
   const [sizeError, setSizeError] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [relatedGroup, setRelatedGroup] = useState([]); // Holds fixed order of main + related
-  const [rootProductId, setRootProductId] = useState(null);
   
 
-  const fetchProduct = (productId, isRoot = false) => {
+  const fetchProduct = (productId) => {
     getProductById(productId)
       .then((res) => {
         setProduct(res.data);
         setMainImage(res.data.productimage);
         window.history.replaceState(null, '', `/product/${productId}`);
-
-        if (isRoot) {
-        setRootProductId(res.data.productid);
-        const group = [res.data, ...(res.data.similar_products || [])];
-        setRelatedGroup(group);
-        }
       })
       .catch((err) => console.error(err));
   };
 
   useEffect(() => {
-    // If no root yet, this is initial load
-    if (!rootProductId) {
-      fetchProduct(id, true); // Initial load
-    } else {
-      fetchProduct(id); // Navigating inside group
-    }
+    fetchProduct(id);
   }, [id]);
 
 
@@ -139,33 +126,21 @@ const handleAddToCart = async () => {
           <h2 className="font-semibold mb-2">Related Products:</h2>
           <div className="flex flex-wrap gap-1">
             {/* Main product itself */}
-            {/* <img
+            <img
               src={product.productimage}
               alt="Current Product"
               onClick={() => fetchProduct(product.productid)}
               className="w-20 h-20  rounded-md border cursor-pointer hover:ring-1 ring-black"
-            /> */}
+            />
 
             {/* Similar products */}
-            {/* {product.similar_products?.map((similar) => (
+            {product.similar_products?.map((similar) => (
               <img
                 key={similar.productid}
                 src={similar.productimage}
                 alt={`Similar ${similar.productid}`}
                 onClick={() => fetchProduct(similar.productid)}
                 className="w-20 h-20  rounded-md border cursor-pointer hover:ring-1 ring-black"
-              />
-            ))} */}
-
-            {relatedGroup.map((p) => (
-              <img
-                key={p.productid}
-                src={p.productimage}
-                alt={`Product ${p.productid}`}
-                onClick={() => fetchProduct(p.productid)}
-                className={`w-20 h-20 rounded-md border cursor-pointer hover:ring-1 ring-black ${
-                  p.productid === product.productid ? 'ring-1 ring-black' : ''
-                }`}
               />
             ))}
           </div>
