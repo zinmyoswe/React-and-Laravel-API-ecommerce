@@ -4,7 +4,7 @@ import { CheckCircle } from 'lucide-react';
 
 export default function OrderSuccess() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-white px-4">
+    <div className="flex flex-col items-center justify-center mt-24 md:mt-1  md:h-screen bg-white px-4">
       <CheckCircle className="text-zinc-900" size={80} />
       <h1 className="text-3xl font-bold text-zinc-900 mt-4">Thank for your order, Zin!
         We're On It

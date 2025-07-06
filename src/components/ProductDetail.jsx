@@ -10,6 +10,8 @@ function ProductDetailPage() {
   const [mainImage, setMainImage] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
   const [sizeError, setSizeError] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  
 
   const fetchProduct = (productId) => {
     getProductById(productId)
@@ -35,7 +37,14 @@ const handleAddToCart = async () => {
 
   try {
     await addToCart(product.productid, selectedSize);
-    navigate('/cart'); // Redirect to CartPage
+    // navigate('/cart'); // Redirect to CartPage
+     setShowModal(true); // Show modal
+
+    // Wait 4s before navigating
+    setTimeout(() => {
+      setShowModal(false);
+      navigate('/cart');
+    }, 10000);
   } catch (error) {
     console.error('Failed to add to cart:', error);
   }
@@ -86,7 +95,8 @@ const handleAddToCart = async () => {
       </div>
 
       {/* Right 5 cols: Product Info */}
-      <div className="col-span-12 md:col-span-3 space-y-4">
+      <div className="col-span-12 md:col-span-4 space-y-4">
+        <div className='w-full md:w-4/5'>
         <h1 className="text-3xl font-bold">{product.productname}</h1>
 
        
@@ -101,12 +111,12 @@ const handleAddToCart = async () => {
         </div>
 
         <div className="text-sm space-y-1 text-gray-600">
-          {/* <p><strong>Product ID:</strong> {product.productid}</p>
+          <p><strong>Product ID:</strong> {product.productid}</p>
           <p><strong>Category:</strong> {product.category?.categoryname}</p>
-          <p><strong>Subcategory:</strong> {product.subcategory?.subcategoryname}</p> */}
+          <p><strong>Subcategory:</strong> {product.subcategory?.subcategoryname}</p>
           <p><strong>Color:</strong> {product.color}</p>
-          {/* <p><strong>Gender:</strong> {product.gender}</p>
-          <p><strong>Stock:</strong> {product.stock}</p> */}
+          <p><strong>Gender:</strong> {product.gender}</p>
+          <p><strong>Stock:</strong> {product.stock}</p>
         </div>
 
         
@@ -168,14 +178,66 @@ const handleAddToCart = async () => {
           Add to Bag
         </button>
 
-        <p className="text-gray-700 text-sm whitespace-pre-line break-words">
+        <p className="text-gray-700 text-sm whitespace-pre-line break-words !my-6">
           {product.description}
         </p>
-
+        </div>    
       </div>
 
       {/* Right Blank */}
       <div className="hidden md:block md:col-span-2" />
+    
+
+    {showModal && (
+  <div className={`fixed inset-0 z-50 flex items-center justify-center md:justify-end md:items-start p-4`}>
+    <div
+      className={`bg-white rounded-lg shadow-lg border w-full max-w-md md:mt-4 md:mr-4 animate-fade-in-up`}
+    >
+      <div className="flex justify-between items-center border-b px-4 py-2">
+        <h2 className="text-lg font-medium text-zinc-900 flex items-center gap-2">
+          <svg className="w-5 h-5 text-green-800" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 1.5C6.21 1.5 1.5 6.21 1.5 12S6.21 22.5 12 22.5 22.5 17.79 22.5 12 17.79 1.5 12 1.5zm-1.06 14l-3.18-3.18 1.06-1.06 2.12 2.12 4.24-4.24 1.06 1.06-5.3 5.3z" />
+          </svg>
+          Added to the Bag
+        </h2>
+        <button onClick={() => { setShowModal(false); navigate('/cart'); }}>
+          <span className="text-gray-500 hover:text-black">&times;</span>
+        </button>
+      </div>
+      <div className="p-4 flex gap-4">
+        <img src={mainImage} alt="Product" className="w-24 h-24 object-fill" />
+        <div>
+          <h3 className="font-semibold">{product.productname}</h3>
+          <p className="text-sm text-gray-600">${product.price}</p>
+          <p className="text-sm text-gray-600">Size: {selectedSize}</p>
+          <p className="text-sm text-gray-600">Color: {product.color}</p>
+          <p className="text-sm text-gray-600">Qty: 1</p>
+        </div>
+      </div>
+      <div className="px-4 py-2 space-y-2">
+        <button
+          onClick={() => navigate('/cart')}
+          className="w-full bg-white border border-gray-300 text-black px-4 py-4 rounded-full hover:ring-1 ring-black"
+        >
+          View Bag
+        </button>
+        <button
+          onClick={() => {
+            const token = localStorage.getItem('token');
+            if (token) {
+              navigate('/member-shipping');
+            } else {
+              navigate('/guest-shipping');
+            }
+          }}
+          className="w-full px-4 py-4 rounded-full bg-zinc-950 text-white hover:bg-gray-400 !mb-6"
+        >
+          Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
     </div>
   );
