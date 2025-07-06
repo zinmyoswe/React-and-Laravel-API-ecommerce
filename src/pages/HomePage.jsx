@@ -8,6 +8,7 @@ import Carousle2 from '../components/Carousle2';
 import SlideThumbnailSlider from '../components/SlideThumbnailSlider ';
 import VideoCarousel from '../components/VideoCarousel';
 import ProductThumbnailSlider2 from './../components/ProductThumbnailSlider2';
+import Footer from '../components/Footer ';
 
 const HomePage = () => {
   return (
@@ -113,6 +114,14 @@ const HomePage = () => {
             <SlideThumbnailSlider />
         </div>
          {/* ------------------------------- 4th SlideThumbnailSlider end --------------------------------- */}
+
+          
+          <div className="my-10">
+
+            
+          
+          </div>
+         
 
         
     </div>

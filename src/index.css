@@ -62,6 +62,70 @@
     src: url("https://esm.glass.adidas.com/@adl/typography@1.1.0/fonts/DentonLight.woff2") format("woff2"),url("https://esm.glass.adidas.com/@adl/typography@1.1.0/fonts/DentonLight.woff") format("woff")
 }
 
+/* Nike Font */
+@font-face {
+  font-family: "Nike TG";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/public/fonts/Nike-TG.woff2") format('woff2'),
+       url("/public/fonts/Nike-TG.woff") format('woff'),
+       url("/public/fonts/Nike-TG.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: "Nike Futura ND";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/public/fonts/Nike-Futura-ot-300.woff2") format('woff2'),
+       url("/public/fonts/Nike-Futura-ot-300.woff") format('woff'),
+       url("/public/fonts/Nike-Futura-ot-300.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: "Nike Futura";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/public/fonts/Nike-Futura.woff2") format('woff2'),
+       url("/public/fonts/Nike-Futura.woff") format('woff'),
+       url("/public/fonts/Nike-Futura.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: "Helvetica Now Text";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/public/fonts/HelveticaNowText.woff2") format('woff2'),
+       url("/public/fonts/HelveticaNowText.woff") format('woff'),
+       url("/public/fonts/HelveticaNowText.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: "Helvetica Now Text Medium";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/fonts/HelveticaNowTextMedium.woff2") format('woff2'),
+       url("/fonts/HelveticaNowTextMedium.woff") format('woff'),
+       url("/fonts/HelveticaNowTextMedium.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: "Helvetica Now Display Medium";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/public/fonts/HelveticaNowDisplayMedium.woff2") format('woff2'),
+       url("/public/fonts/HelveticaNowDisplayMedium.woff") format('woff'),
+       url("/public/fonts/HelveticaNowDisplayMedium.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: "Palatino LT Pro Light";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/public/fonts/PalatinoLTPro-Light.woff2") format('woff2'),
+       url("/public/fonts/PalatinoLTPro-Light.woff") format('woff'),
+       url("/public/fonts/PalatinoLTPro-Light.ttf") format('truetype');
+}
+
 html, body, p {
   font-family: "AdihausDIN", sans-serif;
 }
@@ -101,4 +165,9 @@ html, body, p {
 }
 .animate-fade-in-up {
   animation: fade-in-up 0.3s ease-out;
+}
+
+
+.topbar-font {
+  font: 500 0.75rem/1.5 'Helvetica Now Text Medium', Helvetica, Arial, sans-serif;
 }

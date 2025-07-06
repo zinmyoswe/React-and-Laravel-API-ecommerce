@@ -11,6 +11,7 @@ export default {
         adineue: ['"AdineuePRO"', 'sans-serif'],
         adidasfg: ['"adidasFG"', 'sans-serif'],
         denton: ['"Denton"', 'sans-serif'],
+        nike: ['"Helvetica Now Text Medium"', 'Helvetica', 'Arial', 'sans-serif'],
       },
     },
   },

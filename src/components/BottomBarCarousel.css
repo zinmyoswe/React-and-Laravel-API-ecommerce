@@ -1,0 +1,21 @@
+/* src/components/BottomBarCarousel.css */
+
+.animate-slide {
+  transform: translateX(-10px);
+  opacity: 0.6;
+}
+
+.animate-slide {
+  animation: slide-left 0.3s ease-in-out forwards;
+}
+
+@keyframes slide-left {
+  0% {
+    transform: translateX(30%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}

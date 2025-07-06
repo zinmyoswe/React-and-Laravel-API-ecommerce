@@ -15,6 +15,7 @@ import HomePage from './pages/HomePage';
 // import 'country-flag-icons/react/3x2';
 // import 'country-flag-icons/css/flag-icons.min.css';
 import './assets/css/flag-icons.min.css';
+import Footer from './components/Footer ';
 
 
 
@@ -51,6 +52,7 @@ function App() {
 
         <Route path="*" element={<div className="p-6 text-center text-red-500">Page Not Found</div>} />
       </Routes>
+        <Footer/>
     </Router>
   );
 }
