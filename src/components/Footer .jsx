@@ -148,7 +148,7 @@ const Footer = () => {
 
       {/* Row 2 */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mt-6 space-y-4 md:space-y-0 text-[#707072] text-xs">
-        <div>© 2025 Nike, Inc. All rights reserved</div>
+        <div>© 2025 PeachCherryTechnology, Inc. All rights reserved</div>
         <div className="flex flex-col md:flex-row md:space-x-6 space-y-1 md:space-y-0">
           {[
             'Guides',

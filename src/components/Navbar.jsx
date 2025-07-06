@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -13,6 +13,7 @@ const Navbar = () => {
   const [cartItems, setCartItems] = useState([]);
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
 
   const handleLogout = async () => {
     try {
@@ -30,7 +31,14 @@ const Navbar = () => {
         localStorage.setItem('session_id', newSessionId);
       }
 
-      navigate('/login');
+      
+
+       window.location.href = location.pathname;
+      // Get current path
+      
+      // Redirect to current path after logout
+      // navigate(location.pathname);
+      //  window.location.reload();
     } catch (error) {
       console.error('Logout failed', error);
     }
