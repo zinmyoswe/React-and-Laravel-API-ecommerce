@@ -65,10 +65,10 @@ const MyOrders = () => {
     <div className="flex items-center justify-center h-64">
       <div className="flex flex-col items-center space-y-4">
         {/* Spinner */}
-        <div className="w-12 h-12 border-4 border-zinc-900 border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-16 h-16 border-4 border-zinc-900 border-t-transparent rounded-full animate-spin"></div>
 
         {/* Text */}
-        <p className="text-gray-500 text-sm">Fetching your orders... Please Wait</p>
+        {/* <p className="text-gray-500 text-sm">Fetching your orders... Please Wait</p> */}
       </div>
     </div>
   );

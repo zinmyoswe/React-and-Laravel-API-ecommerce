@@ -16,6 +16,7 @@ import HomePage from './pages/HomePage';
 // import 'country-flag-icons/css/flag-icons.min.css';
 import './assets/css/flag-icons.min.css';
 import Footer from './components/Footer ';
+import MyFavourite from './pages/MyFavourite';
 
 
 
@@ -49,6 +50,8 @@ function App() {
         <Route path="/men" element={<ProductsPage genderFilter="Men" />} />
         <Route path="/women" element={<ProductsPage genderFilter="Women" />} />
         <Route path="/kids" element={<ProductsPage genderFilter="Kid" />} />
+
+        <Route path="/my-favourites" element={<MyFavourite />} />
 
         <Route path="*" element={<div className="p-6 text-center text-red-500">Page Not Found</div>} />
       </Routes>

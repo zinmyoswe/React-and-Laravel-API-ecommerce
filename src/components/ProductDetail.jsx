@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProductById } from '../services/productService';
 import { addToCart } from '../services/cartService';
+import { addToFavourite, getFavourites,removeFromFavourite  } from '../services/favouriteService';
 
 function ProductDetailPage() {
   const { id } = useParams();
@@ -13,11 +14,14 @@ function ProductDetailPage() {
   const [showModal, setShowModal] = useState(false);
   const [relatedGroup, setRelatedGroup] = useState([]); // Holds fixed order of main + related
   const [rootProductId, setRootProductId] = useState(null);
+  const [isFavourited, setIsFavourited] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   
 
   const fetchProduct = (productId, isRoot = false) => {
     getProductById(productId)
-      .then((res) => {
+      .then(async (res) => {
         setProduct(res.data);
         setMainImage(res.data.productimage);
         window.history.replaceState(null, '', `/product/${productId}`);
@@ -26,6 +30,15 @@ function ProductDetailPage() {
         setRootProductId(res.data.productid);
         const group = [res.data, ...(res.data.similar_products || [])];
         setRelatedGroup(group);
+        }
+
+        // Check if favourited
+        try {
+          const favs = await getFavourites();
+          const favProductIds = favs.data.map(f => f.product_id);
+          setIsFavourited(favProductIds.includes(res.data.productid));
+        } catch (err) {
+          console.error('Failed to fetch favourites:', err);
         }
       })
       .catch((err) => console.error(err));
@@ -62,6 +75,35 @@ const handleAddToCart = async () => {
     console.error('Failed to add to cart:', error);
   }
 };
+
+const handleAddToFavourite = async () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    navigate('/login');
+    return;
+  }
+
+  setIsLoading(true); // start loading
+
+  try {
+    if (isFavourited) {
+      await removeFromFavourite(product.productid);
+      setIsFavourited(false);
+      // alert('Removed from Favourites!');
+    } else {
+      await addToFavourite(product.productid, selectedSize || null);
+      setIsFavourited(true);
+      // alert('Added to Favourites!');
+    }
+  } catch (err) {
+    console.error('Favourite toggle failed:', err);
+    alert('Failed to update Favourite.');
+  } finally {
+    setIsLoading(false); // stop loading
+  }
+};
+
+
 
   if (!product) {
     return <div className="p-6 grid grid-cols-12 gap-6 animate-pulse">
@@ -202,6 +244,71 @@ const handleAddToCart = async () => {
         >
           Add to Bag
         </button>
+
+        <button
+  onClick={handleAddToFavourite}
+  disabled={isLoading}
+  className={`px-6 my-3 py-4 rounded-full w-full border flex items-center justify-center gap-2 transition
+    ${isFavourited 
+      ? 'bg-gray-100 text-black border-zinc-900 hover:bg-gray-100' 
+      : 'bg-white text-black border-zinc-900 hover:bg-gray-100'}
+    ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}
+  `}
+>
+  {isLoading ? (
+    <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+  ) : (
+    <>
+      {isFavourited ? (
+        // ✅ Filled heart icon for favourited state
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          viewBox="0 0 24 24"
+          role="img"
+          width="24px"
+          height="24px"
+          fill="none"
+        >
+          <path
+            fill="currentColor"
+            fillRule="evenodd"
+            d="M16.794 3.75c1.324 0 2.568.516 3.504 1.451a4.96 4.96 0 010 7.008L12 20.508l-8.299-8.299a4.96 4.96 0 010-7.007A4.923 4.923 0 017.205 3.75c1.324 0 2.568.516 3.504 1.451L12 6.492l1.29-1.291a4.926 4.926 0 013.504-1.451z"
+            clipRule="evenodd"
+          ></path>
+          <path
+            stroke="currentColor"
+            strokeWidth="1.5"
+            d="M16.794 3.75c1.324 0 2.568.516 3.504 1.451a4.96 4.96 0 010 7.008L12 20.508l-8.299-8.299a4.96 4.96 0 010-7.007A4.923 4.923 0 017.205 3.75c1.324 0 2.568.516 3.504 1.451L12 6.492l1.29-1.291a4.926 4.926 0 013.504-1.451z"
+          ></path>
+          <title>filled</title>
+        </svg>
+      ) : (
+        // 🤍 Outline heart icon (non-filled)
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          viewBox="0 0 24 24"
+          role="img"
+          width="24px"
+          height="24px"
+          fill="none"
+        >
+          <path
+            stroke="currentColor"
+            strokeWidth="1.5"
+            d="M16.794 3.75c1.324 0 2.568.516 3.504 1.451a4.96 4.96 0 010 7.008L12 20.508l-8.299-8.299a4.96 4.96 0 010-7.007A4.923 4.923 0 017.205 3.75c1.324 0 2.568.516 3.504 1.451l.76.76.531.531.53-.531.76-.76a4.926 4.926 0 013.504-1.451"
+          />
+          <title>non-filled</title>
+        </svg>
+      )}
+      {isFavourited ? 'Favourited' : 'Add to Favourite'}
+    </>
+  )}
+</button>
+
+
+
 
         <p className="text-gray-700 text-sm whitespace-pre-line break-words !my-6">
           {product.description}
