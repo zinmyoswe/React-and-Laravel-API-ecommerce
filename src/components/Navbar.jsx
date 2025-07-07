@@ -212,7 +212,7 @@ const Navbar = () => {
         {/* Mobile menu toggle */}
         <div className="md:hidden">
 
-          <div className='flex items-end gap-4'>
+          <div className='flex items-end gap-6'>
 
             
 

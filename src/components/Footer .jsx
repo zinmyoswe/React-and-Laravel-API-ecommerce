@@ -128,7 +128,7 @@ const Footer = () => {
                   {openIndexes[idx] && (
                     <ul
                       id={`footer-accordion-panel-${idx}`}
-                      className="text-[#707072] pl-4 space-y-1"
+                      className="text-[#707072] pl-4 space-y-4 !my-6"
                     >
                       {col.content.map((item, i) => (
                         <li key={i}>
