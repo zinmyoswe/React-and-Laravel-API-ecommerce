@@ -16,33 +16,33 @@ const Navbar = () => {
   const location = useLocation();
 
   const handleLogout = async () => {
-    try {
-      if (token) {
-        await axios.post(`${API_BASE_URL}/api/logout`, null, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-      }
-
-      localStorage.removeItem('token');
-      if (!localStorage.getItem('session_id')) {
-        const newSessionId = crypto.randomUUID();
-        localStorage.setItem('session_id', newSessionId);
-      }
-
-      
-
-       window.location.href = location.pathname;
-      // Get current path
-      
-      // Redirect to current path after logout
-      // navigate(location.pathname);
-      //  window.location.reload();
-    } catch (error) {
-      console.error('Logout failed', error);
+  try {
+    console.log('Logging out... token:', token);
+    if (token) {
+      const response = await axios.post(`${API_BASE_URL}/api/logout`, null, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log('Logout response:', response.data);
     }
-  };
+
+    localStorage.removeItem('token');
+    if (!localStorage.getItem('session_id')) {
+      const newSessionId = crypto.randomUUID();
+      localStorage.setItem('session_id', newSessionId);
+    }
+
+    // Use React Router navigation to reload current page
+    navigate(location.pathname);
+
+    // Or force reload (if navigate doesn't work)
+    // window.location.reload();
+
+  } catch (error) {
+    console.error('Logout failed', error);
+  }
+};
 
   useEffect(() => {
   const fetchCart = async () => {
