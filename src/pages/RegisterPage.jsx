@@ -80,12 +80,27 @@ const RegisterPage = () => {
     if (Object.values(fieldErrors).some((msg) => msg)) return;
 
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/register`, form, { withCredentials: true });
+      const session_id = localStorage.getItem('session_id'); // ✅ Get session ID
+
+      const res = await axios.post(
+        `${API_BASE_URL}/api/register`,
+        { ...form, session_id }, // ✅ Add session_id to payload
+        { withCredentials: true }
+      );
       localStorage.setItem('token', res.data.token);
       navigate('/');
     } catch (err) {
       console.error(err.response?.data);
-      setSubmitError('Registration failed. Please check input.');
+      if (err.response?.status === 422) {
+        const validationErrors = err.response.data.errors;
+        if (validationErrors.email?.[0]) {
+          setErrors((prev) => ({ ...prev, email: validationErrors.email[0] }));
+        } else {
+          setSubmitError('Registration failed. Please check input.');
+        }
+      } else {
+        setSubmitError('Registration failed. Please check input.');
+      }
     }
 
     if (err.response?.status === 422) {
