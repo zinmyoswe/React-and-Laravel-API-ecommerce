@@ -58,14 +58,30 @@ function CheckoutForm() {
     return () => clearTimeout(timer);
   }, []);
 
+  // const handleCardNumberChange = (event) => {
+  //   setCardBrand(event.brand || 'default');
+  //   if (event.error) {
+  //     setErrors((prev) => ({ ...prev, cardNumber: event.error.message }));
+  //   } else {
+  //     setErrors((prev) => ({ ...prev, cardNumber: '' }));
+  //   }
+  // };
+
   const handleCardNumberChange = (event) => {
-    setCardBrand(event.brand || 'default');
-    if (event.error) {
-      setErrors((prev) => ({ ...prev, cardNumber: event.error.message }));
-    } else {
-      setErrors((prev) => ({ ...prev, cardNumber: '' }));
-    }
-  };
+  const brand = event.brand;
+  // Only set known brands (visa, mastercard, etc.)
+  if (brand && brand !== 'unknown') {
+    setCardBrand(brand);
+  } else {
+    setCardBrand('default'); // fallback to <DefaultCardBrandIcon />
+  }
+
+  if (event.error) {
+    setErrors((prev) => ({ ...prev, cardNumber: event.error.message }));
+  } else {
+    setErrors((prev) => ({ ...prev, cardNumber: '' }));
+  }
+};
 
   const handleSubmit = async (event) => {
     event.preventDefault();
