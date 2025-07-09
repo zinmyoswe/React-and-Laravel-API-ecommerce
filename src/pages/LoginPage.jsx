@@ -99,7 +99,11 @@ const LoginPage = () => {
 
   return (
     <div className="max-w-md mx-auto mt-10">
-      <h1 className="text-2xl text-center font-bold mb-4">SHOP</h1>
+      <h1 className="text-2xl text-center ml-32 font-bold mb-4">
+        <img src="https://images.ctfassets.net/wr0no19kwov9/5qUZljphHJa9o7cebRTaFY/4d5173898d5962f58c68325de0f6921b/brand-kit-symbol-image-09.png?fm=webp&w=3840&q=70"
+      width="150"
+    />
+      </h1>
       <h6 className="text-lg mb-8 text-[#707072]">Singapore</h6>
 
       {error && <div className="text-red-500 mb-2">{error}</div>}

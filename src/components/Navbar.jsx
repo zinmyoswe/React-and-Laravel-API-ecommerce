@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes, faSearch } from '@fortawesome/free-solid-svg-icons';
 import API_BASE_URL from '../config';
 import BottomBarCarousel from './BottomBarCarousel';
+import SearchModal from './SearchModal';
 
 const Navbar = () => {
   const [userName, setUserName] = useState('');
@@ -14,6 +15,7 @@ const Navbar = () => {
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const [showSearch, setShowSearch] = useState(false);
 
   const handleLogout = async () => {
   try {
@@ -161,13 +163,45 @@ const Navbar = () => {
 
         {/* Desktop Center Menu */}
         <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 space-x-6 text-lg font-medium">
+        <Link to="/products?subcategory_id=13&subcategory_id=14">Shoes</Link>
           <Link to="/products?gender=Men" className="hover:text-black hover:underline">Men</Link>
           <Link to="/products?gender=Women" className="hover:text-black hover:underline">Women</Link>
           <Link to="/products?gender=Kid" className="hover:text-black hover:underline">Kid</Link>
         </div>
 
+        
+
         {/* Desktop Right Auth Menu */}
         <div className="hidden md:flex items-center space-x-4">
+
+          {/* Small Search input */}
+        <div className="relative w-40 sm:w-46">
+  <svg
+    aria-hidden="true"
+    focusable="false"
+    viewBox="0 0 24 24"
+    role="img"
+    width="23"
+    height="23"
+    fill="none"
+    className="absolute left-2 top-2 text-gray-950"
+  >
+    <path
+      stroke="currentColor"
+      strokeWidth="1.5"
+      d="M13.962 16.296a6.716 6.716 0 01-3.462.954 6.728 6.728 0 01-4.773-1.977A6.728 6.728 0 013.75 10.5c0-1.864.755-3.551 1.977-4.773A6.728 6.728 0 0110.5 3.75c1.864 0 3.551.755 4.773 1.977A6.728 6.728 0 0117.25 10.5a6.726 6.726 0 01-.921 3.407c-.517.882-.434 1.988.289 2.711l3.853 3.853"
+    ></path>
+  </svg>
+  <input
+    type="text"
+    className="w-full border pl-8 pr-2 py-2 rounded-full bg-[#f5f5f5] text-[16px]  cursor-pointer"
+    placeholder="Search..."
+    onFocus={() => setShowSearch(true)}
+    readOnly
+  />
+</div>
+
+        
            {token ? (
             <>
               <Link to="/my-favourites">
@@ -213,11 +247,44 @@ const Navbar = () => {
         <div className="md:hidden">
 
           <div className='flex items-end gap-6'>
+ {/* Small Search input */}
+       {/* Small Search input for mobile */}
+<div className="relative w-8 h-8">
+  <button
+    onClick={() => setShowSearch(true)}
+    className="absolute inset-0 flex items-center justify-center"
+  >
+    <svg
+      aria-hidden="true"
+      focusable="false"
+      viewBox="0 0 24 24"
+      role="img"
+      width="25"
+      height="25"
+      fill="none"
+      className="text-gray-950 mt-2"
+    >
+      <path
+        stroke="currentColor"
+        strokeWidth="1.5"
+        d="M13.962 16.296a6.716 6.716 0 01-3.462.954 6.728 6.728 0 01-4.773-1.977A6.728 6.728 0 013.75 10.5c0-1.864.755-3.551 1.977-4.773A6.728 6.728 0 0110.5 3.75c1.864 0 3.551.755 4.773 1.977A6.728 6.728 0 0117.25 10.5a6.726 6.726 0 01-.921 3.407c-.517.882-.434 1.988.289 2.711l3.853 3.853"
+      />
+    </svg>
+  </button>
 
+  {/* Hidden input just to capture focus if needed */}
+  <input
+    type="text"
+    className="absolute opacity-0 pointer-events-none"
+    readOnly
+  />
+</div>
             
 
           {token ? (
             <>
+
+            
              
 
               <Link to="/my-favourites">
@@ -308,6 +375,8 @@ const Navbar = () => {
         </div>
       )}
     </nav>
+
+    <SearchModal show={showSearch} onClose={() => setShowSearch(false)} />
 
     
     <BottomBarCarousel />

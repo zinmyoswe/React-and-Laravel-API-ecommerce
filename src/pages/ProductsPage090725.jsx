@@ -8,7 +8,6 @@ import qs from 'qs';
 function ProductsPage() {
   const location = useLocation();
   const query = qs.parse(location.search, { ignoreQueryPrefix: true });
-  const searchKeyword = query.search || '';
 
   // Helper to get gender from pathname or query
   const getGenderFromPath = () => {
@@ -27,7 +26,6 @@ function ProductsPage() {
     clothingSize: [],
     shoeSize: [],
     color: [],
-    search: query.search || '', // ✅ ADD THIS
   });
 
   const [products, setProducts] = useState([]);
@@ -49,7 +47,6 @@ function ProductsPage() {
       ...prev,
       gender: getGenderFromPath(),
       subcategory_id: query.subcategory_id || '',
-      search: query.search || '', // ✅ Sync search keyword
       // Optionally sync other filters from query here if you want
     }));
   }, [location.pathname, location.search]);
@@ -89,7 +86,6 @@ function ProductsPage() {
       sizevalue: sizevalue.length > 0 ? sizevalue : undefined,
       color: filters.color.length > 0 ? filters.color : undefined,
       sort: sortOption || undefined,
-      search: filters.search || undefined, // ✅ Pass search keyword to backend
     };
 
     console.log('Fetching products with filters:', apiFilters);
@@ -131,60 +127,49 @@ function ProductsPage() {
 
   return (
     <div className="p-4 md:mx-10">
-  {/* Top Row: Search keyword (left) + Controls (right) */}
-  <div className="flex items-center justify-between mb-4 flex-wrap gap-4">
-    
-    {/* Left side: Search keyword */}
-    <div className="text-lg font-semibold text-dark">
-      {searchKeyword && (
-        <span>
-          Search results for "<span className="text-black italic">{searchKeyword}</span>"
-        </span>
-      )}
-    </div>
+      {/* Controls */}
+      <div className="flex items-center justify-end mb-4 gap-4 flex-wrap">
+        
+       <button
+  onClick={() => setShowFilter(!showFilter)}
+  className="px-4 py-2 flex items-center gap-2"
+>
+  <svg
+    aria-hidden="true"
+    className="icon-filter-ds"
+    focusable="false"
+    viewBox="0 0 24 24"
+    role="img"
+    width="24px"
+    height="24px"
+    fill="none"
+  >
+    <path stroke="currentColor" strokeWidth="1.5" d="M21 8.25H10m-5.25 0H3"></path>
+    <path stroke="currentColor" strokeWidth="1.5" d="M7.5 6v0a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z" clipRule="evenodd"></path>
+    <path stroke="currentColor" strokeWidth="1.5" d="M3 15.75h10.75m5 0H21"></path>
+    <path stroke="currentColor" strokeWidth="1.5" d="M16.5 13.5v0a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z" clipRule="evenodd"></path>
+  </svg>
+  {showFilter ? 'Hide Filters' : 'Show Filters'}
+</button>
 
-    {/* Right side: Controls */}
-    <div className="flex items-center gap-4 flex-wrap">
-      <button
-        onClick={() => setShowFilter(!showFilter)}
-        className="px-4 py-2 flex items-center gap-2"
-      >
-        <svg
-          aria-hidden="true"
-          className="icon-filter-ds"
-          focusable="false"
-          viewBox="0 0 24 24"
-          role="img"
-          width="24px"
-          height="24px"
-          fill="none"
-        >
-          <path stroke="currentColor" strokeWidth="1.5" d="M21 8.25H10m-5.25 0H3"></path>
-          <path stroke="currentColor" strokeWidth="1.5" d="M7.5 6v0a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z" clipRule="evenodd"></path>
-          <path stroke="currentColor" strokeWidth="1.5" d="M3 15.75h10.75m5 0H21"></path>
-          <path stroke="currentColor" strokeWidth="1.5" d="M16.5 13.5v0a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z" clipRule="evenodd"></path>
-        </svg>
-        {showFilter ? 'Hide Filters' : 'Show Filters'}
-      </button>
-
-      <div className="flex items-center">
-        <label htmlFor="sort" className="text-sm font-medium mr-2">
-          {/* Sort by: */}
-        </label>
-        <select
-          id="sort"
-          value={sortOption}
-          onChange={e => setSortOption(e.target.value)}
-          className=" px-1 py-1"
-        >
-          <option value="">Sort By</option>
-          <option value="price_asc">Price: Low to High</option>
-          <option value="price_desc">Price: High to Low</option>
-          <option value="newest">Newest</option>
-        </select>
+        <div className="flex items-center">
+          <label htmlFor="sort" className="text-sm font-medium mr-2">
+            Sort by:
+          </label>
+          <select
+            id="sort"
+            value={sortOption}
+            onChange={e => setSortOption(e.target.value)}
+            className="border border-gray-50 rounded-md px-3 py-2"
+          >
+            <option value="">Featured</option>
+            <option value="price_asc">Price: Low to High</option>
+            <option value="price_desc">Price: High to Low</option>
+            <option value="newest">Newest</option>
+          </select>
+        </div>
       </div>
-    </div>
-  </div>
+
       <div className={`grid gap-4 ${showFilter ? 'grid-cols-1 md:grid-cols-5' : 'grid-cols-1 md:grid-cols-4'}`}>
         {/* Sidebar */}
         {showFilter && (

@@ -118,7 +118,11 @@ const RegisterPage = () => {
   return (
     <div className="min-h-[70vh] flex items-center justify-center">
       <div className="w-full max-w-md bg-white p-8">
-        <h2 className="text-3xl font-bold text-center text-zinc-800 mb-6">Join Us</h2>
+        <h2 className="text-3xl font-bold text-center text-zinc-800 mb-6 ml-28">
+           <img src="https://images.ctfassets.net/wr0no19kwov9/5qUZljphHJa9o7cebRTaFY/4d5173898d5962f58c68325de0f6921b/brand-kit-symbol-image-09.png?fm=webp&w=3840&q=70"
+      width="150"
+    />
+        </h2>
         {submitError && <div className="text-red-500 text-center mb-4">{submitError}</div>}
         <form onSubmit={handleRegister} className="space-y-4">
 

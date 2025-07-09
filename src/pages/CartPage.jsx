@@ -192,7 +192,8 @@ function CartPage() {
                 <span>${grandTotal.toFixed(2)}</span>
               </div>
               <hr />
-              <button
+              
+              {/* <button
                 className={`w-full py-4 rounded-full ${
                   token
                     ? 'bg-zinc-800 text-white cursor-not-allowed'
@@ -204,7 +205,16 @@ function CartPage() {
                 disabled={!!token} // ✅ disable if user is logged in
               >
                 Guest Checkout
-              </button>
+              </button> */}
+
+              {!token && (
+                  <button
+                    className="w-full py-4 rounded-full bg-zinc-900 text-white hover:bg-zinc-800"
+                    onClick={() => navigate('/guest-shipping')}
+                  >
+                    Guest Checkout
+                  </button>
+                )}
               <button
                   className="w-full bg-zinc-900 text-white py-4 rounded-full hover:bg-zinc-800"
                   onClick={() => {
