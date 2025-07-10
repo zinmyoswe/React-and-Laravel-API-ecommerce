@@ -17,6 +17,7 @@ import HomePage from './pages/HomePage';
 import './assets/css/flag-icons.min.css';
 import Footer from './components/Footer ';
 import MyFavourite from './pages/MyFavourite';
+import OrderItem from './pages/OrderItem';
 
 
 
@@ -47,6 +48,7 @@ function App() {
           path="/my-orders"
           element={token ? <MyOrders /> : <Navigate to="/login" replace />}
         />
+        <Route path="/orderitem/:orderId" element={<OrderItem />} />
         <Route path="/men" element={<ProductsPage genderFilter="Men" />} />
         <Route path="/women" element={<ProductsPage genderFilter="Women" />} />
         <Route path="/kids" element={<ProductsPage genderFilter="Kid" />} />

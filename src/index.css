@@ -130,6 +130,13 @@ html, body, p {
   font-family: "AdihausDIN", sans-serif;
 }
 
+/* html, body{
+  font-family: 'Helvetica Now Display Medium', Helvetica, Arial, sans-serif;
+} 
+p{
+  font-family: 'Helvetica Now Text', Helvetica, Arial, sans-serif;;
+} */
+
 /* Super thin scrollbar - only thumb visible */
 .super-thin-scrollbar {
   

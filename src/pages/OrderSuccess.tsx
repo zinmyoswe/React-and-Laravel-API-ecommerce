@@ -51,7 +51,7 @@ export default function OrderSuccess() {
           Continue Shopping
         </Link>
         <Link
-          to="/orders"
+          to="/my-orders"
           className="bg-zinc-100 text-dark px-5 py-2 rounded-full hover:bg-zinc-200 transition"
         >
           View My Orders
