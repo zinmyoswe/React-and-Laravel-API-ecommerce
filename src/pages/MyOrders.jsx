@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';  // <-- Import Link
+import { Link } from 'react-router-dom';  
 import API_BASE_URL from '../config';
+
+const statusColors = {
+  paid:     { bg: 'bg-green-100',   text: 'text-green-800',   dot: 'bg-green-600' },
+  pending:  { bg: 'bg-yellow-100',  text: 'text-yellow-800',  dot: 'bg-yellow-600' },
+  cancelled:{ bg: 'bg-red-100',    text: 'text-red-800',     dot: 'bg-red-600' },
+  refunded: { bg: 'bg-purple-100', text: 'text-purple-800',  dot: 'bg-purple-600' },
+  shipping: { bg: 'bg-blue-100',   text: 'text-blue-800',    dot: 'bg-blue-600' },
+  complete: { bg: 'bg-pink-100',   text: 'text-pink-800',    dot: 'bg-pink-600' },
+};
 
 const MyOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -60,7 +69,6 @@ const MyOrders = () => {
 
   const getEstimatedDelivery = (createdAt, deliveryOption) => {
     const orderDate = new Date(createdAt);
-
     let startOffset, endOffset;
 
     if (deliveryOption === 'express') {
@@ -96,35 +104,59 @@ const MyOrders = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto mt-8 p-6 bg-white rounded shadow">
-      <h2 className="text-xl font-bold mb-4">My Orders</h2>
+    <div className="max-w-4xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-lg">
+      <h2 className="text-2xl font-bold mb-6 border-b pb-2">My Orders</h2>
       {orders.length === 0 ? (
-        <p>No orders yet.</p>
+        <p className="text-center text-gray-600">You have no orders yet.</p>
       ) : (
-        <ul className="space-y-4">
+        <ul className="space-y-6">
           {orders.map((order) => {
             const total = parseFloat(order.total) || 0;
             const shippingFee = parseFloat(order.shipping_fee) || 0;
             const grandTotal = (total + shippingFee).toFixed(2);
-
             const estimatedDelivery = getEstimatedDelivery(order.created_at, order.delivery_option);
 
+            const statusKey = order.status.toLowerCase();
+            const colors = statusColors[statusKey] || {
+              bg: 'bg-gray-100',
+              text: 'text-gray-800',
+              dot: 'bg-gray-600',
+            };
+
             return (
-              <li key={order.id} className="p-4 border rounded">
-                <p><strong>Order ID:</strong> {order.id}</p>
-                <p><strong>Total:</strong> ${total.toFixed(2)}</p>
-                <p><strong>Shipping Fee:</strong> ${shippingFee.toFixed(2)}</p>
-                <p><strong>Grand Total:</strong> ${grandTotal}</p>
-                <p><strong>Status:</strong> {order.status}</p>
-                <p><strong>Payment:</strong> {order.payment_method}</p>
-                <p><strong>Placed on:</strong> {new Date(order.created_at).toLocaleString()}</p>
-                <p><strong>Estimated Delivery:</strong> {estimatedDelivery}</p>
-                <Link
-                  to={`/orderitem/${order.id}`}
-                  className="inline-block mt-2 text-blue-600 hover:underline"
-                >
-                  View Details
-                </Link>
+              <li
+                key={order.id}
+                className="flex flex-col md:flex-row md:items-center md:justify-between p-6 border rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
+              >
+                <div className="space-y-1 md:w-4/6">
+                  <p className="text-sm text-gray-500"><span className="font-semibold">Order ID:</span> {order.id}</p>
+                  <p className="text-sm"><span className="font-semibold">Placed on:</span> {new Date(order.created_at).toLocaleString()}</p>
+                  <p className="text-sm"><span className="font-semibold">Estimated Delivery:</span> {estimatedDelivery}</p>
+
+                  <div className="mt-2 flex flex-wrap gap-4 text-sm text-gray-700">
+                    <p><span className="font-semibold">Total:</span> ${total.toFixed(2)}</p>
+                    <p><span className="font-semibold">Shipping Fee:</span> ${shippingFee.toFixed(2)}</p>
+                    <p><span className="font-semibold">Grand Total:</span> ${grandTotal}</p>
+                    <p><span className="font-semibold">Payment:</span> {order.payment_method}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between md:justify-end md:w-2/6 mt-4 md:mt-0">
+                  <span
+                    className={`inline-flex items-center px-3 py-1 rounded-full ${colors.bg} ${colors.text} text-sm font-semibold`}
+                  >
+                    <span className={`w-2 h-2 mr-2 rounded-full ${colors.dot}`}></span>
+                    {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                  </span>
+
+                  <Link
+                    to={`/orderitem/${order.id}`}
+                    className="ml-4 px-4 py-2 border border-zinc-900 text-dark rounded-full hover:bg-zinc-100 transition"
+                    style={{ whiteSpace: 'nowrap' }}
+                  >
+                    View Details
+                  </Link>
+                </div>
               </li>
             );
           })}

@@ -115,6 +115,13 @@ const OrderInvoice = ({ order }) => {
 
         {/* Order Info */}
         <View style={styles.section}>
+            <Text>
+  <Text style={styles.boldLabel}>CustomerName:</Text> {order.user?.name || 'Guest'}
+</Text>
+<Text>
+  <Text style={styles.boldLabel}>Email:</Text> {order.user?.email}
+</Text>
+
           <Text><Text style={styles.boldLabel}>Placed on:</Text> {new Date(order.created_at).toLocaleString()}</Text>
           <Text><Text style={styles.boldLabel}>Status:</Text> {order.status}</Text>
           <Text><Text style={styles.boldLabel}>Payment Method:</Text> {order.payment_method}</Text>
@@ -124,7 +131,7 @@ const OrderInvoice = ({ order }) => {
 
         {/* Items */}
         <View style={styles.section}>
-          <Text style={styles.itemHeader}>Order Items</Text>
+          {/* <Text style={styles.itemHeader}>Order Items</Text> */}
           {order.items.map((item) => (
             <View key={item.id} style={styles.itemRow}>
               <Image src={item.product.productimage} style={styles.image} />
