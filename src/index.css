@@ -126,22 +126,22 @@
        url("/public/fonts/PalatinoLTPro-Light.ttf") format('truetype');
 }
 
-html, body, p {
+/* html, body, p {
   font-family: "AdihausDIN", sans-serif;
-}
+} */
 
-/* html, body{
+html, body{
   font-family: 'Helvetica Now Display Medium', Helvetica, Arial, sans-serif;
 } 
 p{
   font-family: 'Helvetica Now Text', Helvetica, Arial, sans-serif;;
-} */
+}
 
 /* Super thin scrollbar - only thumb visible */
 .super-thin-scrollbar {
   
   scrollbar-width: thin;             /* Firefox */
-  scrollbar-color: #000 transparent; /* Firefox */
+  scrollbar-color: #f5f5f5 transparent; /* Firefox */
 }
 
 /* WebKit (Chrome, Edge, Safari) */

@@ -130,7 +130,11 @@ function ProductsPage() {
   };
 
   return (
-    <div className="p-4 md:mx-10">
+    <div className="p-4 md:mx-10"
+      style={{
+        fontFamily: `'Helvetica Now Display Medium', Helvetica, Arial, sans-serif;`
+            }}
+    >
   {/* Top Row: Search keyword (left) + Controls (right) */}
   <div className="flex items-center justify-between mb-4 flex-wrap gap-4">
     
@@ -191,7 +195,7 @@ function ProductsPage() {
           <div className="col-span-1">
             {/* Subcategory Filter */}
             <div className="mb-4">
-              <button
+              {/* <button
                 onClick={() => setFilters({
                   subcategory_id: '',
                   gender: [],
@@ -204,30 +208,39 @@ function ProductsPage() {
               >
                 Home
               </button>
-              
+               */}
               {subcategories.map(sub => (
                 <div
-  key={sub.subcategoryid}
-  onClick={() => handleSubcategoryClick(sub.subcategoryid)}
-  className={`cursor-pointer px-2 py-1 rounded
-    ${filters.subcategory_id === sub.subcategoryid
-      ? ' text-dark font-semibold underline'
-      : 'hover:underline'}`}
->
-  {sub.subcategoryname}
-</div>
+                key={sub.subcategoryid}
+                onClick={() => handleSubcategoryClick(sub.subcategoryid)}
+                className={`cursor-pointer px-2 py-1 rounded
+                  ${filters.subcategory_id === sub.subcategoryid
+                    ? ' text-dark font-semibold'
+                    : ''}`}
+                
+                style={{
+                    fontFamily: `'Helvetica Now Text Medium', Helvetica, Arial, sans-serif`
+                  }}
+              >
+                {sub.subcategoryname}
+              </div>
 
               ))}
             </div>
 
             {/* Accordion Sections */}
             {['gender', 'price', 'clothingSize', 'shoeSize', 'color'].map(section => (
-              <div key={section} className="mb-4">
+              <div key={section} className="mb-6 pb-4 border-b border-gray-200">
                 <div
                   className="flex justify-between items-center cursor-pointer"
                   onClick={() => toggleAccordion(section)}
                 >
-                  <h3 className="font-semibold">
+                  <h3 className="font-semibold"
+                    style={{
+                      fontFamily: `'Helvetica Now Text Medium',Helvetica,Arial,sans-serif`,
+                      fontWeight: 400
+                    }}
+                  >
                     {section === 'price' ? 'Shop by Price' :
                       section === 'clothingSize' ? 'Clothing Sizes' :
                       section === 'shoeSize' ? 'Shoe Sizes' :
@@ -236,7 +249,12 @@ function ProductsPage() {
                   <FontAwesomeIcon icon={accordion[section] ? faChevronUp : faChevronDown} />
                 </div>
                 {accordion[section] && (
-                  <div className="mt-2 space-y-1">
+                  <div className="mt-2 space-y-1 "
+                     style={{
+                        fontFamily: `'Helvetica Now Text', Helvetica, Arial, sans-serif`,
+                        fontWeight: 400
+                      }}
+                  >
                     {{
                       gender: ['Men', 'Women', 'Kid'],
                       price: ['under_50', '50_100', '101_199', 'over_200'],
@@ -247,7 +265,7 @@ function ProductsPage() {
                         'US M 10 / W 11.5', 'US M 10.5 / W 12', 'US M 11 / W 12.5', 'US M 11.5 / W 13',
                         'US M 12 / W 13.5', 'US M 13 / W 14.5'
                       ],
-                      color: ['Black', 'White', 'Violet', 'DarkGray', 'Gray', 'Navy', 'Yellow', 'Rose', 'Brown']
+                      color: ['Black', 'White', 'Violet', 'DarkGray', 'Gray', 'Navy', 'Yellow', 'Red' , 'Rose', 'Brown']
                     }[section].map(value => {
                       const label = section === 'price'
                         ? {
@@ -258,12 +276,13 @@ function ProductsPage() {
                         }[value]
                         : value;
                       return (
-                        <label key={value} className="flex items-center cursor-pointer select-none">
+                        <label key={value} className="flex items-center cursor-pointer select-none hover:text-gray-400">
                           <input
                             type="checkbox"
                             checked={(filters[section] || []).includes(value)}
                             onChange={() => handleCheckboxChange(section, value)}
-                            className="mr-2 accent-black cursor-pointer"
+                            className="mr-2 accent-black cursor-pointer "
+                            style={{ width: '19px', height: '19px' }}
                           />
                           {label}
                         </label>
@@ -298,7 +317,7 @@ function ProductsPage() {
                     <img
                       src={p.productimage}
                       alt={p.productname}
-                      className="w-full h-[395px] object-fill rounded mb-4"
+                      className={`w-full h-[395px]  ${showFilter ? ' md:h-[395px]' : ' md:h-[495px]'} object-fill rounded mb-4`}
                     />
                   </Link>
                   <Link to={`/product/${p.productid}`}>

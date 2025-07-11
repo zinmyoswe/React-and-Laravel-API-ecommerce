@@ -15,7 +15,6 @@ const SearchModal = ({ show, onClose }) => {
         axios
           .get(`${API_BASE_URL}/api/search/products?q=${query}`)
           .then((res) => {
-            console.log('API response:', res.data);
             setSuggestions(res.data.products || []);
           })
           .catch((err) => {
@@ -25,7 +24,7 @@ const SearchModal = ({ show, onClose }) => {
       } else {
         setSuggestions([]);
       }
-    }, 300); // debounce
+    }, 300);
 
     return () => clearTimeout(delayDebounce);
   }, [query]);
@@ -33,58 +32,86 @@ const SearchModal = ({ show, onClose }) => {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       navigate(`/products?search=${query}`);
+      setQuery('');
+      setSuggestions([]);
       onClose();
     }
+  };
+
+  const handleSearchLinkClick = (term) => {
+    setQuery('');
+    setSuggestions([]);
+    onClose();
+    navigate(`/products?search=${encodeURIComponent(term)}`);
   };
 
   if (!show) return null;
 
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-start top-0">
-      <div className="bg-white w-full md:h-[500px] h-full p-4 relative overflow-y-auto">
+      <div className="bg-white w-full md:h-[570px] h-full p-4 relative overflow-y-auto">
+        {/* Header */}
         <div className="flex items-center justify-between px-4">
-         {/* Logo */}
-<div className="w-2/12 text-xl font-bold">
-    <img src="https://images.ctfassets.net/wr0no19kwov9/5qUZljphHJa9o7cebRTaFY/4d5173898d5962f58c68325de0f6921b/brand-kit-symbol-image-09.png?fm=webp&w=3840&q=70"
-      width="100"
-    />
-  
-</div>
+          {/* Logo */}
+          <div className="w-2/12 text-xl font-bold">
+            <svg aria-hidden="true" className="swoosh-svg" focusable="false" viewBox="0 0 24 24" role="img" width="79" height="79" fill="none">
+              <path fill="currentColor" fillRule="evenodd" d="M21 8.719L7.836 14.303C6.74 14.768 5.818 15 5.075 15c-.836 0-1.445-.295-1.819-.884-.485-.76-.273-1.982.559-3.272.494-.754 1.122-1.446 1.734-2.108-.144.234-1.415 2.349-.025 3.345.275.2.666.298 1.147.298.386 0 .829-.063 1.316-.19L21 8.719z" clipRule="evenodd" />
+            </svg>
+          </div>
 
-{/* Search input with SVG inside */}
-<div className="w-8/12 relative">
-  <svg
-    aria-hidden="true"
-    focusable="false"
-    viewBox="0 0 24 24"
-    role="img"
-    width="23"
-    height="23"
-    fill="none"
-    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-950 pointer-events-none"
-  >
-    <path
-      stroke="currentColor"
-      strokeWidth="1.5"
-      d="M13.962 16.296a6.716 6.716 0 01-3.462.954 6.728 6.728 0 01-4.773-1.977A6.728 6.728 0 013.75 10.5c0-1.864.755-3.551 1.977-4.773A6.728 6.728 0 0110.5 3.75c1.864 0 3.551.755 4.773 1.977A6.728 6.728 0 0117.25 10.5a6.726 6.726 0 01-.921 3.407c-.517.882-.434 1.988.289 2.711l3.853 3.853"
-    ></path>
-  </svg>
+          {/* Search Input */}
+          <div className="w-8/12 relative">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              viewBox="0 0 24 24"
+              role="img"
+              width="23"
+              height="23"
+              fill="none"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-950 pointer-events-none"
+            >
+              <path
+                stroke="currentColor"
+                strokeWidth="1.5"
+                d="M13.962 16.296a6.716 6.716 0 01-3.462.954 6.728 6.728 0 01-4.773-1.977A6.728 6.728 0 013.75 10.5c0-1.864.755-3.551 1.977-4.773A6.728 6.728 0 0110.5 3.75c1.864 0 3.551.755 4.773 1.977A6.728 6.728 0 0117.25 10.5a6.726 6.726 0 01-.921 3.407c-.517.882-.434 1.988.289 2.711l3.853 3.853"
+              />
+            </svg>
 
-  <input
-    // autoFocus
-    type="text"
-    className="w-full border border-gray-300 rounded-full bg-[#f5f5f5] p-2 pl-10 text-lg" // pl-10 for left padding to make space for icon
-    placeholder="Search products..."
-    value={query}
-    onChange={(e) => setQuery(e.target.value)}
-    onKeyDown={handleKeyDown}
-  />
-</div>
+            <input
+              type="text"
+              className="w-full border rounded-full bg-[#f5f5f5] p-1 pl-10 text-lg"
+              placeholder="Search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+          </div>
 
-{/* Close button */}
-<div className="w-2/12 text-right">
-  <button onClick={onClose} className="text-2xl font-bold">✕</button>
-</div>
+          {/* Close Button */}
+          <div className="w-2/12 text-right">
+            <button onClick={onClose} className="text-2xl font-bold">✕</button>
+          </div>
+        </div>
+
+        {/* Popular Search Terms */}
+        <div className="flex items-center justify-between px-4" style={{ fontFamily: `'Helvetica Now Text Medium',Helvetica,Arial,sans-serif`, fontWeight: 500 }}>
+          <div className="w-2/12"></div>
+          <div className="w-8/12 relative">
+            <p className="text-[#707072] mt-2 mb-4">Popular Search Terms</p>
+            <div className="flex flex-row gap-2">
+              {['jordan', 'Nike Air', 'sportswear', 'tshirt', 'jacket'].map(term => (
+                <button
+                  key={term}
+                  onClick={() => handleSearchLinkClick(term)}
+                  className="bg-[#f5f5f5] py-[6px] px-[16px] rounded-full"
+                >
+                  {term}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="w-2/12"></div>
         </div>
 
         {/* Suggestions */}
@@ -93,8 +120,10 @@ const SearchModal = ({ show, onClose }) => {
             <div
               key={product.productid}
               onClick={() => {
-                navigate(`/product/${product.productid}`);
+                setQuery('');
+                setSuggestions([]);
                 onClose();
+                navigate(`/product/${product.productid}`);
               }}
               className="cursor-pointer"
             >

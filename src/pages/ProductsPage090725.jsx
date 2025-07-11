@@ -8,6 +8,7 @@ import qs from 'qs';
 function ProductsPage() {
   const location = useLocation();
   const query = qs.parse(location.search, { ignoreQueryPrefix: true });
+  const searchKeyword = query.search || '';
 
   // Helper to get gender from pathname or query
   const getGenderFromPath = () => {
@@ -26,6 +27,7 @@ function ProductsPage() {
     clothingSize: [],
     shoeSize: [],
     color: [],
+    search: query.search || '', // ✅ ADD THIS
   });
 
   const [products, setProducts] = useState([]);
@@ -47,6 +49,7 @@ function ProductsPage() {
       ...prev,
       gender: getGenderFromPath(),
       subcategory_id: query.subcategory_id || '',
+      search: query.search || '', // ✅ Sync search keyword
       // Optionally sync other filters from query here if you want
     }));
   }, [location.pathname, location.search]);
@@ -86,6 +89,7 @@ function ProductsPage() {
       sizevalue: sizevalue.length > 0 ? sizevalue : undefined,
       color: filters.color.length > 0 ? filters.color : undefined,
       sort: sortOption || undefined,
+      search: filters.search || undefined, // ✅ Pass search keyword to backend
     };
 
     console.log('Fetching products with filters:', apiFilters);
@@ -126,50 +130,65 @@ function ProductsPage() {
   };
 
   return (
-    <div className="p-4 md:mx-10">
-      {/* Controls */}
-      <div className="flex items-center justify-end mb-4 gap-4 flex-wrap">
-        
-       <button
-  onClick={() => setShowFilter(!showFilter)}
-  className="px-4 py-2 flex items-center gap-2"
->
-  <svg
-    aria-hidden="true"
-    className="icon-filter-ds"
-    focusable="false"
-    viewBox="0 0 24 24"
-    role="img"
-    width="24px"
-    height="24px"
-    fill="none"
-  >
-    <path stroke="currentColor" strokeWidth="1.5" d="M21 8.25H10m-5.25 0H3"></path>
-    <path stroke="currentColor" strokeWidth="1.5" d="M7.5 6v0a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z" clipRule="evenodd"></path>
-    <path stroke="currentColor" strokeWidth="1.5" d="M3 15.75h10.75m5 0H21"></path>
-    <path stroke="currentColor" strokeWidth="1.5" d="M16.5 13.5v0a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z" clipRule="evenodd"></path>
-  </svg>
-  {showFilter ? 'Hide Filters' : 'Show Filters'}
-</button>
+    <div className="p-4 md:mx-10"
+      style={{
+        fontFamily: `'Helvetica Now Display Medium', Helvetica, Arial, sans-serif;`
+            }}
+    >
+  {/* Top Row: Search keyword (left) + Controls (right) */}
+  <div className="flex items-center justify-between mb-4 flex-wrap gap-4">
+    
+    {/* Left side: Search keyword */}
+    <div className="text-lg font-semibold text-dark">
+      {searchKeyword && (
+        <span>
+          Search results for "<span className="text-black italic">{searchKeyword}</span>"
+        </span>
+      )}
+    </div>
 
-        <div className="flex items-center">
-          <label htmlFor="sort" className="text-sm font-medium mr-2">
-            Sort by:
-          </label>
-          <select
-            id="sort"
-            value={sortOption}
-            onChange={e => setSortOption(e.target.value)}
-            className="border border-gray-50 rounded-md px-3 py-2"
-          >
-            <option value="">Featured</option>
-            <option value="price_asc">Price: Low to High</option>
-            <option value="price_desc">Price: High to Low</option>
-            <option value="newest">Newest</option>
-          </select>
-        </div>
+    {/* Right side: Controls */}
+    <div className="flex items-center gap-4 flex-wrap">
+      <button
+        onClick={() => setShowFilter(!showFilter)}
+        className="px-4 py-2 flex items-center gap-2"
+      >
+        <svg
+          aria-hidden="true"
+          className="icon-filter-ds"
+          focusable="false"
+          viewBox="0 0 24 24"
+          role="img"
+          width="24px"
+          height="24px"
+          fill="none"
+        >
+          <path stroke="currentColor" strokeWidth="1.5" d="M21 8.25H10m-5.25 0H3"></path>
+          <path stroke="currentColor" strokeWidth="1.5" d="M7.5 6v0a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z" clipRule="evenodd"></path>
+          <path stroke="currentColor" strokeWidth="1.5" d="M3 15.75h10.75m5 0H21"></path>
+          <path stroke="currentColor" strokeWidth="1.5" d="M16.5 13.5v0a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z" clipRule="evenodd"></path>
+        </svg>
+        {showFilter ? 'Hide Filters' : 'Show Filters'}
+      </button>
+
+      <div className="flex items-center">
+        <label htmlFor="sort" className="text-sm font-medium mr-2">
+          {/* Sort by: */}
+        </label>
+        <select
+          id="sort"
+          value={sortOption}
+          onChange={e => setSortOption(e.target.value)}
+          className=" px-1 py-1"
+        >
+          <option value="">Sort By</option>
+          <option value="price_asc">Price: Low to High</option>
+          <option value="price_desc">Price: High to Low</option>
+          <option value="newest">Newest</option>
+        </select>
       </div>
-
+    </div>
+  </div>
       <div className={`grid gap-4 ${showFilter ? 'grid-cols-1 md:grid-cols-5' : 'grid-cols-1 md:grid-cols-4'}`}>
         {/* Sidebar */}
         {showFilter && (
@@ -192,27 +211,36 @@ function ProductsPage() {
               
               {subcategories.map(sub => (
                 <div
-  key={sub.subcategoryid}
-  onClick={() => handleSubcategoryClick(sub.subcategoryid)}
-  className={`cursor-pointer px-2 py-1 rounded
-    ${filters.subcategory_id === sub.subcategoryid
-      ? ' text-dark font-semibold underline'
-      : 'hover:underline'}`}
->
-  {sub.subcategoryname}
-</div>
+                key={sub.subcategoryid}
+                onClick={() => handleSubcategoryClick(sub.subcategoryid)}
+                className={`cursor-pointer px-2 py-1 rounded
+                  ${filters.subcategory_id === sub.subcategoryid
+                    ? ' text-dark font-semibold'
+                    : ''}`}
+                
+                style={{
+                    fontFamily: `'Helvetica Now Text Medium', Helvetica, Arial, sans-serif`
+                  }}
+              >
+                {sub.subcategoryname}
+              </div>
 
               ))}
             </div>
 
             {/* Accordion Sections */}
             {['gender', 'price', 'clothingSize', 'shoeSize', 'color'].map(section => (
-              <div key={section} className="mb-4">
+              <div key={section} className="mb-6 pb-4 border-b border-gray-200">
                 <div
                   className="flex justify-between items-center cursor-pointer"
                   onClick={() => toggleAccordion(section)}
                 >
-                  <h3 className="font-semibold">
+                  <h3 className="font-semibold"
+                    style={{
+                      fontFamily: `'Helvetica Now Text Medium',Helvetica,Arial,sans-serif`,
+                      fontWeight: 400
+                    }}
+                  >
                     {section === 'price' ? 'Shop by Price' :
                       section === 'clothingSize' ? 'Clothing Sizes' :
                       section === 'shoeSize' ? 'Shoe Sizes' :
@@ -221,7 +249,12 @@ function ProductsPage() {
                   <FontAwesomeIcon icon={accordion[section] ? faChevronUp : faChevronDown} />
                 </div>
                 {accordion[section] && (
-                  <div className="mt-2 space-y-1">
+                  <div className="mt-2 space-y-1 "
+                     style={{
+                        fontFamily: `'Helvetica Now Text', Helvetica, Arial, sans-serif`,
+                        fontWeight: 400
+                      }}
+                  >
                     {{
                       gender: ['Men', 'Women', 'Kid'],
                       price: ['under_50', '50_100', '101_199', 'over_200'],
@@ -232,7 +265,7 @@ function ProductsPage() {
                         'US M 10 / W 11.5', 'US M 10.5 / W 12', 'US M 11 / W 12.5', 'US M 11.5 / W 13',
                         'US M 12 / W 13.5', 'US M 13 / W 14.5'
                       ],
-                      color: ['Black', 'White', 'Violet', 'DarkGray', 'Gray', 'Navy', 'Yellow', 'Rose', 'Brown']
+                      color: ['Black', 'White', 'Violet', 'DarkGray', 'Gray', 'Navy', 'Yellow', 'Red' , 'Rose', 'Brown']
                     }[section].map(value => {
                       const label = section === 'price'
                         ? {
@@ -243,12 +276,13 @@ function ProductsPage() {
                         }[value]
                         : value;
                       return (
-                        <label key={value} className="flex items-center cursor-pointer select-none">
+                        <label key={value} className="flex items-center cursor-pointer select-none hover:text-gray-400">
                           <input
                             type="checkbox"
                             checked={(filters[section] || []).includes(value)}
                             onChange={() => handleCheckboxChange(section, value)}
-                            className="mr-2 accent-black cursor-pointer"
+                            className="mr-2 accent-black cursor-pointer "
+                            style={{ width: '19px', height: '19px' }}
                           />
                           {label}
                         </label>

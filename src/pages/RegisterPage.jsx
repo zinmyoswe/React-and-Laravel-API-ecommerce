@@ -118,10 +118,10 @@ const RegisterPage = () => {
   return (
     <div className="min-h-[70vh] flex items-center justify-center">
       <div className="w-full max-w-md bg-white p-8">
-        <h2 className="text-3xl font-bold text-center text-zinc-800 mb-6 ml-28">
-           <img src="https://images.ctfassets.net/wr0no19kwov9/5qUZljphHJa9o7cebRTaFY/4d5173898d5962f58c68325de0f6921b/brand-kit-symbol-image-09.png?fm=webp&w=3840&q=70"
-      width="150"
-    />
+        <h2 className="text-3xl font-bold text-center text-zinc-800 mb-6 ml-36">
+            <svg aria-hidden="true" class="swoosh-svg" focusable="false" viewBox="0 0 24 24" role="img" width="99" height="99" fill="none">
+              <path fill="currentColor" fill-rule="evenodd" d="M21 8.719L7.836 14.303C6.74 14.768 5.818 15 5.075 15c-.836 0-1.445-.295-1.819-.884-.485-.76-.273-1.982.559-3.272.494-.754 1.122-1.446 1.734-2.108-.144.234-1.415 2.349-.025 3.345.275.2.666.298 1.147.298.386 0 .829-.063 1.316-.19L21 8.719z" clip-rule="evenodd"></path>
+            </svg>
         </h2>
         {submitError && <div className="text-red-500 text-center mb-4">{submitError}</div>}
         <form onSubmit={handleRegister} className="space-y-4">

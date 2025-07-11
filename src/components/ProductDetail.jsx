@@ -166,12 +166,12 @@ const handleAddToFavourite = async () => {
         </div>
 
         <div className="text-sm space-y-1 text-gray-600">
-          <p><strong>Product ID:</strong> {product.productid}</p>
+          {/* <p><strong>Product ID:</strong> {product.productid}</p>
           <p><strong>Category:</strong> {product.category?.categoryname}</p>
-          <p><strong>Subcategory:</strong> {product.subcategory?.subcategoryname}</p>
+          <p><strong>Subcategory:</strong> {product.subcategory?.subcategoryname}</p> */}
           <p><strong>Color:</strong> {product.color}</p>
-          <p><strong>Gender:</strong> {product.gender}</p>
-          <p><strong>Stock:</strong> {product.stock}</p>
+          {/* <p><strong>Gender:</strong> {product.gender}</p>
+          <p><strong>Stock:</strong> {product.stock}</p> */}
         </div>
 
         

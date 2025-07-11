@@ -20,7 +20,7 @@ const ProductThumbnailSlider = () => {
     const fetchProducts = async () => {
       try {
         const res = await axios.get(`${API_BASE_URL}/api/products`, {
-          params: { gender: 'Men', sort: 'asc', limit: 12 },
+          params: { gender: 'Unisex', sort: 'asc', limit: 12 },
         });
         setProducts(res.data);
 
