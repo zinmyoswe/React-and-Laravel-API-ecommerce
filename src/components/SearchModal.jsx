@@ -1,4 +1,3 @@
-// components/SearchModal.jsx
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -7,7 +6,15 @@ import API_BASE_URL from '../config';
 const SearchModal = ({ show, onClose }) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+  const [isClosing, setIsClosing] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!show) {
+      setQuery('');
+      setSuggestions([]);
+    }
+  }, [show]);
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
@@ -32,24 +39,42 @@ const SearchModal = ({ show, onClose }) => {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       navigate(`/products?search=${query}`);
-      setQuery('');
-      setSuggestions([]);
-      onClose();
+      handleClose();
     }
   };
 
   const handleSearchLinkClick = (term) => {
-    setQuery('');
-    setSuggestions([]);
-    onClose();
-    navigate(`/products?search=${encodeURIComponent(term)}`);
+    handleClose(() => {
+      navigate(`/products?search=${encodeURIComponent(term)}`);
+    });
   };
 
-  if (!show) return null;
+  const handleSuggestionClick = (productid) => {
+    handleClose(() => {
+      navigate(`/product/${productid}`);
+    });
+  };
+
+  const handleClose = (callback) => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsClosing(false);
+      setQuery('');
+      setSuggestions([]);
+      onClose();
+      if (callback) callback();
+    }, 300); // match transition duration
+  };
+
+  if (!show && !isClosing) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-start top-0">
-      <div className="bg-white w-full md:h-[570px] h-full p-4 relative overflow-y-auto">
+    <div
+      className={`fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-start top-0 transition-opacity duration-300 ${
+        isClosing ? 'opacity-0' : 'opacity-100'
+      }`}
+    >
+      <div className="bg-white w-full md:h-[500px] h-full p-4 relative overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between px-4">
           {/* Logo */}
@@ -90,14 +115,14 @@ const SearchModal = ({ show, onClose }) => {
 
           {/* Close Button */}
           <div className="w-2/12 text-right">
-            <button onClick={onClose} className="text-2xl font-bold">✕</button>
+            <button onClick={() => handleClose()} className="text-2xl font-bold">✕</button>
           </div>
         </div>
 
         {/* Popular Search Terms */}
-        <div className="flex items-center justify-between px-4" style={{ fontFamily: `'Helvetica Now Text Medium',Helvetica,Arial,sans-serif`, fontWeight: 500 }}>
+        <div className="flex items-center justify-between px-4 font-medium">
           <div className="w-2/12"></div>
-          <div className="w-8/12 relative">
+          <div className="w-8/12">
             <p className="text-[#707072] mt-2 mb-4">Popular Search Terms</p>
             <div className="flex flex-row gap-2">
               {['jordan', 'Nike Air', 'sportswear', 'tshirt', 'jacket'].map(term => (
@@ -119,12 +144,7 @@ const SearchModal = ({ show, onClose }) => {
           {suggestions.map(product => (
             <div
               key={product.productid}
-              onClick={() => {
-                setQuery('');
-                setSuggestions([]);
-                onClose();
-                navigate(`/product/${product.productid}`);
-              }}
+              onClick={() => handleSuggestionClick(product.productid)}
               className="cursor-pointer"
             >
               <img
