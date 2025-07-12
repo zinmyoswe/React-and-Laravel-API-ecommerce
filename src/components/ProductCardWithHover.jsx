@@ -78,7 +78,16 @@ function ProductCardWithHover({ product, showFilter }) {
 					fontWeight: 500
                   }}
           >{product.productname}</h3>
-          <p className="text-gray-600 mt-1">${product.price}</p>
+          <p className="text-zinc-900 mt-1">${product.price}</p>
+        {product.similar_products && product.similar_products.length > 0 ? (
+            !showThumbnails && (
+                <p className="mt-1 text-gray-500">
+                {product.similar_products.length + 1} Colours
+                </p>
+            )
+            ) : (
+            <p className="mt-1 text-gray-500">1 Colour</p>
+            )}
         </div>
       </Link>
       </div>
