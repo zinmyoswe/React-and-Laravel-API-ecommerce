@@ -94,7 +94,7 @@
   font-family: "Helvetica Now Text";
   font-style: normal;
   font-weight: 400;
-  src: url("/public/fonts/HelveticaNowText.woff2") format('woff2'),
+  src: url("/fonts/HelveticaNowText.woff2") format('woff2'),
        url("/public/fonts/HelveticaNowText.woff") format('woff'),
        url("/public/fonts/HelveticaNowText.ttf") format('truetype');
 }
@@ -112,7 +112,7 @@
   font-family: "Helvetica Now Display Medium";
   font-style: normal;
   font-weight: 400;
-  src: url("/public/fonts/HelveticaNowDisplayMedium.woff2") format('woff2'),
+  src: url("/fonts/HelveticaNowDisplayMedium.woff2") format('woff2'),
        url("/public/fonts/HelveticaNowDisplayMedium.woff") format('woff'),
        url("/public/fonts/HelveticaNowDisplayMedium.ttf") format('truetype');
 }

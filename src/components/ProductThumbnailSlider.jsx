@@ -96,11 +96,7 @@ const ProductThumbnailSlider = () => {
         <div className="flex items-center">
           <button
             onClick={scrollLeft}
-            disabled={!canScrollLeft}
-            className={`p-2 mr-2 rounded-full border bg-white z-10 transition-colors ${
-              canScrollLeft ? 'text-black hover:bg-gray-200 cursor-pointer' : 'text-gray-400 cursor-not-allowed'
-            }`}
-            aria-label="Scroll Left"
+            className="p-2 mr-2 rounded-full border bg-white z-10 text-black hover:bg-gray-200 cursor-pointer transition-colors"
           >
             <FontAwesomeIcon icon={faChevronLeft} />
           </button>
@@ -136,11 +132,7 @@ const ProductThumbnailSlider = () => {
 
           <button
             onClick={scrollRight}
-            disabled={!canScrollRight}
-            className={`p-2 ml-2 rounded-full border bg-white z-10 transition-colors ${
-              canScrollRight ? 'text-black hover:bg-gray-200 cursor-pointer' : 'text-gray-400 cursor-not-allowed'
-            }`}
-            aria-label="Scroll Right"
+            className="p-2 ml-2 rounded-full border bg-white z-10 text-black hover:bg-gray-200 cursor-pointer transition-colors"
           >
             <FontAwesomeIcon icon={faChevronRight} />
           </button>

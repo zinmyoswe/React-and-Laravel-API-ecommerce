@@ -49,7 +49,7 @@ function ProductCardWithHover({ product, showFilter }) {
         />
       </div>
 
-        <div className='h-[60px] md:h-[120px]'>
+        <div className='h-[80px] md:h-[120px]'>
       {/* Thumbnails row: only visible on hover of main image */}
       {showThumbnails && product.similar_products && product.similar_products.length > 0 && (
         <div className="flex  mb-4 overflow-x-auto px-1 gap-1">
