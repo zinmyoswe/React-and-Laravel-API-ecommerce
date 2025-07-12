@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import qs from 'qs';
+import ProductCardWithHover from '../components/ProductCardWithHover';
 
 function ProductsPage() {
   const location = useLocation();
@@ -312,24 +313,7 @@ function ProductsPage() {
               </div>
             ) : (
               products.map(p => (
-                <div key={p.productid} className="bg-white">
-                  <Link to={`/product/${p.productid}`}>
-                    <img
-                      src={p.productimage}
-                      alt={p.productname}
-                      className={`w-full h-[395px]  ${showFilter ? ' md:h-[395px]' : ' md:h-[495px]'} object-fill rounded mb-4`}
-                    />
-                  </Link>
-                  <Link to={`/product/${p.productid}`}>
-
-                  <div className='h-[60px] md:h-[80px]'>
-                    <h2 className="text-lg font-semibold hover:text-gray-900">{p.productname}</h2>
-                 
-                  <p className="text-gray-600 mt-1">${p.price}</p>
-
-                  </div>
-                   </Link>
-                </div>
+                <ProductCardWithHover key={p.productid} product={p} showFilter={showFilter} />
               ))
             )}
         </div>

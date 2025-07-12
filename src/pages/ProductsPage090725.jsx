@@ -195,7 +195,7 @@ function ProductsPage() {
           <div className="col-span-1">
             {/* Subcategory Filter */}
             <div className="mb-4">
-              <button
+              {/* <button
                 onClick={() => setFilters({
                   subcategory_id: '',
                   gender: [],
@@ -208,7 +208,7 @@ function ProductsPage() {
               >
                 Home
               </button>
-              
+               */}
               {subcategories.map(sub => (
                 <div
                 key={sub.subcategoryid}
@@ -317,7 +317,7 @@ function ProductsPage() {
                     <img
                       src={p.productimage}
                       alt={p.productname}
-                      className="w-full h-[395px] object-fill rounded mb-4"
+                      className={`w-full h-[395px]  ${showFilter ? ' md:h-[395px]' : ' md:h-[495px]'} object-fill rounded mb-4`}
                     />
                   </Link>
                   <Link to={`/product/${p.productid}`}>
