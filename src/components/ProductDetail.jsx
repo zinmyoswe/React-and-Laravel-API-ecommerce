@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getProductById } from '../services/productService';
 import { addToCart } from '../services/cartService';
 import { addToFavourite, getFavourites,removeFromFavourite  } from '../services/favouriteService';
+import { useCart } from '../context/CartContext';
 
 function ProductDetailPage() {
   const { id } = useParams();
@@ -17,6 +18,8 @@ function ProductDetailPage() {
   const [rootProductId, setRootProductId] = useState(null);
   const [isFavourited, setIsFavourited] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { fetchCart } = useCart(); // get fetchCart from context
+  
 
   
 
@@ -81,10 +84,11 @@ const handleAddToCart = async () => {
       clearTimeout(cartTimeoutRef.current);
     }
 
-    cartTimeoutRef.current = setTimeout(() => {
-    setShowModal(false);
-    navigate('/cart');
-  }, 10000);
+    cartTimeoutRef.current = setTimeout(async () => {
+  setShowModal(false);
+   await fetchCart(); 
+  navigate('/cart');  // ✅ reloads the page
+}, 4000);
   } catch (error) {
     console.error('Failed to add to cart:', error);
   }

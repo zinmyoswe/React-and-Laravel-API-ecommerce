@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProductById } from '../services/productService';
 import { addToCart } from '../services/cartService';
@@ -12,6 +12,7 @@ function ProductDetailPage() {
   const [selectedSize, setSelectedSize] = useState('');
   const [sizeError, setSizeError] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const cartTimeoutRef = useRef(null);
   const [relatedGroup, setRelatedGroup] = useState([]); // Holds fixed order of main + related
   const [rootProductId, setRootProductId] = useState(null);
   const [isFavourited, setIsFavourited] = useState(false);
@@ -44,14 +45,18 @@ function ProductDetailPage() {
       .catch((err) => console.error(err));
   };
 
-  useEffect(() => {
-    // If no root yet, this is initial load
-    if (!rootProductId) {
-      fetchProduct(id, true); // Initial load
-    } else {
-      fetchProduct(id); // Navigating inside group
-    }
-  }, [id]);
+  // useEffect(() => {
+  //   // If no root yet, this is initial load
+  //   if (!rootProductId) {
+  //     fetchProduct(id, true); // Initial load
+  //   } else {
+  //     fetchProduct(id); // Navigating inside group
+  //   }
+  // }, [id]);
+
+  
+
+
 
 
 
@@ -67,14 +72,25 @@ const handleAddToCart = async () => {
      setShowModal(true); // Show modal
 
     // Wait 4s before navigating
-    setTimeout(() => {
-      setShowModal(false);
-      navigate('/cart');
-    }, 10000);
+    // setTimeout(() => {
+    //   setShowModal(false);
+    //   navigate('/cart');
+    // }, 10000);
+    // ✅ Clear any old timeout before setting new one
+    if (cartTimeoutRef.current) {
+      clearTimeout(cartTimeoutRef.current);
+    }
+
+    cartTimeoutRef.current = setTimeout(() => {
+    setShowModal(false);
+    navigate('/cart');
+  }, 10000);
   } catch (error) {
     console.error('Failed to add to cart:', error);
   }
 };
+
+
 
 const handleAddToFavourite = async () => {
   const token = localStorage.getItem('token');
@@ -102,6 +118,36 @@ const handleAddToFavourite = async () => {
     setIsLoading(false); // stop loading
   }
 };
+
+useEffect(() => {
+  // ✅ Cancel redirect timeout on product change
+  if (cartTimeoutRef.current) {
+    clearTimeout(cartTimeoutRef.current);
+    cartTimeoutRef.current = null;
+  }
+
+  // ✅ Immediately close modal when navigating
+  setShowModal(false);
+
+  // ✅ Reset selected size and error
+  setSelectedSize('');
+  setSizeError('');
+
+  // ✅ Initial load vs group navigation
+  if (!rootProductId) {
+    fetchProduct(id, true); // Initial load
+  } else {
+    fetchProduct(id); // Internal similar product switch
+  }
+
+  // ✅ Cleanup on unmount or id change
+  return () => {
+    if (cartTimeoutRef.current) {
+      clearTimeout(cartTimeoutRef.current);
+      cartTimeoutRef.current = null;
+    }
+  };
+}, [id]);
 
 
 

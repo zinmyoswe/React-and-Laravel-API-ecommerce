@@ -18,7 +18,7 @@ import './assets/css/flag-icons.min.css';
 import Footer from './components/Footer ';
 import MyFavourite from './pages/MyFavourite';
 import OrderItem from './pages/OrderItem';
-
+import { CartProvider } from './context/CartContext';
 
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
   
 
   return (
-    
+    <CartProvider>
     <Router>
       <Navbar />
       <Routes>
@@ -59,6 +59,7 @@ function App() {
       </Routes>
         <Footer/>
     </Router>
+    </CartProvider>
   );
 }
 

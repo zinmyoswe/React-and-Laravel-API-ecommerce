@@ -268,6 +268,7 @@ function ProductsPage() {
                       ],
                       color: ['Black', 'White', 'Violet', 'DarkGray', 'Gray', 'Navy', 'Yellow', 'Red' , 'Rose', 'Brown']
                     }[section].map(value => {
+                      
                       const label = section === 'price'
                         ? {
                           under_50: 'Under $50',
@@ -276,6 +277,8 @@ function ProductsPage() {
                           over_200: 'Over $200'
                         }[value]
                         : value;
+
+                        // console.log('section:', section, 'value:', value, 'label:', label);
                       return (
                         <label key={value} className="flex items-center cursor-pointer select-none hover:text-gray-400">
                           <input
