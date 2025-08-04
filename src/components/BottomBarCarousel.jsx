@@ -51,7 +51,7 @@ export default function BottomBarCarousel() {
   const current = carouselItems[index];
 
   return (
-    <div className="w-full h-16 md:h-16 bg-[#f5f5f5] text-zinc-800 font-semibold text-[14px] md:text-[16px] flex items-center px-4 md:px-10 "
+    <div className="w-full h-16 md:h-16 bg-[#f5f5f5] text-zinc-800  text-[14px] md:text-[16px] flex items-center px-4 md:px-10 "
         style={{
     font: "'Helvetica Now Text Medium', Helvetica, Arial, sans-serif",
   }}

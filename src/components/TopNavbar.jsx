@@ -57,7 +57,7 @@ const fetchUser = async () => {
 }, [token]);
 
   return (
-    <div>
+    <div className='zinbordernone'>
        <div
   className="hidden sm:flex w-full h-8 bg-[#f5f5f5] text-zinc-900 items-center justify-end px-4 md:px-10 topbar-font"
   style={{

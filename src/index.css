@@ -6,61 +6,6 @@
 
 
 
-@font-face {
-    font-display: swap;
-    font-family: "AdihausDIN";
-    font-style: normal;
-    font-weight: normal;
-    src: url("https://esm.glass.adidas.com/@adl/typography@1.1.0/fonts/AdihausDIN-Regular.woff2") format("woff2"),url("https://esm.glass.adidas.com/@adl/typography@1.1.0/fonts/AdihausDIN-Regular.woff") format("woff")
-}
-
-@font-face {
-    font-display: swap;
-    font-family: "AdihausDIN";
-    font-style: normal;
-    font-weight: 700;
-    src: url("https://esm.glass.adidas.com/@adl/typography@1.1.0/fonts/AdihausDIN-Bold.woff2") format("woff2"),url("https://esm.glass.adidas.com/@adl/typography@1.1.0/fonts/AdihausDIN-Bold.woff") format("woff")
-}
-
-@font-face {
-    font-display: swap;
-    font-family: "AdihausDIN Cn";
-    font-style: normal;
-    font-weight: 500;
-    src: url("https://esm.glass.adidas.com/@adl/typography@1.1.0/fonts/AdihausDIN-CnMediumItalic.woff2") format("woff2"),url("https://esm.glass.adidas.com/@adl/typography@1.1.0/fonts/AdihausDIN-CnMediumItalic.woff") format("woff")
-}
-
-@font-face {
-    font-display: swap;
-    font-family: "AdineuePRO";
-    font-style: normal;
-    font-weight: 400;
-    src: url("https://esm.glass.adidas.com/@adl/typography@1.1.0/fonts/adineuePRO-Regular.woff2") format("woff2"),url("https://esm.glass.adidas.com/@adl/typography@1.1.0/fonts/adineuePRO-Regular.woff") format("woff")
-}
-
-@font-face {
-    font-display: swap;
-    font-family: "AdineuePRO";
-    font-style: normal;
-    font-weight: 700;
-    src: url("https://esm.glass.adidas.com/@adl/typography@1.1.0/fonts/adineuePRO-Bold.woff2") format("woff2"),url("https://esm.glass.adidas.com/@adl/typography@1.1.0/fonts/adineuePRO-Bold.woff") format("woff")
-}
-
-@font-face {
-    font-display: swap;
-    font-family: "adidasFG";
-    font-style: normal;
-    font-weight: 700;
-    src: url("https://esm.glass.adidas.com/@adl/typography@1.1.0/fonts/adidasFG-CompressedBold.woff2") format("woff2"),url("https://esm.glass.adidas.com/@adl/typography@1.1.0/fonts/adidasFG-CompressedBold.woff") format("woff")
-}
-
-@font-face {
-    font-display: swap;
-    font-family: "Denton";
-    font-style: normal;
-    font-weight: 400;
-    src: url("https://esm.glass.adidas.com/@adl/typography@1.1.0/fonts/DentonLight.woff2") format("woff2"),url("https://esm.glass.adidas.com/@adl/typography@1.1.0/fonts/DentonLight.woff") format("woff")
-}
 
 /* Nike Font */
 @font-face {
@@ -126,9 +71,6 @@
        url("/public/fonts/PalatinoLTPro-Light.ttf") format('truetype');
 }
 
-/* html, body, p {
-  font-family: "AdihausDIN", sans-serif;
-} */
 
 html, body{
   font-family: 'Helvetica Now Display Medium', Helvetica, Arial, sans-serif;
@@ -188,4 +130,104 @@ p{
 
 .topbar-font {
   font: 500 0.75rem/1.5 'Helvetica Now Text Medium', Helvetica, Arial, sans-serif;
+}
+
+
+
+ /* ----------------- HomePage Video Carousel --------------------- */
+ fieldset, h1, h2, h3, h4, h5, h6, label, legend, li, p, span, strong, ul {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+ /* for Desktop */
+ .css-p61h82 {
+    font: var(--podium-cds-typography-960-to-1919-display2);
+    color: var(--podium-cds-color-text-primary-inverse);
+    text-transform: uppercase;
+    font-weight: 500;
+    display: undefined;
+}
+
+.css-of85v2 {
+    font: var(--podium-cds-typography-body1);
+    color: var(--podium-cds-color-text-primary-inverse);
+    display: undefined;
+}
+
+.mt2-sm {
+    margin-top: 8px;
+}
+
+@media (max-width: 959px) {
+    .css-p61h82 {
+        font: var(--podium-cds-typography-320-to-959-display2);
+        color: var(--podium-cds-color-text-primary-inverse);
+      text-transform: uppercase;
+    }
+
+    .mt2-sm {
+    margin-top: 8px;
+}
+}
+
+
+ /* ----------------- Featured.jsx --------------------- */
+
+ /* for Desktop */
+
+.vVtA7wL6 {
+    margin-bottom: 8px;
+}
+.css-1kh06ln {
+    font: var(--podium-cds-typography-body1-strong);
+    color: var(--podium-cds-color-text-primary-inverse);
+    display: undefined;
+}
+
+._1MF91zHG {
+    font-weight: 500;
+}
+.css-117kv6g {
+    font: var(--podium-cds-typography-320-to-1919-title4);
+    color: var(--podium-cds-color-text-primary-inverse);
+    text-transform: none;
+    font-weight: 500;
+    display: undefined;
+}
+
+._17O3hgwI {
+    width: 100%;
+}
+
+@media only screen and (min-width: 960px) {
+    ._2PzKMD0A {
+        margin-left: 48px;
+        margin-right: 48px;
+        margin-bottom: 20px;
+    }
+}
+
+.css-14baf2u {
+    font: var(--podium-cds-typography-320-to-1919-title3);
+    color: var(--podium-cds-color-text-primary);
+    text-transform: none;
+    display: undefined;
+}
+
+
+ /* ----------------- ProductThumbnailSlider.jsx --------------------- */
+
+.css-196t8ag {
+
+    color: var(--podium-cds-color-text-primary);
+    font-weight: 500;
+}
+
+.css-ej30wz {
+    font: var(--podium-cds-typography-body1);
+    color: var(--podium-cds-color-text-secondary);
 }

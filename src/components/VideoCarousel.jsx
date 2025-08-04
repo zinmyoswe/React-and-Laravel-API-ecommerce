@@ -13,7 +13,7 @@ const VideoCarousel = () => {
         muted
         playsInline
         className="hidden sm:block w-full h-screen object-cover"
-        src="https://brand.assets.adidas.com/video/upload/f_auto:video,q_auto/if_w_gt_1920,w_1920/global_adizero_running_ss25_sustain_evo_sl_hp_banner_hero_1_d_b197aec60d.mp4"
+        src="/video/NikeAug2025.mp4"
       />
 
       {/* Mobile Video */}
@@ -23,55 +23,46 @@ const VideoCarousel = () => {
         muted
         playsInline
         className="block sm:hidden w-full object-cover"
-        style={{ height: '385px' }}
-        src="https://brand.assets.adidas.com/video/upload/f_auto:video,q_auto/if_w_gt_768,w_768/global_adizero_running_ss25_sustain_evo_sl_hp_banner_hero_1_m_40d3c658a7.mp4"
+        style={{ height: '355px' }}
+        src="/video/NikeAug2025mobile.mp4"
       />
 
       {/* Desktop & Tablet Text */}
       <div className="absolute left-12 bottom-12 text-black max-w-xl hidden sm:block">
-        <h2 className="text-3xl font-bold mb-2 bg-white p-2 uppercase">
-          ADIZERO EVO SL. FEEL FAST.
-        </h2>
-        <p className="text-lg mb-4 bg-white p-2">
-          For you to run in. Or not.
+        <h3 className='nds-text _1MF91zHG css-p61h82 e1yhcai00 appearance-display2 color-var(--podium-cds-color-text-primary-inverse) weight-medium uppercase'>
+          Reimagined Air
+        </h3>
+        <p class="nds-text mt2-sm css-of85v2 e1yhcai00 appearance-body1 color-var(--podium-cds-color-text-primary-inverse) weight-regular" data-qa="body">
+          The Nike Air Max Muse: Innovation that inspires. Expression that elevates.
         </p>
         <div className="flex gap-3">
           <Link
-            to="/products?gender=Men"
-            className="bg-white text-black px-4 py-2 text-sm font-semibold flex items-center gap-2 hover:bg-zinc-200 transition"
+            to="/products"
+            className="bg-white text-black mt-6 px-5 py-2 var(--podium-cds-typography-body1-strong) flex items-center gap-2 rounded-full hover:bg-zinc-200 transition"
           >
-            SHOP MEN <FontAwesomeIcon icon={faArrowRight} />
+            Shop  
           </Link>
-          <Link
-            to="/products?gender=Women"
-            className="bg-white text-black px-4 py-2 text-sm font-semibold flex items-center gap-2 hover:bg-zinc-200 transition"
-          >
-            SHOP WOMEN <FontAwesomeIcon icon={faArrowRight} />
-          </Link>
+        
         </div>
       </div>
 
       {/* Mobile Text */}
-      <div className="absolute mt-28 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 sm:hidden text-black text-center w-[90%] max-w-xs">
-        <h2 className="text-lg font-bold mb-2 bg-white p-1 uppercase">
-          ADIZERO EVO SL. FEEL FAST.
-        </h2>
-        <p className="text-sm mb-3 bg-white p-1">
-          For you to run in. Or not.
+      <div className="absolute mt-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 sm:hidden text-black text-left w-[90%] max-w-xs">
+       
+       <h3 className='nds-text _1MF91zHG css-p61h82 e1yhcai00 appearance-display2 color-var(--podium-cds-color-text-primary-inverse) weight-medium uppercase'>
+          Reimagined Air
+        </h3>
+        <p class="nds-text mt2-sm css-of85v2 e1yhcai00 appearance-body1 color-var(--podium-cds-color-text-primary-inverse) weight-regular" data-qa="body">
+          The Nike Air Max Muse: Innovation that inspires. Expression that elevates.
         </p>
-        <div className="flex flex-wrap justify-center gap-2">
+        <div className="flex gap-3">
           <Link
-            to="/products?gender=Men"
-            className="bg-white text-black px-3 py-1 text-xs font-semibold flex items-center gap-1 hover:bg-zinc-200 transition"
+            to="/products"
+            className="bg-white text-black mt-6 px-4 py-2 var(--podium-cds-typography-body1-strong) flex items-center gap-2 rounded-full hover:bg-zinc-200 transition"
           >
-            SHOP MEN <FontAwesomeIcon icon={faArrowRight} size="sm" />
+            Shop  
           </Link>
-          <Link
-            to="/products?gender=Women"
-            className="bg-white text-black px-3 py-1 text-xs font-semibold flex items-center gap-1 hover:bg-zinc-200 transition"
-          >
-            SHOP WOMEN <FontAwesomeIcon icon={faArrowRight} size="sm" />
-          </Link>
+        
         </div>
       </div>
     </div>
