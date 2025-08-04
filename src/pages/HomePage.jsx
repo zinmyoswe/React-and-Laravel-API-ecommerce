@@ -10,6 +10,7 @@ import VideoCarousel from '../components/VideoCarousel';
 import ProductThumbnailSlider2 from './../components/ProductThumbnailSlider2';
 import Footer from '../components/Footer ';
 import Featured from '../components/Featured';
+import VideoCarousel3 from '../components/VideoCarousel3';
 
 const HomePage = () => {
   return (
@@ -39,7 +40,8 @@ const HomePage = () => {
 
            <div className="">
             {/* <Carousle2 /> */}
-        </div>
+            <VideoCarousel3 />        
+            </div>
 
         {/* ------------------------------- 2nd ProductThumbnail end --------------------------------- */}
           {/* Product Slider2 */}
