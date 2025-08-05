@@ -211,6 +211,16 @@ p{
     }
 }
 
+@media only screen and (max-width: 959px) {
+   ._2PzKMD0A {
+    margin-left: 24px;
+    margin-right: 24px;
+    margin-bottom: 20px;
+}
+}
+
+
+
 .css-14baf2u {
     font: var(--podium-cds-typography-320-to-1919-title3);
     color: var(--podium-cds-color-text-primary);
