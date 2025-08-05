@@ -1,0 +1,28 @@
+/* ProductDetail.css */
+/* body{
+    background-color: violet;
+} */
+
+.css-1h3ryhm {
+    font: var(--podium-cds-typography-320-to-1919-title4);
+    text-align: start;
+    display: undefined;
+}
+
+.css-tbgmka {
+    font: var(--podium-cds-typography-body1-strong);
+    text-align: start;
+    display: inline;
+}
+
+.mr2-sm {
+    margin-right: 8px;
+}
+
+.css-1i6dsa8 {
+    font: var(--podium-cds-typography-body1);
+    color: var(--podium-cds-color-text-secondary);
+    -webkit-text-decoration: line-through;
+    text-decoration: line-through;
+    display: inline;
+}

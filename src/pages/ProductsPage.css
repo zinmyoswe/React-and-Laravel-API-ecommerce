@@ -1,0 +1,12 @@
+
+/* body{
+    background-color: red;
+} */
+
+.color-patch {
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+  display: inline-block;
+  border: 1px solid #ccc;
+}

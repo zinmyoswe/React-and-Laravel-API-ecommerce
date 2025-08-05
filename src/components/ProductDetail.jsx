@@ -4,6 +4,7 @@ import { getProductById } from '../services/productService';
 import { addToCart } from '../services/cartService';
 import { addToFavourite, getFavourites,removeFromFavourite  } from '../services/favouriteService';
 import { useCart } from '../context/CartContext';
+import './ProductDetail.css'
 
 function ProductDetailPage() {
   const { id } = useParams();
@@ -202,20 +203,23 @@ useEffect(() => {
       {/* Right 5 cols: Product Info */}
       <div className="col-span-12 md:col-span-4 space-y-4">
         <div className='w-full md:w-4/5'>
-        <h1 className="text-3xl font-bold">{product.productname}</h1>
+        <h1 class="nds-text css-1h3ryhm e1yhcai00 text-align-start appearance-title4 color-primary weight-regular">
+          {product.productname}
+        </h1>
+      
 
        
 
         <div className="flex gap-2 items-center">
-          <span className="text-2xl font-semibold text-gray-900">${product.price}</span>
+          <span className="nds-text mr2-sm css-tbgmka e1yhcai00 text-align-start appearance-body1Strong color-primary display-inline weight-regular">${product.price}</span>
           {product.discount > 0 && (
-            <span className="text-gray-500 line-through">
+            <span className="nds-text mr2-sm css-1i6dsa8 e1yhcai00 appearance-body1 color-secondary display-inline weight-regular strikethrough">
               ${(parseFloat(product.price) + parseFloat(product.discount)).toFixed(2)}
             </span>
           )}
         </div>
 
-        <div className="text-sm space-y-1 text-gray-600">
+        <div className="text-sm space-y-1 text-gray-600 my-4">
           {/* <p><strong>Product ID:</strong> {product.productid}</p>
           <p><strong>Category:</strong> {product.category?.categoryname}</p>
           <p><strong>Subcategory:</strong> {product.subcategory?.subcategoryname}</p> */}
@@ -230,24 +234,7 @@ useEffect(() => {
         <div className="!mt-6">
           <h2 className="font-semibold mb-2">Related Products:</h2>
           <div className="flex flex-wrap gap-1">
-            {/* Main product itself */}
-            {/* <img
-              src={product.productimage}
-              alt="Current Product"
-              onClick={() => fetchProduct(product.productid)}
-              className="w-20 h-20  rounded-md border cursor-pointer hover:ring-1 ring-black"
-            /> */}
-
-            {/* Similar products */}
-            {/* {product.similar_products?.map((similar) => (
-              <img
-                key={similar.productid}
-                src={similar.productimage}
-                alt={`Similar ${similar.productid}`}
-                onClick={() => fetchProduct(similar.productid)}
-                className="w-20 h-20  rounded-md border cursor-pointer hover:ring-1 ring-black"
-              />
-            ))} */}
+          
 
             {relatedGroup.map((p) => (
               <img
@@ -273,11 +260,12 @@ useEffect(() => {
                   setSelectedSize(size.sizevalue);
                   setSizeError(''); // Clear error when a size is selected
                 }}
-                className={`h-11 min-w-16 px-4 py-2 rounded-md text-sm border transition
-                ${selectedSize === size.sizevalue
-                  ? 'bg-black text-white border-zinc-900'
-                  : 'bg-white text-zinc-900 border border-gray-400 hover:border-zinc-900'}
-              `}
+               className={`h-11 px-4 py-2 rounded-md text-sm border transition
+                  ${selectedSize === size.sizevalue
+                    ? 'bg-black text-white border-zinc-900'
+                    : 'bg-white text-zinc-900 border border-gray-400 hover:border-zinc-900'}
+                  ${size.sizevalue.length > 5 ? 'w-40' : 'min-w-16'}
+                `}
               >
                 {size.sizevalue}
               </button>

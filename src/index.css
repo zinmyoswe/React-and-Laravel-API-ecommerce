@@ -12,27 +12,27 @@
   font-family: "Nike TG";
   font-style: normal;
   font-weight: 400;
-  src: url("/public/fonts/Nike-TG.woff2") format('woff2'),
-       url("/public/fonts/Nike-TG.woff") format('woff'),
-       url("/public/fonts/Nike-TG.ttf") format('truetype');
+  src: url("/fonts/Nike-TG.woff2") format('woff2'),
+       url("/fonts/Nike-TG.woff") format('woff'),
+       url("/fonts/Nike-TG.ttf") format('truetype');
 }
 
 @font-face {
   font-family: "Nike Futura ND";
   font-style: normal;
   font-weight: 400;
-  src: url("/public/fonts/Nike-Futura-ot-300.woff2") format('woff2'),
-       url("/public/fonts/Nike-Futura-ot-300.woff") format('woff'),
-       url("/public/fonts/Nike-Futura-ot-300.ttf") format('truetype');
+  src: url("/fonts/Nike-Futura-ot-300.woff2") format('woff2'),
+       url("/fonts/Nike-Futura-ot-300.woff") format('woff'),
+       url("/fonts/Nike-Futura-ot-300.ttf") format('truetype');
 }
 
 @font-face {
   font-family: "Nike Futura";
   font-style: normal;
   font-weight: 400;
-  src: url("/public/fonts/Nike-Futura.woff2") format('woff2'),
-       url("/public/fonts/Nike-Futura.woff") format('woff'),
-       url("/public/fonts/Nike-Futura.ttf") format('truetype');
+  src: url("/fonts/Nike-Futura.woff2") format('woff2'),
+       url("/fonts/Nike-Futura.woff") format('woff'),
+       url("/fonts/Nike-Futura.ttf") format('truetype');
 }
 
 @font-face {
@@ -40,8 +40,8 @@
   font-style: normal;
   font-weight: 400;
   src: url("/fonts/HelveticaNowText.woff2") format('woff2'),
-       url("/public/fonts/HelveticaNowText.woff") format('woff'),
-       url("/public/fonts/HelveticaNowText.ttf") format('truetype');
+       url("/fonts/HelveticaNowText.woff") format('woff'),
+       url("/fonts/HelveticaNowText.ttf") format('truetype');
 }
 
 @font-face {
@@ -58,17 +58,17 @@
   font-style: normal;
   font-weight: 400;
   src: url("/fonts/HelveticaNowDisplayMedium.woff2") format('woff2'),
-       url("/public/fonts/HelveticaNowDisplayMedium.woff") format('woff'),
-       url("/public/fonts/HelveticaNowDisplayMedium.ttf") format('truetype');
+       url("/fonts/HelveticaNowDisplayMedium.woff") format('woff'),
+       url("/fonts/HelveticaNowDisplayMedium.ttf") format('truetype');
 }
 
 @font-face {
   font-family: "Palatino LT Pro Light";
   font-style: normal;
   font-weight: 400;
-  src: url("/public/fonts/PalatinoLTPro-Light.woff2") format('woff2'),
-       url("/public/fonts/PalatinoLTPro-Light.woff") format('woff'),
-       url("/public/fonts/PalatinoLTPro-Light.ttf") format('truetype');
+  src: url("/fonts/PalatinoLTPro-Light.woff2") format('woff2'),
+       url("/fonts/PalatinoLTPro-Light.woff") format('woff'),
+       url("/fonts/PalatinoLTPro-Light.ttf") format('truetype');
 }
 
 

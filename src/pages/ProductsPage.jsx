@@ -5,6 +5,7 @@ import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import qs from 'qs';
 import ProductCardWithHover from '../components/ProductCardWithHover';
+import './ProductsPage.css';
 
 function ProductsPage() {
   const location = useLocation();
@@ -36,11 +37,11 @@ function ProductsPage() {
   const [sortOption, setSortOption] = useState('');
   const [showFilter, setShowFilter] = useState(window.innerWidth >= 768);
   const [accordion, setAccordion] = useState({
-    gender: true,
-    price: true,
+    gender: false,
+    price: false,
     clothingSize: false,
     shoeSize: false,
-    color: true,
+    color: false,
   });
   const [subcategories, setSubcategories] = useState([]);
 
@@ -218,10 +219,7 @@ function ProductsPage() {
                   ${filters.subcategory_id === sub.subcategoryid
                     ? ' text-dark font-semibold'
                     : ''}`}
-                
-                style={{
-                    fontFamily: `'Helvetica Now Text Medium', Helvetica, Arial, sans-serif`
-                  }}
+             
               >
                 {sub.subcategoryname}
               </div>
