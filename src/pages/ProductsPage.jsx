@@ -11,6 +11,7 @@ function ProductsPage() {
   const location = useLocation();
   const query = qs.parse(location.search, { ignoreQueryPrefix: true });
   const searchKeyword = query.search || '';
+  
 
   // Helper to get gender from pathname or query
   const getGenderFromPath = () => {
@@ -30,6 +31,7 @@ function ProductsPage() {
     shoeSize: [],
     color: [],
     search: query.search || '', // ✅ ADD THIS
+    shopbysportId: query.shopbysportId || '',  // <-- add this line
   });
 
   const [products, setProducts] = useState([]);
@@ -52,6 +54,7 @@ function ProductsPage() {
       gender: getGenderFromPath(),
       subcategory_id: query.subcategory_id || '',
       search: query.search || '', // ✅ Sync search keyword
+      shopbysportId: query.shopbysportId || '',  // <-- sync here too
       // Optionally sync other filters from query here if you want
     }));
   }, [location.pathname, location.search]);
@@ -92,6 +95,7 @@ function ProductsPage() {
       color: filters.color.length > 0 ? filters.color : undefined,
       sort: sortOption || undefined,
       search: filters.search || undefined, // ✅ Pass search keyword to backend
+      shopbysportId: filters.shopbysportId || undefined,  // <-- add this here
     };
 
     console.log('Fetching products with filters:', apiFilters);

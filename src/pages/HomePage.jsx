@@ -11,6 +11,7 @@ import ProductThumbnailSlider2 from './../components/ProductThumbnailSlider2';
 import Footer from '../components/Footer ';
 import Featured from '../components/Featured';
 import VideoCarousel3 from '../components/VideoCarousel3';
+import ShopBySportSlider from '../components/ShopBySportSlider';
 
 const HomePage = () => {
   return (
@@ -58,6 +59,7 @@ const HomePage = () => {
 
          <div className="my-10">
             {/* <SlideThumbnailSlider /> */}
+            <ShopBySportSlider />
         </div>
          {/* ------------------------------- 4th SlideThumbnailSlider end --------------------------------- */}
 
