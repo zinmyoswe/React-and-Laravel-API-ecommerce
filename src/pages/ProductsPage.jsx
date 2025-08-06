@@ -259,7 +259,7 @@ function ProductsPage() {
                       }}
                   >
                     {{
-                      gender: ['Men', 'Women', 'Kid'],
+                      gender: ['Men', 'Women', 'Kids'],
                       price: ['under_50', '50_100', '101_199', 'over_200'],
                       clothingSize: ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', 'One Size'],
                       shoeSize: [

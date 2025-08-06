@@ -106,7 +106,7 @@ const Navbar = () => {
         <Link to="/products?subcategory_id=13&subcategory_id=14">Shoes</Link>
           <Link to="/products?gender=Men" className="hover:text-black hover:underline">Men</Link>
           <Link to="/products?gender=Women" className="hover:text-black hover:underline">Women</Link>
-          <Link to="/products?gender=Kid" className="hover:text-black hover:underline">Kid</Link>
+          <Link to="/products?gender=Kids" className="hover:text-black hover:underline">Kids</Link>
         </div>
 
         

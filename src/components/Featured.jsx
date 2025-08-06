@@ -18,7 +18,7 @@ const featuredItems = [
     image: 'https://static.nike.com/a/images/f_auto/dpr_1.3,cs_srgb/h_1039,c_limit/8720ea26-5d92-44d0-8586-3eceb60be7d6/nike-just-do-it.png',
     title1: '',
     title2: 'Kids Running Essentials',
-    route: '/products?gender=Kid',
+    route: '/products?gender=Kids',
   },
   {
     image: 'https://static.nike.com/a/images/f_auto/dpr_1.3,cs_srgb/h_1039,c_limit/53d37b08-9b5b-4350-8b6f-6375d3eb8134/nike-just-do-it.png',
