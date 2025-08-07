@@ -246,7 +246,7 @@ const Navbar = () => {
     <path stroke="currentColor" strokeWidth="1.5" d="M8.25 8.25V6a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 110 4.5H3.75v8.25a3.75 3.75 0 003.75 3.75h9a3.75 3.75 0 003.75-3.75V8.25H17.5" />
   </svg>
   {totalItems > 0 && (
-    <span className="absolute -top-1 -right-2 bg-yellow-400 text-zinc-950 text-xs px-1.5 py-0.5 rounded-full">
+    <span className="absolute -top-1 -right-2 bg-gray-200 text-zinc-950 text-xs px-1.5 py-0.5 rounded-full">
       {totalItems}
     </span>
   )}
@@ -286,7 +286,7 @@ const Navbar = () => {
         <div className="md:hidden bg-white shadow-md mt-2 p-4 rounded space-y-2 text-base">
           <Link to="/products?gender=Men" className="block" onClick={() => setMenuOpen(false)}>Men</Link>
           <Link to="/products?gender=Women" className="block" onClick={() => setMenuOpen(false)}>Women</Link>
-          <Link to="/products?gender=Kid" className="block" onClick={() => setMenuOpen(false)}>Kid</Link>
+          <Link to="/products?gender=Kids" className="block" onClick={() => setMenuOpen(false)}>Kids</Link>
           <hr />
           {/* <Link to="/cart" className="block" onClick={() => setMenuOpen(false)}>
             <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none"><path stroke="currentColor" stroke-width="1.5" d="M8.25 8.25V6a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 110 4.5H3.75v8.25a3.75 3.75 0 003.75 3.75h9a3.75 3.75 0 003.75-3.75V8.25H17.5"></path></svg>

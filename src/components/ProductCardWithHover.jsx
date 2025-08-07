@@ -44,12 +44,12 @@ function ProductCardWithHover({ product, showFilter }) {
         <img
           src={mainImage}
           alt="Main product"
-          className={`w-full ${showFilter ? 'md:h-[395px]' : 'md:h-[495px]'} h-[395px] object-fill rounded mb-4 transition-opacity duration-500 ease-in-out`}
+          className={`w-full ${showFilter ? 'md:h-[395px] lg:h-[395px]' : 'md:h-[495px] lg:h-[495px]'}  object-fill rounded mb-4 transition-opacity duration-500 ease-in-out`}
           onClick={handleMainImageClick}
         />
       </div>
 
-        <div className='h-[80px] md:h-[120px]'>
+        <div className='h-[110px] md:h-[120px] lg:h-[120px]'>
       {/* Thumbnails row: only visible on hover of main image */}
       {showThumbnails && product.similar_products && product.similar_products.length > 0 && (
         <div className="flex  mb-4 overflow-x-auto px-1 gap-1">
@@ -72,7 +72,7 @@ function ProductCardWithHover({ product, showFilter }) {
       {/* Product Name & Price */}
       <Link to={`/product/${mainProductId}`}>
         <div className="">
-          <h3 className="text-lg font-semibold hover:text-gray-900"
+          <h3 className="text-[15px]  md:text-lg lg:text-lg font-semibold hover:text-gray-900"
             style={{
                     fontFamily: `'Helvetica Now Text Medium', Helvetica, Arial, sans-serif`,
 					fontWeight: 500
@@ -81,12 +81,12 @@ function ProductCardWithHover({ product, showFilter }) {
           <p className="text-zinc-900 mt-1">${product.price}</p>
         {product.similar_products && product.similar_products.length > 0 ? (
             !showThumbnails && (
-                <p className="mt-1 text-gray-500">
+                <p className="mt-1 text-gray-500 sm:text-[15px]">
                 {product.similar_products.length + 1} Colours
                 </p>
             )
             ) : (
-            <p className="mt-1 text-gray-500">1 Colour</p>
+            <p className="mt-1 text-gray-500 sm:text-[15px]">1 Colour</p>
             )}
         </div>
       </Link>

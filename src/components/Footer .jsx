@@ -38,14 +38,12 @@ const footerData = [
       'Report a Concern',
     ],
   },
-  { title: '', content: [] }, // Blank column 4
-  { title: '', content: [] }, // Blank column 5
+  { title: '', content: [] },
+  { title: '', content: [] },
   {
-    title: (
-     ''
-    ),
+    title: '',
     content: [
-         <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-2" key="singapore">
         <svg
           aria-hidden="true"
           focusable="false"
@@ -62,19 +60,23 @@ const footerData = [
           <path d="M21.75 12A9.75 9.75 0 0112 21.75M21.75 12A9.75 9.75 0 0012 2.25M21.75 12c0 2.071-4.365 3.75-9.75 3.75S2.25 14.071 2.25 12m19.5 0c0-2.071-4.365-3.75-9.75-3.75S2.25 9.929 2.25 12M12 21.75A9.75 9.75 0 012.25 12M12 21.75c2.9 0 5.25-4.365 5.25-9.75S14.9 2.25 12 2.25m0 19.5c-2.9 0-5.25-4.365-5.25-9.75S9.1 2.25 12 2.25M2.25 12A9.75 9.75 0 0112 2.25" />
         </svg>
         <span>Singapore</span>
-      </div>
+      </div>,
     ],
   },
 ];
 
 const Footer = () => {
-  const [openIndexes, setOpenIndexes] = useState({});
+  // First column open state (true initially)
+  const [isFirstOpen, setIsFirstOpen] = useState(true);
+  // Only one other column open at a time (null = none)
+  const [openIndex, setOpenIndex] = useState(null);
 
   const toggleAccordion = (index) => {
-    setOpenIndexes((prev) => ({
-      ...prev,
-      [index]: !prev[index],
-    }));
+    if (index === 0) {
+      setIsFirstOpen((prev) => !prev);
+    } else {
+      setOpenIndex((prev) => (prev === index ? null : index));
+    }
   };
 
   return (
@@ -82,7 +84,8 @@ const Footer = () => {
       className="bg-white text-sm px-4 md:px-16 py-8 font-nike mt-5"
       style={{ fontFamily: "'Helvetica Now Text Medium', Helvetica, Arial, sans-serif" }}
     >
-        <hr className='mb-16'/>
+      <hr className="mb-16" />
+
       {/* Row 1 */}
       <div className="grid grid-cols-1 md:grid-cols-6 gap-6 border-b border-gray-300 pb-6">
         {footerData.map((col, idx) => (
@@ -97,14 +100,14 @@ const Footer = () => {
                 </h3>
               )}
               <ul className="text-[#707072] space-y-4">
-                    {col.content.map((item, i) => (
-                        <li key={i}>
-                        <Link to="/products" className="hover:underline text-[#707072]">
-                            {item}
-                        </Link>
-                        </li>
-                    ))}
-                    </ul>
+                {col.content.map((item, i) => (
+                  <li key={i}>
+                    <Link to="/products" className="hover:underline text-[#707072]">
+                      {item}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             {/* Mobile Accordion */}
@@ -114,18 +117,26 @@ const Footer = () => {
                   <button
                     onClick={() => toggleAccordion(idx)}
                     className="w-full flex justify-between items-center text-[#111111] py-2 font-medium"
-                    aria-expanded={!!openIndexes[idx]}
+                    aria-expanded={idx === 0 ? isFirstOpen : openIndex === idx}
                     aria-controls={`footer-accordion-panel-${idx}`}
                   >
                     <Link to="/products" className="hover:underline">
                       {col.title}
                     </Link>
                     <FontAwesomeIcon
-                      icon={openIndexes[idx] ? faChevronUp : faChevronDown}
+                      icon={
+                        idx === 0
+                          ? isFirstOpen
+                            ? faChevronUp
+                            : faChevronDown
+                          : openIndex === idx
+                          ? faChevronUp
+                          : faChevronDown
+                      }
                       className="ml-2"
                     />
                   </button>
-                  {openIndexes[idx] && (
+                  {(idx === 0 ? isFirstOpen : openIndex === idx) && (
                     <ul
                       id={`footer-accordion-panel-${idx}`}
                       className="text-[#707072] pl-4 space-y-4 !my-6"
