@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import './ProductCardWithHover.css';
 
 function ProductCardWithHover({ product, showFilter }) {
   const navigate = useNavigate();
 
-  // All thumbnails to show: first the main product, then similar products if any
   const thumbnails = [
     { productid: product.productid, productimage: product.productimage, productname: product.productname },
     ...(product.similar_products || []),
@@ -14,24 +14,21 @@ function ProductCardWithHover({ product, showFilter }) {
   const [mainProductId, setMainProductId] = useState(product.productid);
   const [showThumbnails, setShowThumbnails] = useState(false);
 
-  // When hovering main image - show thumbnails row below
-  // When not hovering main image, hide thumbnails after some delay (optional)
-  // Hovering thumbnails changes mainImage & mainProductId and pins it
-
   const handleThumbnailHover = (thumb) => {
     setMainImage(thumb.productimage);
     setMainProductId(thumb.productid);
   };
 
   const handleThumbnailClick = (thumb) => {
-    // Navigate to product detail page with selected productid
     navigate(`/product/${thumb.productid}`);
   };
 
   const handleMainImageClick = () => {
-    // Navigate to currently shown main product detail page
     navigate(`/product/${mainProductId}`);
   };
+
+  // Hide slug when thumbnails are visible and similar_products exist
+  const hideSlug = showThumbnails && product.similar_products && product.similar_products.length > 0;
 
   return (
     <div
@@ -44,52 +41,60 @@ function ProductCardWithHover({ product, showFilter }) {
         <img
           src={mainImage}
           alt="Main product"
-          className={`w-full ${showFilter ? 'md:h-[395px] lg:h-[395px]' : 'md:h-[495px] lg:h-[495px]'}  object-fill rounded mb-4 transition-opacity duration-500 ease-in-out`}
+          className={`w-full ${showFilter ? 'md:h-[395px] lg:h-[395px]' : 'md:h-[495px] lg:h-[495px]'} object-fill rounded mb-4 transition-opacity duration-500 ease-in-out`}
           onClick={handleMainImageClick}
         />
       </div>
 
-        <div className='h-[110px] md:h-[120px] lg:h-[120px]'>
-      {/* Thumbnails row: only visible on hover of main image */}
-      {showThumbnails && product.similar_products && product.similar_products.length > 0 && (
-        <div className="flex  mb-4 overflow-x-auto px-1 gap-1">
-          {thumbnails.map((thumb) => (
-            <img
-              key={thumb.productid}
-              src={thumb.productimage}
-              alt={thumb.productname}
-              className={`w-11 h-11 object-fill  cursor-pointer border transition-colors duration-300
-                ${mainImage === thumb.productimage ? 'border-none' : 'border-none'}
-                hover:border-none
-              `}
-              onMouseEnter={() => handleThumbnailHover(thumb)}
-              onClick={() => handleThumbnailClick(thumb)}
-            />
-          ))}
-        </div>
-      )}
+      <div className='h-[120px] md:h-[150px] lg:h-[150px]'>
 
-      {/* Product Name & Price */}
-      <Link to={`/product/${mainProductId}`}>
-        <div className="">
-          <h3 className="text-[15px]  md:text-lg lg:text-lg font-semibold hover:text-gray-900"
-            style={{
-                    fontFamily: `'Helvetica Now Text Medium', Helvetica, Arial, sans-serif`,
-					fontWeight: 500
-                  }}
-          >{product.productname}</h3>
-          <p className="text-zinc-900 mt-1">${product.price}</p>
-        {product.similar_products && product.similar_products.length > 0 ? (
-            !showThumbnails && (
-                <p className="mt-1 text-gray-500 sm:text-[15px]">
-                {product.similar_products.length + 1} Colours
+        {/* Thumbnails row */}
+        {showThumbnails && product.similar_products && product.similar_products.length > 0 && (
+          <div className="flex mb-4 overflow-x-auto px-1 gap-1">
+            {thumbnails.map((thumb) => (
+              <img
+                key={thumb.productid}
+                src={thumb.productimage}
+                alt={thumb.productname}
+                className={`w-11 h-11 object-fill cursor-pointer border transition-colors duration-300
+                  ${mainImage === thumb.productimage ? 'border-none' : 'border-none'}
+                  hover:border-none
+                `}
+                onMouseEnter={() => handleThumbnailHover(thumb)}
+                onClick={() => handleThumbnailClick(thumb)}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Product Name & Price */}
+        <Link to={`/product/${mainProductId}`}>
+          <div>
+            <h3 className="product-card__title">{product.productname}</h3>
+
+            {/* Product slug: hide smoothly without blank space */}
+            <h3
+              className={`product-card__subtitle mt-[6px] overflow-hidden ${
+                hideSlug ? 'max-h-0 opacity-0' : 'max-h-10 opacity-100'
+              }`}
+              style={{ lineHeight: '1.2rem' }} // Adjust max-height based on your font size
+            >
+              {product.productslug}
+            </h3>
+
+            {product.similar_products && product.similar_products.length > 0 ? (
+              !showThumbnails && (
+                <p className="mt-1 product-card__subtitle">
+                  {product.similar_products.length + 1} Colours
                 </p>
-            )
+              )
             ) : (
-            <p className="mt-1 text-gray-500 sm:text-[15px]">1 Colour</p>
+              <p className="mt-1 product-card__subtitle">1 Colour</p>
             )}
-        </div>
-      </Link>
+
+            <p className="css-vxq8l0 mt-4">${product.price}</p>
+          </div>
+        </Link>
       </div>
     </div>
   );
