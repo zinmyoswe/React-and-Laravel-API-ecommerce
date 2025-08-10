@@ -206,11 +206,15 @@ useEffect(() => {
         <h1 class="nds-text css-1h3ryhm e1yhcai00 text-align-start appearance-title4 color-primary weight-regular">
           {product.productname}
         </h1>
+
+        <h2 className='mt-[2px] nds-text product_subtitle css-17kvvgb e1yhcai00 text-align-start appearance-body1 color-secondary weight-regular'>
+          {product.productslug}
+        </h2>
       
 
        
 
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center mt-4">
           <span className="nds-text mr2-sm css-tbgmka e1yhcai00 text-align-start appearance-body1Strong color-primary display-inline weight-regular">${product.price}</span>
           {product.discount > 0 && (
             <span className="nds-text mr2-sm css-1i6dsa8 e1yhcai00 appearance-body1 color-secondary display-inline weight-regular strikethrough">

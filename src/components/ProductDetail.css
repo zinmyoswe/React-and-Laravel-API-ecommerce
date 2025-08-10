@@ -26,3 +26,19 @@
     text-decoration: line-through;
     display: inline;
 }
+
+
+/* productslug */
+.css-17kvvgb {
+    font: var(--podium-cds-typography-body1);
+    color: var(--podium-cds-color-text-secondary);
+    text-align: start;
+    display: undefined;
+    font-size: 16px;
+}
+
+@media (width < 960px) {
+    .css-17kvvgb {
+        font-size: 15px;
+    }
+}
