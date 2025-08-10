@@ -46,7 +46,7 @@ function ProductCardWithHover({ product, showFilter }) {
         />
       </div>
 
-      <div className='h-[120px] md:h-[150px] lg:h-[150px]'>
+      <div className='h-[125px] md:h-[150px] lg:h-[150px]'>
 
         {/* Thumbnails row */}
         {showThumbnails && product.similar_products && product.similar_products.length > 0 && (
@@ -92,7 +92,7 @@ function ProductCardWithHover({ product, showFilter }) {
               <p className="mt-1 product-card__subtitle">1 Colour</p>
             )}
 
-            <p className="css-vxq8l0 mt-4">${product.price}</p>
+            <p className="css-vxq8l0 mt-1 md:mt-4 lg:mt-lg">${product.price}</p>
           </div>
         </Link>
       </div>
