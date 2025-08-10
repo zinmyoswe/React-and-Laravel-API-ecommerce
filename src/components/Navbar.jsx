@@ -14,7 +14,6 @@ const Navbar = () => {
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
-  // const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const [showSearch, setShowSearch] = useState(false);
@@ -90,7 +89,7 @@ const Navbar = () => {
     <div>
      <TopNavbar />
 
-    <nav className="bg-white text-dark px-4 md:px-10 border border-b-gray-200">
+    <nav className="bg-white text-dark px-4 md:px-10 border border-b-gray-200 overflow-x-hidden">
       <div className="flex items-center justify-between h-16 relative">
         {/* Logo */}
         <div className="text-xl font-bold">
@@ -139,9 +138,7 @@ const Navbar = () => {
     onFocus={() => setShowSearch(true)}
     readOnly
   />
-</div>
-
-        
+</div>        
            {token ? (
             <>
               <Link to="/my-favourites">
@@ -154,9 +151,6 @@ const Navbar = () => {
           </Link>
           )}
           
-          {/* <Link to="/cart" className="hover:underline">
-          <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none"><path stroke="currentColor" stroke-width="1.5" d="M8.25 8.25V6a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 110 4.5H3.75v8.25a3.75 3.75 0 003.75 3.75h9a3.75 3.75 0 003.75-3.75V8.25H17.5"></path></svg>
-          </Link> */}
           <Link to="/cart" className="relative hover:underline">
   <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none">
     <path stroke="currentColor" strokeWidth="1.5" d="M8.25 8.25V6a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 110 4.5H3.75v8.25a3.75 3.75 0 003.75 3.75h9a3.75 3.75 0 003.75-3.75V8.25H17.5" />
@@ -183,10 +177,12 @@ const Navbar = () => {
           )}
         </div>
 
+  {/* ----------------------------------------- Mobile ---------------------------------------------- */}
+
         {/* Mobile menu toggle */}
         <div className="md:hidden">
 
-          <div className='flex items-end gap-6'>
+          <div className='flex items-end gap-7'>
  {/* Small Search input */}
        {/* Small Search input for mobile */}
 <div className="relative w-8 h-8">
@@ -219,14 +215,9 @@ const Navbar = () => {
     readOnly
   />
 </div>
-            
-
+          
           {token ? (
             <>
-
-            
-             
-
               <Link to="/my-favourites">
               <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none"><path stroke="currentColor" stroke-width="1.5" d="M16.794 3.75c1.324 0 2.568.516 3.504 1.451a4.96 4.96 0 010 7.008L12 20.508l-8.299-8.299a4.96 4.96 0 010-7.007A4.923 4.923 0 017.205 3.75c1.324 0 2.568.516 3.504 1.451l.76.76.531.531.53-.531.76-.76a4.926 4.926 0 013.504-1.451"></path></svg>
           </Link>
@@ -236,11 +227,6 @@ const Navbar = () => {
               <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none"><path stroke="currentColor" stroke-width="1.5" d="M16.794 3.75c1.324 0 2.568.516 3.504 1.451a4.96 4.96 0 010 7.008L12 20.508l-8.299-8.299a4.96 4.96 0 010-7.007A4.923 4.923 0 017.205 3.75c1.324 0 2.568.516 3.504 1.451l.76.76.531.531.53-.531.76-.76a4.926 4.926 0 013.504-1.451"></path></svg>
           </Link>
           )}
-
-          {/* <Link to="/cart" className="block" onClick={() => setMenuOpen(false)}>
-            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none"><path stroke="currentColor" stroke-width="1.5" d="M8.25 8.25V6a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 110 4.5H3.75v8.25a3.75 3.75 0 003.75 3.75h9a3.75 3.75 0 003.75-3.75V8.25H17.5"></path></svg>
-          </Link> */}
-
           <Link to="/cart" className="relative hover:underline">
   <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none">
     <path stroke="currentColor" strokeWidth="1.5" d="M8.25 8.25V6a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 110 4.5H3.75v8.25a3.75 3.75 0 003.75 3.75h9a3.75 3.75 0 003.75-3.75V8.25H17.5" />
@@ -264,61 +250,93 @@ const Navbar = () => {
               
             </>
           )}
-            
-          
 
           <button onClick={() => setMenuOpen(!menuOpen)}>
             <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} size="lg" />
-
           </button>
-
-          
-          
-          </div>
-          
-
-          
+          </div>     
         </div>
       </div>
 
-      {/* Mobile dropdown */}
-      {menuOpen && (
-        <div className="md:hidden bg-white shadow-md mt-2 p-4 rounded space-y-2 text-base">
-          <Link to="/products?gender=Men" className="block" onClick={() => setMenuOpen(false)}>Men</Link>
-          <Link to="/products?gender=Women" className="block" onClick={() => setMenuOpen(false)}>Women</Link>
-          <Link to="/products?gender=Kids" className="block" onClick={() => setMenuOpen(false)}>Kids</Link>
-          <hr />
-          {/* <Link to="/cart" className="block" onClick={() => setMenuOpen(false)}>
-            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none"><path stroke="currentColor" stroke-width="1.5" d="M8.25 8.25V6a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 110 4.5H3.75v8.25a3.75 3.75 0 003.75 3.75h9a3.75 3.75 0 003.75-3.75V8.25H17.5"></path></svg>
-          </Link> */}
-          {token ? (
-            <>
-              {/* <Link to="/orders" className="block" onClick={() => setMenuOpen(false)}>
-                <svg aria-hidden="true" class="icon-btn" focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none" aria-label="Profile"><path stroke="currentColor" stroke-width="2" d="M3.75 21v-3a3.75 3.75 0 013.75-3.75h9A3.75 3.75 0 0120.25 18v3m-4.5-13.5a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"></path></svg>
-              </Link> */}
-              <button
-                onClick={() => {
-                  handleLogout();
-                  setMenuOpen(false);
-                }}
-                className="w-full text-left"
-              >
-                Log Out
-              </button>
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="block" onClick={() => setMenuOpen(false)}>Sign In</Link>
-              <Link to="/register" className="block" onClick={() => setMenuOpen(false)}>Join Us</Link>
-            </>
-          )}
-        </div>
-      )}
+      {/* Offcanvas and Overlay */}
+{menuOpen && (
+  <>
+    {/* Overlay */}
+    <div
+      className="fixed inset-0 bg-black bg-opacity-40 z-40"
+      onClick={() => setMenuOpen(false)}
+    ></div>
+
+    {/* Offcanvas Menu Panel */}
+    <div
+      className={`fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 ${
+        menuOpen ? "translate-x-0" : "translate-x-full"
+      }`}
+    >
+      <div className="p-4 space-y-4">
+        <button
+    onClick={() => setMenuOpen(false)}
+    className="absolute top-4 right-4 text-gray-700 hover:text-gray-900"
+    aria-label="Close menu"
+  >
+    <FontAwesomeIcon icon={faTimes} size="lg" />
+  </button>
+        <Link
+          to="/products?gender=Men"
+          className="block"
+          onClick={() => setMenuOpen(false)}
+        >
+          Men
+        </Link>
+        <Link
+          to="/products?gender=Women"
+          className="block"
+          onClick={() => setMenuOpen(false)}
+        >
+          Women
+        </Link>
+        <Link
+          to="/products?gender=Kids"
+          className="block"
+          onClick={() => setMenuOpen(false)}
+        >
+          Kids
+        </Link>
+        <hr />
+        {token ? (
+          <button
+            onClick={() => {
+              handleLogout();
+              setMenuOpen(false);
+            }}
+            className="w-full text-left"
+          >
+            Log Out
+          </button>
+        ) : (
+          <>
+            <Link
+              to="/login"
+              className="block"
+              onClick={() => setMenuOpen(false)}
+            >
+              Sign In
+            </Link>
+            <Link
+              to="/register"
+              className="block"
+              onClick={() => setMenuOpen(false)}
+            >
+              Join Us
+            </Link>
+          </>
+        )}
+      </div>
+    </div>
+  </>
+)}
     </nav>
-
     <SearchModal show={showSearch} onClose={() => setShowSearch(false)} />
-
-    
     <BottomBarCarousel />
     </div>
   );
